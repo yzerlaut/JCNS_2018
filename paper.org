@@ -1,6 +1,6 @@
 #+TITLE: A template for scientific papers based on =Org-Mode= and \LaTeX 
 #+AUTHOR: Y. Zerlaut^{1}*
-#+INCLUDE: my_template.org 
+#+INCLUDE: jneurosci_template.org 
 #+LaTeX_HEADER: \usepackage{blindtext}
 
 * Abstract
@@ -40,11 +40,10 @@ this reference [[cite:daley2007introduction]].
 <<sec:results>>
 \normalsize
 
-
 ** Section talking abour first result
 
 #+NAME: fig:1
-#+CAPTION: Caption for first figure. Generate the figure with : =python code/script.py=
+#+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
 [[./figures/log_WN_hist.png]]
 
 \blindtext[2]
@@ -55,10 +54,11 @@ this reference [[cite:daley2007introduction]].
 
 #+ATTR_LATEX: :float multicolumn
 #+NAME: fig:2
-#+CAPTION: Caption for second figure. Generate the figure with : =python code/script.py=
+#+CAPTION: *Caption for second figure.* Generate the figure with : =python code/script.py=
 [[./figures/many_WN_hist.png]]
 
 \blindtext[4]
+
 
 
 

@@ -35,7 +35,7 @@
 #+LaTeX_CLASS_OPTIONS: [8pt, colorlinks]
 #+LaTeX_HEADER: \usepackage{geometry}
 #+LaTeX_HEADER: \geometry{a4paper,total={210mm,297mm}, left=20mm, right=20mm, top=20mm, bottom=20mm, bindingoffset=0mm}
-#+LaTeX_HEADER: \hypersetup{allcolors = blue}
+#+LaTeX_HEADER: \hypersetup{allcolors = gray}
 #+LaTeX_HEADER: \usepackage{filecontents}
 #+LaTeX_HEADER: \usepackage{lineno}
 #+LaTeX_HEADER: \linenumbers
@@ -44,6 +44,7 @@
 #+LaTeX_HEADER: \usepackage{setspace}
 #+LaTeX_HEADER: \renewcommand\ref{}
 #+LaTeX_HEADER: \doublespace
-# #+LaTeX_HEADER: \usepackage{jneurosci}
-# #+LaTeX_HEADER: \usepackage[nomarkers,figuresonly]{endfloat}
+#+LaTeX_HEADER: \usepackage{jneurosci}
+#+LaTeX_HEADER: \usepackage[nomarkers,figuresonly]{endfloat}
+
 
