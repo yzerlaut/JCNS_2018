@@ -1,0 +1,49 @@
+- _*Affiliation*_ : 
+  - *a* : Unité de Neurosciences, Information et Complexité. Centre
+    National de la Recherche Scientifique, UPR 3293. 1 Avenue de la
+    Terrasse, 91198, Gif-sur-Yvette, France
+
+- _*Running title*_ : Scientific papers with =Org-Mode= and \LATEX
+
+- _*Corresponding Author*_ : Yann Zerlaut. UNIC CNRS, Gif sur Yvette,
+  France. [[zerlaut@unic.cnrs-gif.fr]]
+
+- _*Number of pages*_ : 38
+
+- _*Number of figures*_ : 8 
+
+- _*Number of tables*_ : 1
+
+- _*Number of words Abstract*_ : 230
+
+- _*Number of words Introduction*_ : 300
+
+- _*Number of words Discussion*_ : 800
+
+- _*Conflict of Interest*_ : The authors declare no competing financial interests.
+
+- _*Acknowledgements*_ : I would like to acknowledge the contributors
+  to =emacs=, =org-mode= and \LATEX, Y.Z was supported by fellowships
+  from the Initiative d'Excellence Paris-Saclay and the Fondation pour
+  la Recherche Médicale (FDT 20150532751). Research funded by the
+  CNRS.
+
+\newpage
+
+#+LATEX_CLASS: article
+#+OPTIONS: toc:nil (no Table Of COntents at all)
+#+LaTeX_CLASS_OPTIONS: [8pt, colorlinks]
+#+LaTeX_HEADER: \usepackage{geometry}
+#+LaTeX_HEADER: \geometry{a4paper,total={210mm,297mm}, left=20mm, right=20mm, top=20mm, bottom=20mm, bindingoffset=0mm}
+#+LaTeX_HEADER: \hypersetup{allcolors = blue}
+#+LaTeX_HEADER: \usepackage{filecontents}
+#+LaTeX_HEADER: \usepackage{lineno}
+#+LaTeX_HEADER: \linenumbers
+#+LaTeX_HEADER: \renewcommand\thesection{}
+#+LaTeX_HEADER: \renewcommand\thesubsection{}
+#+LaTeX_HEADER: \usepackage{setspace}
+#+LaTeX_HEADER: \renewcommand\ref{}
+#+LaTeX_HEADER: \doublespace
+# #+LaTeX_HEADER: \usepackage{jneurosci}
+# #+LaTeX_HEADER: \usepackage[nomarkers,figuresonly]{endfloat}
+

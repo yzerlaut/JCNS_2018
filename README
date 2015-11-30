@@ -1,0 +1,20 @@
+
+- Requirements :
+
+  - emacs>=24.5
+
+  - pdflatex
+
+  - python : scipy, doit
+
+
+- Instructions
+
+  - run 'python scripts.py' in 'code/'
+
+  - run 'doit' in main folder
+
+
+
+implemented by Yann Zerlaut
+zerlaut@unic.cnrs-gif.fr

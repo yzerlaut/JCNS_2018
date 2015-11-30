@@ -1,0 +1,106 @@
+#+TITLE: A template for scientific papers based on =Org-Mode= and \LaTeX 
+#+AUTHOR: Y. Zerlaut^{1}*
+#+INCLUDE: my_template.org 
+#+LaTeX_HEADER: \usepackage{blindtext}
+
+* Abstract
+\bfseries
+
+*Org-Mode* is for keeping notes, maintaining TODO lists, planning
+projects, and authoring documents with a fast and effective plain-text
+system. Visit http://orgmode.org/.
+
+Here we build up a template for scientific papers with the following
+characteristics:
+
+- Options for generating manuscripts for submission to biology
+  journals
+
+\normalfont
+
+
+* Significance statement
+
+\bfseries 
+
+\blindtext[0]
+
+\normalfont
+
+
+* Introduction
+<<sec:intro>>
+
+\blindtext[1], where we reference to the results
+section[[sec:results]]. And also to Equation [[eq:first]] and Figure [[fig:1]] and
+this reference [[cite:daley2007introduction]].
+
+
+* Results 
+<<sec:results>>
+\normalsize
+
+
+** Section talking abour first result
+
+#+NAME: fig:1
+#+CAPTION: Caption for first figure. Generate the figure with : =python code/script.py=
+[[./figures/log_WN_hist.png]]
+
+\blindtext[2]
+
+
+
+** Section talking abour second result
+
+#+ATTR_LATEX: :float multicolumn
+#+NAME: fig:2
+#+CAPTION: Caption for second figure. Generate the figure with : =python code/script.py=
+[[./figures/many_WN_hist.png]]
+
+\blindtext[4]
+
+
+
+* Discussion
+
+\blindtext[4]
+
+
+
+* Material and Methods 
+\small
+
+
+** First methodological section
+
+\blindtext[0]
+
+#+NAME: eq:first
+\begin{equation}
+\tau \, \frac{dx}{dt} = E_L-v
+\end{equation}
+
+
+
+** Second methodological section
+
+#+NAME: eq:second
+\begin{equation}
+\tau \, \frac{dx}{dt} = E_L-v + \xi (t)
+\end{equation}
+\blindtext[1]
+
+
+
+
+* References
+
+\bibliographystyle{apalike}
+\bibliography{tex/biblio}
+
+
+
+
+
+
