@@ -1,9 +1,15 @@
 (require 'org)
 (defcustom org-latex-default-figure-position "tb!"           "Default position for latex figures."        :group 'org-export-latex                   :type 'string)
 (setq org-export-latex-hyperref-format "\\ref{%s}")
+
+;; tools for CITATIONS
 (org-add-link-type "cite"   (defun follow-cite (name)     "Open bibliography and jump to appropriate entry.        The document must contain ibliography{filename} somewhere        for this to work"       (find-file-other-window        (save-excursion          (beginning-of-buffer)          (save-match-data            (re-search-forward "\\\\bibliography{\\([^}]+\\)}")            (concat (match-string 1) ".bib"))))       (beginning-of-buffer)       (search-forward name))     (defun export-cite (path desc format)       "Export [[cite:cohen93]] as \cite{cohen93} in LaTeX."       (if (eq format 'latex)           (if (or (not desc) (equal 0 (search "cite:" desc)))               (format "\\cite{%s}" path)             (format "\\cite[%s]{%s}" desc path)))))
-;;(setq org-latex-link-with-unknown-path-format "\\colorbox{green}{%s}")
+(org-add-link-type "citet"   (defun follow-citet (name)     "Open bibliography and jump to appropriate entry.        The document must contain ibliography{filename} somewhere        for this to work"       (find-file-other-window        (save-excursion          (beginning-of-buffer)          (save-match-data            (re-search-forward "\\\\bibliography{\\([^}]+\\)}")            (concat (match-string 1) ".bib"))))       (beginning-of-buffer)       (search-forward name))     (defun export-citet (path desc format)       "Export [[citet:cohen93]] as \citet{cohen93} in LaTeX."       (if (eq format 'latex)           (if (or (not desc) (equal 0 (search "citet:" desc)))               (format "\\citet{%s}" path)             (format "\\citet[%s]{%s}" desc path)))))
+(org-add-link-type "citep"   (defun follow-citep (name)     "Open bibliography and jump to appropriate entry.        The document must contain ibliography{filename} somewhere        for this to work"       (find-file-other-window        (save-excursion          (beginning-of-buffer)          (save-match-data            (re-search-forward "\\\\bibliography{\\([^}]+\\)}")            (concat (match-string 1) ".bib"))))       (beginning-of-buffer)       (search-forward name))     (defun export-citep (path desc format)       "Export [[citep:cohen93]] as \citep{cohen93} in LaTeX."       (if (eq format 'latex)           (if (or (not desc) (equal 0 (search "citep:" desc)))               (format "\\citep{%s}" path)             (format "\\citep[%s]{%s}" desc path)))))
+
 (setq org-latex-link-with-unknown-path-format "\\textcolor{red}{\\emph{%s}}")
+
+;; tools for CITATIONS
 (defcustom org-beamer-environments-extra nil
   "Environments triggered by tags in Beamer export.
 Each entry has 4 elements:

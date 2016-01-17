@@ -1,7 +1,8 @@
 #+TITLE: A template for scientific papers based on =Org-Mode= and \LaTeX 
 #+AUTHOR: Y. Zerlaut^{1}*
-#+INCLUDE: jneurosci_template.org 
+#+INCLUDE: my_template.org 
 #+LaTeX_HEADER: \usepackage{blindtext}
+
 
 * Abstract
 \bfseries
@@ -33,7 +34,9 @@ characteristics:
 
 \blindtext[1], where we reference to the results
 section[[sec:results]]. And also to Equation [[eq:first]] and Figure [[fig:1]] and
-this reference [[cite:daley2007introduction]].
+by referencing to [[citet:daley2007introduction]] with two possible
+citation formats [[citet:Destexhe2003, Haider2009]] and
+[[citep:Destexhe2003, Haider2009]].
 
 
 * Results 
@@ -96,7 +99,6 @@ this reference [[cite:daley2007introduction]].
 
 * References
 
-\bibliographystyle{apalike}
 \bibliography{tex/biblio}
 
 

@@ -1,9 +1,14 @@
-\blfootnote{ 1 UNIC, CNRS Gif sur Yvette, France}
-\blfootnote{ * correspondance : zerlaut@unic.cnrs-gif.fr}
 
-#+LaTeX_HEADER: \def\shorttitle{Scientific papers with Org-Mode= and \LATEX}
-#+LaTeX_HEADER: \def\shortauthor{Y. Zerlaut} 
+\blfootnote{ $\,^1$ Unité de Neurosciences, Information et Complexité, Centre National de la Recherche Scientifique, FRE 3693, Gif sur Yvette, France}
+\blfootnote{ $\,^2$ European Institute for Theoretical Neuroscience, 74 Rue du Faubourg Saint-Antoine, 75012 Paris}
+
+\blfootnote{correspondance : destexhe@unic.cnrs-gif.fr}
+
+#+LaTeX_HEADER: \def\shorttitle{Heterogenous firing response of mice pyramidal cells}
+#+LaTeX_HEADER: \def\shortauthor{Zerlaut et al.} 
 #+LaTeX_HEADER: \def\shortdate{\today} 
+
+# #+LaTeX_HEADER: \renewcommand{\includegraphics}[2][]{\fbox{#2}}
 
 * template_settings :noexport:
 
@@ -14,7 +19,7 @@
 
 #+LATEX_CLASS: article
 #+OPTIONS: toc:nil        (no Table Of COntents at all)
-#+LaTeX_CLASS_OPTIONS: [8pt,a4paper,twocolumn,twoside,colorlinks]
+#+LaTeX_CLASS_OPTIONS: [8pt, a4paper, twocolumn, twoside, colorlinks]
 #+LaTeX_HEADER:\usepackage{graphicx}
 #+LaTeX_HEADER:\usepackage[AUTO]{inputenc}
 #+LaTeX_HEADER:\usepackage[T1]{fontenc}
@@ -62,10 +67,13 @@
 
 ** biblio
 
-# we delete the references name
+# # we delete the references name
 #+LaTeX_HEADER: \renewcommand{\refname}{\vspace{-.8cm}}
 
-# package to generate a file
-#+LaTeX_HEADER: \usepackage{filecontents}
+#+LaTeX_HEADER: \usepackage[url=false, doi=true]{natbib}
+#+LaTeX_HEADER: \bibliographystyle{apalike}
+#+LaTeX_HEADER: \setlength{\bibsep}{5pt}
 
 
+** supplementary
+#+LaTeX_HEADER: \newcommand{\beginsupplement}{\setcounter{table}{0} \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}  }
