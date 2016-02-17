@@ -60,6 +60,9 @@ def build_task_to_generate_tex(filename):
     if filename=='presentation':
         org_cmd0 = 'emacs --batch -l tex/org-config.el'
         org_cmd = 'org-beamer-export-to-latex'
+    elif filename=='supplementary':
+        org_cmd0 = 'emacs --batch -l tex/org-config-supp.el'
+        org_cmd = 'org-latex-export-to-latex'
     else:
         org_cmd0 = 'emacs --batch -l tex/org-config.el'
         org_cmd = 'org-latex-export-to-latex'
