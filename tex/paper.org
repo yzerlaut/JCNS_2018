@@ -3,10 +3,27 @@
 
 # CHOOSE THE PAPER TEMPLATE, either:
 # my_template.org // jphysiol_template.org // jneurosci_template.org #
-#+INCLUDE: jneurosci_template.org 
+#+INCLUDE: jphysiol_template.org
 
 # SPECIFIC FOR FAKE PAPER
 #+LaTeX_HEADER: \usepackage{blindtext}
+
+* Key points summary
+\bfseries
+
+- \LaTeX \, is very powerful for generating scientific manuscripts
+
+- =Org-Mode= allows to focus on the content (and of course it is based
+  on =emacs=)
+
+- We get the best of both worlds: we write in =Org-Mode= and we use
+  the =export-to-latex= function of emacs to export to \LaTeX. Here
+  is an example implementation of
+
+- Export and Compilation workflow automated with =doit= (visit
+  [[http://pydoit.org/]])
+
+# \newpage
 
 * Abstract
 \bfseries
@@ -26,14 +43,12 @@ characteristics:
 \normalfont
 
 * Significance statement
-
 \bfseries 
 
 \blindtext[0]
 
-\normalfont
-
 * Introduction
+\normalfont
 
 \blindtext[1], where we reference to the results
 section[[sec:results]]. And also to Equation [[eq:first]] and Figure [[fig:1]] and
@@ -43,7 +58,6 @@ parentheses [[cite:Destexhe2003,Brette2005]] as commonly used in biology
 journals.
 
 * Results 
-<<sec:results>>
 \normalsize
 
 ** Section talking abour first result
@@ -65,6 +79,7 @@ journals.
 \blindtext[4]
 
 * Discussion
+\normalsize
 
 \blindtext[4]
 
@@ -89,6 +104,7 @@ journals.
 \blindtext[1]
 
 * References
+\small
 
 \bibliography{tex/biblio}
 
@@ -96,4 +112,51 @@ journals.
 
 
 
+
+* Additional information
+
+All manuscripts must contain a statement regarding Competing interests
+and Funding. If you have no competing interests or have not receiving
+funding, statements to this effect must be included. This will be
+published under a section entitled Additional Information at the end
+of the paper.
+
+** Competing interests.
+
+All manuscripts must contain a statement regarding Competing interests. If there are no competing interests, a statement to this effect must be included. All authors should disclose any conflict of interest in accordance with journal policy.
+
+** Author contributions.
+
+This section must state the laboratory where the experiments were
+performed and list the contribution (in words) of each author (using
+their initials) to the following aspects of the study:
+
+    1. conception or design of the work; or
+    2. acquisition, analysis, or interpretation of data for the work; AND
+    3. drafting the work or revising it critically for important intellectual content.
+
+All authors must have contributed to 1 or 2 AND 3.
+
+This section must also confirm that all authors:
+
+    4. approved the final version of the manuscript; AND
+    5. agree to be accountable for all aspects of the work in ensuring that questions related to the accuracy or integrity of any part of the work are appropriately investigated and resolved; AND
+    6. all persons designated as authors qualify for authorship, and all those who qualify for authorship are listed.
+
+Contributors who do not meet the above criteria for authorship should not be listed as authors, but have their contribution (e.g. acquisition of funding, general supervision of a research group, general administrative support, writing assistance, technical editing, language editing, or proofreading) listed in the Acknowledgements.
+
+Additional information such as ‘X and Y have contributed equally to this work’ may be added as a footnote on the title page.
+
+** Funding.
+
+Authors must indicate all sources of funding, including grant
+numbers. If authors have not received funding, this must be stated.
+
+
+** Acknowledgements.
+
+Acknowledgements should be the minimum consistent with courtesy. The
+wording of acknowledgements of scientific assistance or advice must
+have been seen and approved by the persons concerned. This section
+should not include details of funding.
 
