@@ -1,8 +1,12 @@
 #+TITLE: A template for scientific papers based on =Org-Mode= and \LaTeX 
 #+AUTHOR: Y. Zerlaut^{1}*
-#+INCLUDE: my_template.org 
-#+LaTeX_HEADER: \usepackage{blindtext}
 
+# CHOOSE THE PAPER TEMPLATE, either:<
+# my_template.org // jphysiol_template.org // jneurosci_template.org #
+#+INCLUDE: jneurosci_template.org 
+
+# SPECIFIC FOR FAKE PAPER
+#+LaTeX_HEADER: \usepackage{blindtext}
 
 * Abstract
 \bfseries
@@ -14,11 +18,12 @@ system. Visit http://orgmode.org/.
 Here we build up a template for scientific papers with the following
 characteristics:
 
-- Options for generating manuscripts for submission to biology
-  journals
+- Options for generating manuscripts for submission to the following
+  biology journals:
+  - [[http://www.jneurosci.org/][Journal of Neuroscience]]
+  - [[http://jp.msubmit.net/cgi-bin/main.plex][Journal of Physiology]]
 
 \normalfont
-
 
 * Significance statement
 
@@ -28,16 +33,14 @@ characteristics:
 
 \normalfont
 
-
 * Introduction
-<<sec:intro>>
 
 \blindtext[1], where we reference to the results
 section[[sec:results]]. And also to Equation [[eq:first]] and Figure [[fig:1]] and
-by referencing to [[citet:daley2007introduction]] with two possible
-citation formats [[citet:Destexhe2003, Haider2009]] and
-[[citep:Destexhe2003, Haider2009]].
-
+by referencing to [[citetext:Tuckwell1998b]] with two possible citation
+formats : either within the text as [[citetext:Destexhe2003]] or with
+parentheses [[cite:Destexhe2003,Brette2005]] as commonly used in biology
+journals.
 
 * Results 
 <<sec:results>>
@@ -51,8 +54,6 @@ citation formats [[citet:Destexhe2003, Haider2009]] and
 
 \blindtext[2]
 
-
-
 ** Section talking abour second result
 
 #+ATTR_LATEX: :float multicolumn
@@ -62,18 +63,12 @@ citation formats [[citet:Destexhe2003, Haider2009]] and
 
 \blindtext[4]
 
-
-
-
 * Discussion
 
 \blindtext[4]
 
-
-
 * Material and Methods 
 \small
-
 
 ** First methodological section
 
@@ -84,8 +79,6 @@ citation formats [[citet:Destexhe2003, Haider2009]] and
 \tau \, \frac{dx}{dt} = E_L-v
 \end{equation}
 
-
-
 ** Second methodological section
 
 #+NAME: eq:second
@@ -93,9 +86,6 @@ citation formats [[citet:Destexhe2003, Haider2009]] and
 \tau \, \frac{dx}{dt} = E_L-v + \xi (t)
 \end{equation}
 \blindtext[1]
-
-
-
 
 * References
 

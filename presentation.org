@@ -1,0 +1,232 @@
+#+TITLE: Lateral propagation *might* support reliable representations of complex stimuli in the barrel cortex
+#+AUTHOR: Vilarchao et al.
+#+DATE: UNIC lab meeting, Januray 11th, 2016
+
+* Lateral propagation in neocortex
+
+** Lateral propagation in sensory neocortex
+
+General feature of mammalian primary sensory cortices \vspace{.5cm}
+
+- Jancke et al. 2004
+- Férezou et al. 2006
+- Muller et al. 2014
+- ...
+
+\hspace{.5cm}
+
+\includegraphics[width=\linewidth]{figures/StaticArcs0.png}
+\hspace{6cm}Vilarchao, 2015 PhD thesis
+  
+** Lateral propagation in sensory neocortex
+
+
+- upstream circuits (from sensory receptors to layer IV) are highly
+  structured, then this strong specificity is lost in Layer II/III
+  \vspace{.5cm}
+
+- It should make downstream readout very complex !! \vspace{.5cm}
+
+- Indeed, it impedes sensory performances ! \\
+  \rightarrow neural substrate of illusory motion (Jancke et al. 2004)
+
+\vspace{.5cm}
+
+\pause
+
+Why ? Functional role ? \vspace{.5cm}
+
+\pause 
+
+Should be linked to the representation of global stimuli...
+
+** Lateral propagation in neocortex: experimental approach
+
+\centering
+\hspace{2cm} \includegraphics[width=.9\linewidth]{figures/Sec22_Figure2.png}
+
+\hspace{6cm}Vilarchao, 2015 PhD thesis
+
+** Lateral propagation in sensory neocortex
+
+General idea: \\
+
+"Spread sensory responses might correspond to a 'wake-up' call for
+driving the cortex to an active state"\\
+\hspace{6cm}Vilarchao, 2015 PhD thesis
+
+\vspace{1cm}
+
+precise modalities ?
+- what's the functional advantage of a shift to a more active state ?
+- quantitative evidence ?
+
+** Lateral propagation in neocortex: theoretical approach
+
+Modeling of neocortical dynamics
+
+- /bottom-up/ approach to model neocortical dynamics (Zerlaut, PhD
+  thesis, in prep.)\\
+  $\rightarrow$ precise description of the integrative properties of
+  neocortical networks\\
+  Mean-field approach (El Boustani & Destexhe, 2009) to obtain the
+  properties emerging at the network level from the cellular
+  properties (Zerlaut et al., /submitted/)
+
+- macroscopic models of the neocortical sheet including lateral
+  connectivity\\
+  $\rightarrow$ exhibit the lateral propagation of activity observed
+  in neocortex and the resulting suppressive interactions between
+  colliding responses to sensory stimuli (Chemla et al., /in prep./)
+
+\vspace{.3cm}
+
+$\rightarrow$ Allow to formulate and test precise hypothesis of the
+putative functional role of lateral propagation
+
+* Response to local stimuli
+
+** Response to local stimuli
+
+In the remaining : \vspace{1cm}
+
+Local stimulus = Deflection of a single arc or a single row
+
+** Response to local stimuli: 1) lateral propagation
+
+Examples of single arc deflections
+
+\centering
+\hspace{2cm} \includegraphics[width=.9\linewidth]{figures/StaticArcs.png}
+
+** Response to local stimuli: 2) single trial variability
+
+\centering
+\hspace{1cm} \includegraphics[width=.7\linewidth]{figures/data_variability.pdf}
+
+\pause
+\vspace{.5cm} 
+
+in the remaining, we focus on a simple and putatively
+physiologically relevant response feature: its integral.
+
+* Response to complex stimuli
+  
+** The expected combinatorial variability for complex stimuli
+
+\centering
+\includegraphics[width=.9\linewidth]{figures/combinatorial_variability.pdf}
+
+\pause
+\vspace{.5cm}
+
+*Do neocortical response show the trace of this combinatorial variability ?*
+
+** The response to complex stimuli shows a strong reduction in variability compared to the linear prediction
+
+\centering
+\includegraphics[width=\linewidth]{figures/comparison.pdf}
+
+\pause
+
+\vspace{.5cm}
+
+Intracortical interactions have a mechanism to reduce the variability of complex stimuli
+
+\vspace{.5cm}
+
+\pause
+
+Putative network mechanism underlying this phenomena ?
+
+* Network mechanism
+
+** Single trial variability emerges from the dependency on ongoing dynamics
+
+Arieli et al., /Science/ 1996
+
+\vspace{.5cm}
+
+\centering
+\hspace{2cm} \includegraphics[width=.6\linewidth]{figures/single_trial_variability.pdf}
+
+
+** Lateral propagation bias neighboring levels of ongoing dynamics to control its response level
+
+\centering
+\includegraphics[width=\linewidth]{figures/removing_variability.pdf}
+
+** Key mechanisms
+
+- Lateral propagation \vspace{1cm}
+
+- A monotonic relationship between "ongoing dynamics" and "response level"
+
+** Key mechanisms : potentiation would do the same
+
+The mechanism does not rely on suppression !! \vspace{.5cm}
+
+\centering
+\includegraphics[width=\linewidth]{figures/removing_variability_potentiation.pdf}
+
+** Key mechanisms : fancy functions would break the mechanism
+
+\centering
+\includegraphics[width=\linewidth]{figures/removing_variability_potentiation_not_working.pdf}
+
+* 
+
+** Conclusion
+
+Given the constrain that the response to a stimulus depends on local
+ongoing activity: \vspace{.5cm}
+
+*Lateral propagation is a way to supports reliable representations of
+complex stimuli in the barrel cortex*
+
+** Perspectives
+
+- more measures of single trial variability
+
+- [...]
+
+
+** Thank you for you attention
+
+* Preamble (options for LaTeX formatting) :noexport:
+
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation, compress, blue, colorlinks, 10pt]
+
+#+KEYWORDS:  beamer org orgmode
+#+LANGUAGE:  en
+
+# Beamer supports alternate themes.  Choose your favourite here
+#+BEAMER_THEME: classic
+
+# the beamer exporter expects to be told which level of headlines
+# defines the frames.  We use the first level headlines for sections
+# and the second (hence H:2) for frames.
+
+
+
+#+OPTIONS:   H:2 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+
+
+# the following allow us to selectively choose headlines to export or not
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+
+# for a column view of options and configurations for the individual
+# frames
+#+COLUMNS: %20ITEM %13BEAMER_env(Env) %6BEAMER_envargs(Args) %4BEAMER_col(Col) %7BEAMER_extra(Extra)
+
+#+LaTeX_HEADER:\useoutertheme{smoothbars}
+#+LaTeX_HEADER:\setbeamertemplate{navigation symbols}{} 
+#+LaTeX_HEADER:\renewcommand\footnotesize{\fontsize{7pt}{9pt}\selectfont} 
+#+LaTeX_HEADER:\usepackage{alltt, multicol, amsmath}
+#+LaTeX_HEADER:\usepackage{graphicx, url, multimedia, hyperref, verbatim}
+
+
+

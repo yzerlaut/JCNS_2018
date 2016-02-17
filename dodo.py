@@ -1,9 +1,7 @@
 from doit.action import CmdAction
 import os
 
-# SCRIPTS = ['paper', 'highlights', 'supplementary', 'report', 'litterature']
-# SCRIPTS = ['paper', 'presentation', 'highlights']
-SCRIPTS = ['paper']
+SCRIPTS = ['paper', 'supplementary', 'presentation']
 
 EXT = 'png' # extension for figure export : png or pdf !
 DPI = 300 # resolution for bitmap figures
@@ -12,8 +10,13 @@ SVG_FILES =[]
 for f in os.listdir('./figures/'):
     if f.endswith('.svg'):
         SVG_FILES.append('figures/'+f)
-
 FILES = [f.replace('.svg', '.'+EXT) for f in SVG_FILES]
+        
+ORG_FILES =['tex/org-config.el']
+for f in os.listdir('./tex/'):
+    if f.endswith('.org'):
+        ORG_FILES.append('tex/'+f)
+
 
 #############################################
 ##### creating the needed arborescence
@@ -52,7 +55,7 @@ def task_all_svg_png():
 #############################################
 
 def build_task_to_generate_tex(filename):
-    DEPS = SVG_FILES
+    DEPS = SVG_FILES+ORG_FILES
     DEPS.append(filename+".org")
     if filename=='presentation':
         org_cmd0 = 'emacs --batch -l tex/org-config.el'
@@ -76,7 +79,7 @@ def Build_task_for_pdflatex_compilation(filename):
         os.system("mv tex/"+filename+".pdf pdf_output/"+filename+".pdf")
         return None
     return {'actions': [func1, func2, func1, func1, func3],
-            'file_dep': SVG_FILES+[filename+'.org'],
+            'file_dep': SVG_FILES+[filename+'.org']+ORG_FILES,
             'targets':['pdf_output/'+filename+'.pdf'],
             "clean": True,
             # force doit to always mark the task
