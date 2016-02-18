@@ -12,9 +12,9 @@ for f in os.listdir('./figures/'):
         SVG_FILES.append('figures/'+f)
 FILES = [f.replace('.svg', '.'+EXT) for f in SVG_FILES]
         
-ORG_FILES =['tex/org-config.el']
+ORG_FILES =[]
 for f in os.listdir('./tex/'):
-    if f.endswith('.org'):
+    if f.endswith('.org') or f.endswith('.el'):
         ORG_FILES.append('tex/'+f)
 
 

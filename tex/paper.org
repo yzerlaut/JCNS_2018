@@ -108,12 +108,8 @@ journals.
 
 \bibliography{tex/biblio}
 
-
-
-
-
-
 * Additional information
+\small
 
 All manuscripts must contain a statement regarding Competing interests
 and Funding. If you have no competing interests or have not receiving
