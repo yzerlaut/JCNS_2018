@@ -3,23 +3,14 @@
 
 import numpy as np
 import matplotlib.pylab as plt
-import sys
-sys.path.append('/home/yann/work/python_library/') #
-
-# download (i mean fork it and contribute !) my customizations for matplotlib graphics at :
-# https://bitbucket.org/yzerlaut/python_library/src/7a803695fd16e6abbaa6d37c986363a92c486674/my_graph.py
-
-try: # if you did download it
-    from my_graph import set_plot
-except ImportError: # if you didn't, need to define the function anyway, it will be use throughout the code
-    def set_plot(ax, xlabel='', ylabel='', xticks=None, yticks=None, xticks_labels=None, yticks_labels=None):
-        ax.set_xlabel(xlabel);ax.set_ylabel(ylabel)
+from my_graph import set_plot
 
 def generate_white_noise(mean, std, nsample=100):
     return mean+std*np.random.randn(nsample)
 
 # in case not used as a modulus
 if __name__=='__main__':
+    
     import argparse
     # First a nice documentation 
     parser=argparse.ArgumentParser(description=
