@@ -3,7 +3,7 @@
 
 # CHOOSE THE PAPER TEMPLATE, either:
 # my_template.org // jphysiol_template.org // jneurosci_template.org #
-#+INCLUDE: jphysiol_template.org
+#+INCLUDE: my_template.org
 
 # SPECIFIC FOR FAKE PAPER
 #+LaTeX_HEADER: \usepackage{blindtext}

@@ -3,7 +3,7 @@ import os
 
 SCRIPTS = ['paper', 'supplementary', 'presentation']
 
-EXT = 'png' # extension for figure export : png or pdf !
+EXT = 'eps' # extension for figure export : png or pdf !
 DPI = 300 # resolution for bitmap figures
 
 SVG_FILES =[]
@@ -32,9 +32,11 @@ def task_create_necessary_folders():
 ##### exporting the figures to a widespread format
 #############################################
 
-CMD = 'inkscape  --export-area-drawing '
+CMD = 'inkscape --export-area-drawing --export-background=white '
 if EXT=='pdf':
     CMD +='--export-pdf='
+if EXT=='eps':
+    CMD +='-E  '
 elif EXT=='png':
     CMD += ' --export-dpi '+str(DPI)+' --export-png='
 
@@ -103,7 +105,14 @@ def gen_all_tex_to_pdf_tasks():
         T = Build_task_for_pdflatex_compilation(script)
         T['basename'] = 'from TeX to Pdf --- '+script
         yield T
-        
-def task_all_tex_to_pdf():
-    yield gen_all_tex_to_pdf_tasks()
 
+from doit.tools import run_once
+def task_simple_latex():
+    from tex.simple_latex import produce_tex_file
+    def func():
+        produce_tex_file(filename='paper.tex', folder='tex/')
+        return None
+    return {'actions': [func],\
+            'file_dep': ['paper.org', 'tex/simple_latex.py'],
+            'targets':['tex/simple_paper.tex']}
+    
