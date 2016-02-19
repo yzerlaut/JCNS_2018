@@ -59,7 +59,6 @@ lectus tellus, aliquet aliquam, luctus a, egestas a,
 turpis. Mauris lacinia lorem sit amet ipsum. Nunc
 quis urna dictum turpis accumsan semper.
 
-
 * Introduction
 \normalfont
 
@@ -145,10 +144,57 @@ quis urna dictum turpis accumsan semper.
 #+CAPTION: *Caption for second figure.* Generate the figure with : =python code/script.py=
 [[./figures/many_WN_hist.png]]
 
-
 * Discussion
 \normalsize
 
+Lorem ipsum dolor sit amet, consectetuer adipisc- ing elit. Etiam
+lobortis facilisis sem. Nullam nec mi et neque pharetra
+sollicitudin. Praesent im- perdiet mi nec ante. Donec ullamcorper,
+felis non sodales commodo, lectus velit ultrices augue, a dig- nissim
+nibh lectus placerat pede. Vivamus nunc nunc, molestie ut, ultricies
+vel, semper in, velit.  Ut porttitor. Praesent in sapien. Lorem ipsum
+dolor sit amet, consectetuer adipiscing elit. Duis fringilla tristique
+neque. Sed interdum libero ut metus. Pellentesque placerat. Nam rutrum
+augue a leo. Morbi sed elit sit amet ante lobortis sollici-
+tudin. Praesent blandit blandit mauris. Praesent lectus tellus,
+aliquet aliquam, luctus a, egestas a, turpis. Mauris lacinia lorem sit
+amet ipsum. Nunc quis urna dictum turpis accumsan semper.Lorem ipsum
+dolor sit amet, consectetuer adipisc- ing elit. Etiam lobortis
+facilisis sem. Nullam nec mi et neque pharetra sollicitudin. Praesent
+im- perdiet mi nec ante. Donec ullamcorper, felis non sodales commodo,
+lectus velit ultrices augue, a dig- nissim nibh lectus placerat
+pede. Vivamus nunc nunc, molestie ut, ultricies vel, semper in, velit.
+Ut porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
+interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
+leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
+blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
+luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
+quis urna dictum turpis accumsan semper.  Lorem ipsum dolor sit amet,
+consectetuer adipisc- ing elit. Etiam lobortis facilisis sem. Nullam
+nec mi et neque pharetra sollicitudin. Praesent im- perdiet mi nec
+ante. Donec ullamcorper, felis non sodales commodo, lectus velit
+ultrices augue, a dig- nissim nibh lectus placerat pede. Vivamus nunc
+nunc, molestie ut, ultricies vel, semper in, velit.  Ut
+porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
+interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
+leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
+blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
+luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
+quis urna dictum turpis accumsan semper.Lorem ipsum dolor sit amet,
+consectetuer adipisc- ing elit. Etiam lobortis facilisis sem. Nullam
+nec mi et neque pharetra sollicitudin. Praesent im- perdiet mi nec
+ante. Donec ullamcorper, felis non sodales commodo, lectus velit
+ultrices augue, a dig- nissim nibh lectus placerat pede. Vivamus nunc
+nunc, molestie ut, ultricies vel, semper in, velit.  Ut
+porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
+interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
+leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
+blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
+luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
+quis urna dictum turpis accumsan semper.
 
 * Material and Methods 
 \small
@@ -204,6 +250,17 @@ sit amet ante lobortis sollici-tudin. Praesent blandit blandit
 mauris. Praesentlectus tellus, aliquet aliquam, luctus a, egestas
 a,turpis. Mauris lacinia lorem sit amet ipsum. Nuncquis urna dictum
 turpis accumsan semper.
+
+
+
+#+NAME: table:1
+#+CAPTION: *And of course the awesome =Org-mode= tables interface*. So convenient, see =org= file.
+| model   | \(P_0\)(mV) | \(P_\mu\)(mV)             | \(P_\sigma\)(mV) | \(P_\tau\)(mV) |
+|---------+-------------+---------------------------+------------------+----------------|
+| simple  | 8           | 9                         |                4 |            387 |
+| complex | \pi/d^4     | \(\frac{\pi}{\sqrt{28}}\) |                  |                |
+|---------+-------------+---------------------------+------------------+----------------|
+
 
 
 * Additional information
