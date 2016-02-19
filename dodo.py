@@ -71,7 +71,7 @@ def build_task_to_generate_tex(filename):
     return {'actions': [CmdAction("cp "+filename+".org tex/"+filename+".org"),
                         CmdAction(org_cmd0+" --file tex/"+filename+".org -f "+org_cmd)],\
             'file_dep': DEPS,
-            'targets': ["tex/"+filename+".tex"]}
+            'targets': ["tex/"+filename+".tex", 'pdf_output/'+filename+'.pdf']}
 
 def Build_task_for_pdflatex_compilation(filename):
     def func1():
@@ -86,7 +86,7 @@ def Build_task_for_pdflatex_compilation(filename):
     return {'actions': [func1, func2, func1, func1, func3],
             'file_dep': SVG_FILES+[filename+'.org']+ORG_FILES,
             'targets':['pdf_output/'+filename+'.pdf'],
-            "clean": True,
+            'clean':True,
             # force doit to always mark the task
             # as up-to-date (unless target removed)
             'uptodate': [True]}
@@ -106,13 +106,3 @@ def gen_all_tex_to_pdf_tasks():
         T['basename'] = 'from TeX to Pdf --- '+script
         yield T
 
-from doit.tools import run_once
-def task_simple_latex():
-    from tex.simple_latex import produce_tex_file
-    def func():
-        produce_tex_file(filename='paper.tex', folder='tex/')
-        return None
-    return {'actions': [func],\
-            'file_dep': ['paper.org', 'tex/simple_latex.py'],
-            'targets':['tex/simple_paper.tex']}
-    
