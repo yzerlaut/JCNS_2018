@@ -39,6 +39,7 @@ def produce_tex_file(filename='paper', folder='tex/', replace=True,\
     if full_file:
         core_manuscript += '\\documentclass[a4paper, colorlinks]{article} \n'
         core_manuscript += '\\usepackage{hyperref, lineno} \n'
+        core_manuscript += '\\hypersetup{allcolors = blue}'
         core_manuscript += '\\usepackage[demo]{graphicx} \n'
         core_manuscript += '\\usepackage[utf8]{inputenc} \n'
         core_manuscript += '\\begin{document} \n'
