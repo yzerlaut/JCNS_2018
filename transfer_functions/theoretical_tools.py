@@ -1,0 +1,203 @@
+import numpy as np
+import numba
+import scipy.special as sp_spec
+import scipy.integrate as sp_int
+from scipy.optimize import minimize, curve_fit
+import sys
+import neuronal_models
+
+def pseq_params(params):
+    Qe, Te, Ee = params['Qe'], params['Te'], params['Ee']
+    Qi, Ti, Ei = params['Qi'], params['Ti'], params['Ei']
+    Gl, Cm , El = params['Gl'], params['Cm'] , params['El']
+    Tw, b = params['tauw'], params['b'] # adaptation variables
+    for key, dval in zip(['Ntot', 'pconnec', 'gei'], [1, 2., 0.5]):
+        if key in params.keys():
+            exec(key+' = params[key]')
+        else: # default value
+            exec(key+' = dval')
+    if 'P' in params.keys():
+        P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 = params['P']
+    else: # no correction
+        P0 = -45e-3
+        for i in range(1,11):
+            exec('P'+str(i)+'= 0')
+    if 'exc_drive' in params.keys():
+        Fdrive = params['exc_drive'] # excitatory drive !!
+    else: # no drive
+        Fdrive = 0
+
+    return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
+
+# @numba.jit()
+def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+    # here TOTAL (sum over synapses) excitatory and inhibitory input
+    fe = Fe*(1.-gei)*pconnec*Ntot # default is 1 !!
+    fi = Fi*gei*pconnec*Ntot
+    
+    muGe, muGi = Qe*Te*fe, Qi*Ti*fi
+    muG = Gl+muGe+muGi
+
+    muV = (muGe*Ee+muGi*Ei+Gl*El)/muG ## ADAPTATION HERE !!!
+
+    muGn, Tm = muG/Gl, Cm/muG
+
+    Tv = Tm+(muGe*Te+muGi*Ti)/(muGe+muGi+1e-15)
+
+    TvN = Tv*Gl/Cm
+
+    # with impact of spike frequency adaptation
+
+    sV = np.sqrt(\
+                 fe*(Qe*Te*(Ee-muV)/muG)**2/2./(Te+Tm)+\
+                 fi*(Qi*Ti*(Ei-muV)/muG)**2/2./(Ti+Tm))
+        
+    return muV, sV+1e-12, muGn, TvN
+
+
+### FUNCTION, INVERSE FUNCTION
+# @numba.jit()
+def erfc_func(muV, sV, TvN, Vthre, Gl, Cm):
+    return .5/TvN*Gl/Cm*\
+      sp_spec.erfc((Vthre-muV)/np.sqrt(2)/sV)
+
+# @numba.jit()
+def effective_Vthre(Y, muV, sV, TvN, Gl, Cm):
+    Vthre_eff = muV+np.sqrt(2)*sV*sp_spec.erfcinv(\
+                    Y*2.*TvN*Cm/Gl) # effective threshold
+    return Vthre_eff
+
+# @numba.jit()
+def threshold_func(muV, sV, TvN, muGn, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+    """
+    setting by default to True the square
+    because when use by external modules, coeff[5:]=np.zeros(3)
+    in the case of a linear threshold
+    """
+    muV0, DmuV0 = -60e-3,10e-3
+    sV0, DsV0 =4e-3, 6e-3
+    TvN0, DTvN0 = 0.5, 1.
+    return P0+P1*(muV-muV0)/DmuV0+\
+        P2*(sV-sV0)/DsV0+P3*(TvN-TvN0)/DTvN0+\
+        P4*np.log(muGn)+P5*((muV-muV0)/DmuV0)**2+\
+        P6*((sV-sV0)/DsV0)**2+P7*((TvN-TvN0)/DTvN0)**2+\
+        P8*(muV-muV0)/DmuV0*(sV-sV0)/DsV0+\
+        P9*(muV-muV0)/DmuV0*(TvN-TvN0)/DTvN0+\
+        P10*(sV-sV0)/DsV0*(TvN-TvN0)/DTvN0
+      
+# final transfer function template :
+# @numba.jit()
+def TF_my_template(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+    # here TOTAL (sum over synapses) excitatory and inhibitory input
+    muV, sV, muGn, TvN = get_fluct_regime_vars(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+    Vthre = threshold_func(muV, sV, TvN, muGn, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+    Fout_th = erfc_func(muV, sV, TvN, Vthre, Gl, Cm)
+    return Fout_th
+
+    
+# @numba.jit()
+def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
+              Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+    dt = t[1]-t[0]
+    # constructing the Euler method for the activity rate
+    for i_t in range(len(t)-1): # loop over time
+        
+        fe = (nu_aff_exc[i_t]+nu[i_t]+Fdrive) # afferent+recurrent excitation
+        fi = nu[i_t]+nu_aff_inh[i_t] # recurrent inhibition
+        W[i_t+1] = W[i_t] + dt/Tw*(b*nu[i_t]*Tw - W[i_t])
+
+        nu[i_t+1] = nu[i_t] +\
+               dt/BIN*(\
+                TF_my_template(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)\
+                -nu[i_t])
+
+        vm[i_t], _, _, _ = get_fluct_regime_vars(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+
+    return nu, vm, W
+
+
+################################################################
+##### Now fitting to Transfer Function data
+################################################################
+
+
+def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
+                               maxiter=1e9, xtol=1e-12, with_square_terms=True):
+
+    Fout, Fe_eff, fiSim = Fout.flatten(), Fe_eff.flatten(), fiSim.flatten()
+    P = np.zeros(11)    # initial guess
+
+    muV, sV, muGn, TvN = get_fluct_regime_vars(Fe_eff, fiSim, *pseq_params(params))
+    i_non_zeros = np.where(Fout>0)
+
+    Vthre_eff = effective_Vthre(Fout[i_non_zeros], muV[i_non_zeros],\
+                sV[i_non_zeros], TvN[i_non_zeros], params['Gl'], params['Cm'])
+    P[:5] = Vthre_eff.mean(), 1e-3, 1e-3, 1e-3, 1e-3
+
+    def Res(p):
+        vthre = threshold_func(muV[i_non_zeros], sV[i_non_zeros],\
+                               TvN[i_non_zeros], muGn[i_non_zeros], *p)
+        return np.mean((Vthre_eff-vthre)**2)
+    
+    plsq = minimize(Res, P, method='nelder-mead',\
+            options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
+    # print plsq
+    P = plsq.x
+    
+    def Res(p):
+        params['P'] = p
+        return np.mean((Fout-\
+                        TF_my_template(Fe_eff, fiSim, *pseq_params(params)))**2)
+
+    plsq = minimize(Res, P, method='nelder-mead',\
+            options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
+
+    # import matplotlib.pylab as plt
+    # params['P'] = plsq.x
+    # plt.plot(Fe_eff, Fout, 'rD')
+    # plt.plot(Fe_eff, TF_my_template(Fe_eff, fiSim, *pseq_params(params)), 'kD')
+    # plt.show()
+    
+    print plsq
+    return plsq.x
+
+def make_fit_from_data(DATA, with_square_terms=True):
+
+    MEANfreq, SDfreq, Fe_eff, fiSim, params = np.load(DATA)
+
+    Fe_eff, Fout = np.array(Fe_eff), np.array(MEANfreq)
+    levels = fiSim # to store for colors
+    fiSim = np.meshgrid(np.zeros(Fe_eff.shape[1]), fiSim)[1]
+
+    P = fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params)
+                            
+    print '=================================================='
+    print 1e3*np.array(P), 'mV'
+
+    # then we save it:
+    filename = DATA.replace('.npy', '_fit.npy')
+    print 'coefficients saved in ', filename
+    np.save(filename, np.array(P))
+
+    return P
+
+import argparse
+if __name__=='__main__':
+    # First a nice documentation 
+    parser=argparse.ArgumentParser(description=
+     """ 
+     '=================================================='
+     '=====> FIT of the transfer function =============='
+     '=== and theoretical objects for the TF relation =='
+     '=================================================='
+     """,
+              formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument('-f', "--FILE",help="file name of numerical TF data",\
+                        default='data/example_data.npy')
+    parser.add_argument("--With_Square",help="Add the square terms in the TF formula"+\
+                        "\n then we have 7 parameters",\
+                         action="store_true")
+    args = parser.parse_args()
+
+    make_fit_from_data(args.FILE, with_square_terms=args.With_Square)
