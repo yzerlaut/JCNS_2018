@@ -8,13 +8,13 @@ import numpy as np
 
 def get_connectivity_and_synapses_matrix(NAME, number=2):
 
-    exc_pop = {'p_conn':0.02, 'Q':7., 'Tsyn':5., 'Erev':0.}
-    inh_pop = {'p_conn':0.02, 'Q':67., 'Tsyn':10., 'Erev':-80.}
 
     # creating empty arry of objects (future dictionnaries)
     M = np.empty((number, number), dtype=object)
 
-    if NAME=='CONFIG1':
+    if NAME=='Vogels-Abbott':
+        exc_pop = {'p_conn':0.02, 'Q':7., 'Tsyn':5., 'Erev':0.}
+        inh_pop = {'p_conn':0.02, 'Q':67., 'Tsyn':10., 'Erev':-80.}
         M[:,0] = [exc_pop.copy(), inh_pop.copy()] # post-synaptic : exc
         M[:,1] = [exc_pop.copy(), inh_pop.copy()] # post-synaptic : inh
         M[0,0]['name'], M[1,0]['name'] = 'ee', 'ie'
@@ -26,7 +26,7 @@ if __name__=='__main__':
 
     print(__doc__)
 
-    M = get_connectivity_and_synapses_matrix('CONFIG1')
+    M = get_connectivity_and_synapses_matrix('Vogels-Abbott')
 
     print('synapses of the exc. pop. (pop. 0) : M[:,0]')
     print(M[:,0])

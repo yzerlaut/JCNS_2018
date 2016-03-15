@@ -2,6 +2,7 @@
 This script connects the different synapses to a target neuron
 """
 from __future__ import print_function
+from brian2 import *
 
 
 def build_up_recurrent_connections_for_2_pop(Pops, syn_conn_matrix):
@@ -56,19 +57,16 @@ if __name__=='__main__':
     
     # starting from an example
 
-    from brian2 import *
     import sys
     sys.path.append('../')
-    from single_cell_models.library import get_neuron_params
-    from single_cell_models.construct import get_membrane_equation
-    from library import get_connectivity_and_synapses_matrix
+    from single_cell_models.cell_library import get_neuron_params
+    from single_cell_models.cell_construct import get_membrane_equation
+    from syn_and_connec_library import get_connectivity_and_synapses_matrix
     
-    M = get_connectivity_and_synapses_matrix('CONFIG1', number=2)
-    
+    M = get_connectivity_and_synapses_matrix('Vogels-Abbott', number=2)
     exc_neurons, eqs = get_membrane_equation(get_neuron_params('LIF', number=4000), M[:,0], return_equations=True)
-    print(eqs)
     inh_neurons, eqs = get_membrane_equation(get_neuron_params('LIF', number=1000), M[:,1], return_equations=True)
-    print(eqs)
+
     # initial conditions
     for P in [exc_neurons]:
         P.Gee = '(randn() * 1.5 + 4) * 10.*nS'
