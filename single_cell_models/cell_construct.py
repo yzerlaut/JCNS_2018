@@ -9,13 +9,13 @@ def get_membrane_equation(neuron_params, synaptic_array,\
                           return_equations=False):
 
     ## pure membrane equation
-    if neuron_params['deltaV']==0:
+    if neuron_params['delta_v']==0:
         # if hard threshold : Integrate and Fire
         eqs = """
-        dV/dt = (%(gL)f*nS*(%(El)f*mV - V) + I - w_adapt)/(%(Cm)f*pF) : volt (unless refractory) """ % neuron_params
+        dV/dt = (%(Gl)f*nS*(%(El)f*mV - V) + I - w_adapt)/(%(Cm)f*pF) : volt (unless refractory) """ % neuron_params
     else:
         eqs = """
-        dV/dt = (%(gL)f*nS*(%(El)f*mV - V) + %(gL)f*nS*%(deltaV)f*mV*exp(-(%(Vthre)f*mV-V)/(%(deltaV)f*mV)) + I - w_adapt)/(%(Cm)f*pF) : volt (unless refractory) """ % neuron_params
+        dV/dt = (%(Gl)f*nS*(%(El)f*mV - V) + %(Gl)f*nS*%(delta_v)f*mV*exp(-(%(Vthre)f*mV-V)/(%(delta_v)f*mV)) + I - w_adapt)/(%(Cm)f*pF) : volt (unless refractory) """ % neuron_params
 
     ## Adaptation current
     if neuron_params['tauw']>0: # adaptation current or not ?
@@ -43,10 +43,10 @@ def get_membrane_equation(neuron_params, synaptic_array,\
         """+'d'+Gsyn+'/dt = -'+Gsyn+'*(1./(%(Tsyn)f*ms)) : siemens' % synapse
     eqs += """
         I0 : amp """
-    # adexp, pratical detection threshold Vthre+5*deltaV
+    # adexp, pratical detection threshold Vthre+5*delta_v
     neurons = brian2.NeuronGroup(neuron_params['N'], model=eqs,\
                                  refractory=str(neuron_params['Trefrac'])+'*ms',
-                                 threshold='V>'+str(neuron_params['Vthre']+5.*neuron_params['deltaV'])+'*mV',
+                                 threshold='V>'+str(neuron_params['Vthre']+5.*neuron_params['delta_v'])+'*mV',
                                  reset='V='+str(neuron_params['Vreset'])+'*mV; w_adapt+='+str(neuron_params['b'])+'*pA')
                                  
 
@@ -63,7 +63,7 @@ if __name__=='__main__':
     # starting from an example
 
     from brian2 import *
-    from library import get_neuron_params
+    from cell_library import get_neuron_params
 
     
     fig, AX = plt.subplots(1, 3, figsize=(10,3))
