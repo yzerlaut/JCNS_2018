@@ -223,6 +223,9 @@ if __name__=='__main__':
     parser.add_argument("--SEED",type=int, default=1,\
                   help="Seed for random number generation (default=1)")
 
+    parser.add_argument("-s", "--save", help="save with the right name",
+                         action="store_true")
+    
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                          action="store_true")
 
@@ -238,10 +241,16 @@ if __name__=='__main__':
 
     reformat_syn_parameters(params, M) # merging those parameters
 
+    if args.save:
+        FILE = 'data/'+args.Neuron_Model+'_'+args.Network_Model+'.npy'
+    else:
+        FILE = 'data/example_data.npy'
+        
     generate_transfer_function(params,\
                                verbose=True,
                                MAXfexc=args.max_Fe, 
                                MINfinh=args.lim_Fi[0], MAXfinh=args.lim_Fi[1],\
                                discret_exc=args.discret_Fe,discret_inh=args.discret_Fi,\
+                               filename=FILE,
                                MAXfout=args.max_Fout, SEED=args.SEED)
 

@@ -103,7 +103,7 @@ def build_bar_legend(X, ax, mymap, label='$\\nu$ (Hz)',\
                      color_discretization=None):
     """ X -> ticks """
     if color_discretization is None:
-        color_discretization = len(X)+1
+        color_discretization = len(X)
         
     # scale : 'linear' / 'log' / 'custom'
     if scale is 'linear':

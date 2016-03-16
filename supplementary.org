@@ -1,37 +1,118 @@
 #+TITLE: *\textsc{Supplementary Material}* \\ A template for scientific papers based on =Org-Mode= and \LaTeX
-#+AUTHOR: Y. Zerlaut
-
-# SPECIFIC FOR FAKE PAPER
-#+LaTeX_HEADER: \usepackage{blindtext}
+#+AUTHOR: ...
 
 \newpage
 
-* Details about the experimental data
-<<exp-details>>
+* Calculus of the subthreshold membrane potential fluctuations
 
-#+NAME: fig:1
-#+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
-[[./figures/log_WN_hist.png]]
+The input is made of two Poisson shotnoise: one excitatory and one
+inhibitory that are both convoluted with an exponential waveform to
+produce the synaptic conductances time courses.
 
-\blindtext[6]
+** Mean synaptic bombardment
+
+We introduce the quantitity relative to the mean synaptic bombardement.
+
+\begin{equation}
+\left\{
+\begin{split}
+& \mu_{Ge}(\nu_e, \nu_i) = \nu_e \, K_e \, \tau_e \, Q_e \\
+& \mu_{Gi}(\nu_e, \nu_i) = \nu_i \, K_i \, \tau_i \, Q_i \\
+& \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
+& \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}\\
+\end{split}
+\right.
+\end{equation}
+
+** Mean membrane potential
+
+The mean membrane potential is taken as the stationary solution to
+static conductances given by the mean synaptic bombardement:
+
+\begin{equation}
+\mu_V(\nu_e, \nu_i) = \frac{\mu_{Ge} \, E_e + \mu_{Gi} \, E_i + g_L \, E_L}{\mu_{G}}
+\end{equation}
+
+** Power spectrum of the membrane potential fluctuations
+
+From shotnoise theory, we have:
+
+\begin{equation}
+\begin{split}
+ P_V(f)  = & \sum_{syn} \nu_{syn} \, \| \hat{\mathrm{PSP}}(f) \|^2 \\
+ & = 2 \nu_{in} \, \frac{Q_I^2 \, \tau_S^2 / \mu_G^2 }{
+ \big(1+4 \pi^2 f^2 \tau_S^2 \big) \big(1+4 \pi^2 f^2 (\tau_m^\mathrm{eff})^2 \big)}
+\end{split}
+\end{equation}
+
+Obtained by computing a PSP event, then shotnoise theory:
+
+Equation for \(\delta V(t)\) around \mu_V:
+
+\begin{equation}
+\left\{
+\begin{split}
+& \tau_m \frac{d \delta V}{dt} + \delta V = U_{syn} \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_{syn}}} \\
+& U_{syn} = \frac{Q_{syn}}{\mu_G} (E_{syn} - \mu_V)
+\end{split}
+\right.
+\end{equation}
+
+That has the solution:
+
+\begin{equation}
+\delta V(t)  = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, \big( 
+e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_{syn}}} \big) \, \mathcal{H}(t)
+\end{equation}
+
+We take the fourier transform:
+
+
+\begin{equation}
+\hat{\delta V}(f) = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, 
+\big(
+\frac{\tau_{m}}{2 \, i  \,  \pi \, f \, \tau_{m} +1} 
+- \frac{\tau_{syn}}{2 \, i  \,  \pi \, f \, \tau_{syn} +1} \big)
+\end{equation}
+
+\begin{equation}
+ \int_\mathbb{R} \| \hat{\mathrm{PSP}}(f) \|^2 \, df = \frac{ \| \hat{\mathrm{PSP}}(0) \|^2}{2 \, (\tau_m + \tau_{syn})}
+\end{equation}
+
+# #+NAME: fig:1
+# #+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
+# [[./figures/log_WN_hist.png]]
+
+** kjsdf
+
+
+because:
+
+\begin{equation}
+\int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) }
+\end{equation}
+
+we get:
+
+\begin{equation}
+ \sigma_V  = \sqrt{ \sum_{syn} K_{syn} \, \nu_{syn} \, \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) } }
+\end{equation}
+
+and
+
+\begin{equation}
+  \tau_V = \Big( \frac{
+  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2\big) 
+  }{
+  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) \big)
+  } \Big)
+\end{equation}
+
+
+
+
 
 \newpage
-
-* Accuracy of the single compartment approximation
-
-#+NAME: fig:2
-#+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
-[[./figures/log_WN_hist.png]]
-
-We make a reference to Figure [[fig:1]], and then text again.
-\blindtext[1], where we reference to the results
-section[[sec:results]]. And also to Equation [[eq:first]] and Figure [[fig:1]] and
-by referencing to [[citetext:Tuckwell1998b]] with two possible citation
-formats : either within the text as [[citetext:Destexhe2003]] or with
-parentheses [[cite:Destexhe2003,Brette2005]] as commonly used in biology
-journals.
-
-\blindtext[3]
 
 * References
 \bibliography{tex/biblio}

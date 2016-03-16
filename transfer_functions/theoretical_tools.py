@@ -4,13 +4,11 @@ import scipy.special as sp_spec
 import scipy.integrate as sp_int
 from scipy.optimize import minimize, curve_fit
 import sys
-import neuronal_models
 
 def pseq_params(params):
     Qe, Te, Ee = params['Qe'], params['Te'], params['Ee']
     Qi, Ti, Ei = params['Qi'], params['Ti'], params['Ei']
     Gl, Cm , El = params['Gl'], params['Cm'] , params['El']
-    Tw, b = params['tauw'], params['b'] # adaptation variables
     for key, dval in zip(['Ntot', 'pconnec', 'gei'], [1, 2., 0.5]):
         if key in params.keys():
             exec(key+' = params[key]')
@@ -27,31 +25,29 @@ def pseq_params(params):
     else: # no drive
         Fdrive = 0
 
-    return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
+    return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
 
 # @numba.jit()
-def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
     # here TOTAL (sum over synapses) excitatory and inhibitory input
     fe = Fe*(1.-gei)*pconnec*Ntot # default is 1 !!
     fi = Fi*gei*pconnec*Ntot
     
     muGe, muGi = Qe*Te*fe, Qi*Ti*fi
     muG = Gl+muGe+muGi
-
     muV = (muGe*Ee+muGi*Ei+Gl*El)/muG ## ADAPTATION HERE !!!
-
     muGn, Tm = muG/Gl, Cm/muG
-
-    Tv = Tm+(muGe*Te+muGi*Ti)/(muGe+muGi+1e-15)
-
-    TvN = Tv*Gl/Cm
-
-    # with impact of spike frequency adaptation
+    
+    Ue, Ui = Qe/muG*(Ee-muV), Qi/muG*(Ei-muV)
 
     sV = np.sqrt(\
-                 fe*(Qe*Te*(Ee-muV)/muG)**2/2./(Te+Tm)+\
-                 fi*(Qi*Ti*(Ei-muV)/muG)**2/2./(Ti+Tm))
-        
+                 fe*(Ue*Te)**2/2./(Te+Tm)+\
+                 fi*(Qi*Ui)**2/2./(Ti+Tm))
+
+    fe, fi = fe+1e-9, fi+1e-9 # just to insure a non zero division, 
+    Tv = ( fe*(Ue*Te)**2 + fi*(Qi*Ui)**2 ) /( fe*(Ue*Te)**2/(Te+Tm) + fi*(Qi*Ui)**2/(Ti+Tm) )
+    TvN = Tv*Gl/Cm
+
     return muV, sV+1e-12, muGn, TvN
 
 
@@ -87,9 +83,9 @@ def threshold_func(muV, sV, TvN, muGn, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P
       
 # final transfer function template :
 # @numba.jit()
-def TF_my_template(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+def TF_my_template(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
     # here TOTAL (sum over synapses) excitatory and inhibitory input
-    muV, sV, muGn, TvN = get_fluct_regime_vars(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+    muV, sV, muGn, TvN = get_fluct_regime_vars(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
     Vthre = threshold_func(muV, sV, TvN, muGn, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
     Fout_th = erfc_func(muV, sV, TvN, Vthre, Gl, Cm)
     return Fout_th
@@ -97,7 +93,7 @@ def TF_my_template(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pcon
     
 # @numba.jit()
 def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
-              Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+              Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
     dt = t[1]-t[0]
     # constructing the Euler method for the activity rate
     for i_t in range(len(t)-1): # loop over time
@@ -108,10 +104,10 @@ def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
 
         nu[i_t+1] = nu[i_t] +\
                dt/BIN*(\
-                TF_my_template(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)\
+                TF_my_template(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)\
                 -nu[i_t])
 
-        vm[i_t], _, _, _ = get_fluct_regime_vars(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Tw, b, Ntot, pconnec, gei, Fdrive, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+        vm[i_t], _, _, _ = get_fluct_regime_vars(fe, fi, W[i_t], Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 
     return nu, vm, W
 
@@ -122,21 +118,29 @@ def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
 
 
 def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
-                               maxiter=1e9, xtol=1e-12, with_square_terms=True):
+                               maxiter=1e9, xtol=1e-12, with_square_terms=False):
 
     Fout, Fe_eff, fiSim = Fout.flatten(), Fe_eff.flatten(), fiSim.flatten()
-    P = np.zeros(11)    # initial guess
-
+    
     muV, sV, muGn, TvN = get_fluct_regime_vars(Fe_eff, fiSim, *pseq_params(params))
     i_non_zeros = np.where(Fout>0)
 
     Vthre_eff = effective_Vthre(Fout[i_non_zeros], muV[i_non_zeros],\
                 sV[i_non_zeros], TvN[i_non_zeros], params['Gl'], params['Cm'])
+    
+    if with_square_terms:
+        P = np.zeros(11)
+    else:
+        P = np.zeros(5)
     P[:5] = Vthre_eff.mean(), 1e-3, 1e-3, 1e-3, 1e-3
 
     def Res(p):
+        if not with_square_terms:
+            pp = np.concatenate([p, np.zeros(6)])
+        else:
+            pp=p
         vthre = threshold_func(muV[i_non_zeros], sV[i_non_zeros],\
-                               TvN[i_non_zeros], muGn[i_non_zeros], *p)
+                               TvN[i_non_zeros], muGn[i_non_zeros], *pp)
         return np.mean((Vthre_eff-vthre)**2)
     
     plsq = minimize(Res, P, method='nelder-mead',\
@@ -145,23 +149,24 @@ def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
     P = plsq.x
     
     def Res(p):
-        params['P'] = p
+        if not with_square_terms:
+            params['P'] = np.concatenate([p, np.zeros(6)])
+        else:
+            params['P'] = p
         return np.mean((Fout-\
                         TF_my_template(Fe_eff, fiSim, *pseq_params(params)))**2)
 
     plsq = minimize(Res, P, method='nelder-mead',\
             options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
 
-    # import matplotlib.pylab as plt
-    # params['P'] = plsq.x
-    # plt.plot(Fe_eff, Fout, 'rD')
-    # plt.plot(Fe_eff, TF_my_template(Fe_eff, fiSim, *pseq_params(params)), 'kD')
-    # plt.show()
-    
     print plsq
-    return plsq.x
+    
+    if with_square_terms:
+        return plsq.x
+    else:
+        return np.concatenate([plsq.x, np.zeros(6)])
 
-def make_fit_from_data(DATA, with_square_terms=True):
+def make_fit_from_data(DATA, with_square_terms=False):
 
     MEANfreq, SDfreq, Fe_eff, fiSim, params = np.load(DATA)
 
@@ -169,7 +174,8 @@ def make_fit_from_data(DATA, with_square_terms=True):
     levels = fiSim # to store for colors
     fiSim = np.meshgrid(np.zeros(Fe_eff.shape[1]), fiSim)[1]
 
-    P = fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params)
+    P = fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
+                                with_square_terms=with_square_terms)
                             
     print '=================================================='
     print 1e3*np.array(P), 'mV'
