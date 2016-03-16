@@ -24,15 +24,15 @@ def get_connectivity_and_synapses_matrix(NAME, number=2, SI_units=False):
         M[0,0]['Ntot'], M[0,0]['gei'] = 5000, 0.2
         
     elif NAME=='CONFIG1':
-        exc_pop = {'p_conn':0.02, 'Q':1., 'Tsyn':5., 'Erev':0.}
-        inh_pop = {'p_conn':0.02, 'Q':5., 'Tsyn':5., 'Erev':-80.}
+        exc_pop = {'p_conn':0.05, 'Q':.5, 'Tsyn':5., 'Erev':0.}
+        inh_pop = {'p_conn':0.05, 'Q':2., 'Tsyn':5., 'Erev':-80.}
         M[:,0] = [exc_pop.copy(), inh_pop.copy()] # post-synaptic : exc
         M[:,1] = [exc_pop.copy(), inh_pop.copy()] # post-synaptic : inh
         M[0,0]['name'], M[1,0]['name'] = 'ee', 'ie'
         M[0,1]['name'], M[1,1]['name'] = 'ei', 'ii'
         
         # in the first element we put the network number and connectivity information
-        M[0,0]['Ntot'], M[0,0]['gei'] = 5000, 0.2
+        M[0,0]['Ntot'], M[0,0]['gei'] = 10000, 0.2
         
     else:
         print('====================================================')
@@ -48,8 +48,6 @@ def get_connectivity_and_synapses_matrix(NAME, number=2, SI_units=False):
     else:
         print('synaptic network parameters --NOT-- in SI units')
 
-
-    
     return M
 
 if __name__=='__main__':
