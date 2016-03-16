@@ -20,10 +20,6 @@ def pseq_params(params):
         P0 = -45e-3
         for i in range(1,11):
             exec('P'+str(i)+'= 0')
-    if 'exc_drive' in params.keys():
-        Fdrive = params['exc_drive'] # excitatory drive !!
-    else: # no drive
-        Fdrive = 0
 
     return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
 
@@ -187,6 +183,7 @@ def make_fit_from_data(DATA, with_square_terms=False):
 
     return P
 
+    
 import argparse
 if __name__=='__main__':
     # First a nice documentation 

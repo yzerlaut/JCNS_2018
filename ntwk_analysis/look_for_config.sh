@@ -1,0 +1,7 @@
+cd ../transfer_functions/
+python tf_simulation.py FS-cell CONFIG1 -s
+python theoretical_tools data/FS-cell_CONFIG1.npy --With_Square
+# python tf_simulation.py RS-cell CONFIG1 -s
+# python theoretical_tools data/RS-cell_CONFIG1.npy --With_Square
+cd ../ntwk_analysis/
+python phase_space.py FS-cell FS-cell CONFIG1
