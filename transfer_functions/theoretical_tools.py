@@ -114,7 +114,7 @@ def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
 
 
 def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
-                               maxiter=1e9, xtol=1e-12, with_square_terms=False):
+                               maxiter=10000, xtol=1e-5, with_square_terms=False):
 
     Fout, Fe_eff, fiSim = Fout.flatten(), Fe_eff.flatten(), fiSim.flatten()
     
@@ -139,9 +139,12 @@ def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
                                TvN[i_non_zeros], muGn[i_non_zeros], *pp)
         return np.mean((Vthre_eff-vthre)**2)
     
-    plsq = minimize(Res, P, method='nelder-mead',\
-            options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
-    # print plsq
+    # plsq = minimize(Res, P, method='nelder-mead',\
+    #         options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
+    plsq = minimize(Res, P, method='SLSQP',\
+                    options={'ftol': 1e-8, 'disp': True, 'maxiter':40000})
+    print plsq
+
     P = plsq.x
     
     def Res(p):
