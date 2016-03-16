@@ -4,9 +4,17 @@ from brian2 import *
 from time_varying_input import *
 import numpy as np
 
+import sys
+sys.path.append('../')
+from single_cell_models.cell_library import get_neuron_params
+from single_cell_models.cell_construct import get_membrane_equation
+from synapses_and_connectivity.syn_and_connec_library import get_connectivity_and_synapses_matrix
+from synapses_and_connectivity.syn_and_connec_construct import build_up_recurrent_connections_for_2_pop,\
+    build_up_recurrent_connections, build_up_poisson_group_to_pop
+
 def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, tstop=300,\
                    kick_value=50., kick_duration=30., SEED=1, ext_drive=0., input_rate=None,\
-                   n_rec=2):
+                   n_rec=3, full_recording=False):
 
     seed(SEED)
     
@@ -25,10 +33,10 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
     time_array = np.arange(int(tstop/DT))*DT
     rate_array = np.array([kick_value*tt/kick_duration+(tt/kick_duration-1)*ext_drive\
                            if tt<kick_duration else 0. for tt in time_array])
-    if input_array is None:
-        input_array = 0.*rate_array
+    if input_rate is None:
+        input_rate = 0.*rate_array
         
-    rate_array += ext_drive+input_array
+    rate_array += ext_drive+input_rate
     
     input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh = \
         build_up_excitatory_feedforward_connections_for_2_pop(\
@@ -40,45 +48,62 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
       build_up_recurrent_connections_for_2_pop([exc_neurons, inh_neurons], M,\
                                                SEED=(SEED+2)**2) # only for 2 pop !
 
-    # recording
-    trace_Vm_exc = StateMonitor(exc_neurons, 'V', record=range(n_rec))
-    trace_Vm_inh = StateMonitor(inh_neurons, 'V', record=range(n_rec))
-    trace_Ge_exc = StateMonitor(exc_neurons, 'Gee', record=range(n_rec))
-    trace_Gi_exc = StateMonitor(exc_neurons, 'Gie', record=range(n_rec))
-    trace_Ge_inh = StateMonitor(exc_neurons, 'Gei', record=range(n_rec))
-    trace_Gi_inh = StateMonitor(exc_neurons, 'Gii', record=range(n_rec))
-    raster_exc = SpikeMonitor(exc_neurons)
-    raster_inh = SpikeMonitor(inh_neurons)
+    # setting up the recording
+    PRe = PopulationRateMonitor(exc_neurons)
+    PRi = PopulationRateMonitor(inh_neurons)
+    if full_recording:
+        trace_Vm_exc = StateMonitor(exc_neurons, 'V', record=range(n_rec))
+        trace_Vm_inh = StateMonitor(inh_neurons, 'V', record=range(n_rec))
+        trace_Ge_exc = StateMonitor(exc_neurons, 'Gee', record=range(n_rec))
+        trace_Gi_exc = StateMonitor(exc_neurons, 'Gie', record=range(n_rec))
+        trace_Ge_inh = StateMonitor(inh_neurons, 'Gei', record=range(n_rec))
+        trace_Gi_inh = StateMonitor(inh_neurons, 'Gii', record=range(n_rec))
+        raster_exc = SpikeMonitor(exc_neurons)
+        raster_inh = SpikeMonitor(inh_neurons)
 
+    # running the simulation
     defaultclock.dt = DT*ms
     run(tstop*ms)
-
-    return trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
-        trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh
-
-def plot_ntwk_sim_output(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
-                         trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh):
     
-    # plotting 
-    fig1 = figure(figsize=(10,6))
-    plot(raster_exc.t/ms, raster_exc.i, '.g', raster_inh.t/ms, raster_inh.i+len(exc_neurons), '.r')
-    xlabel('Time (ms)');ylabel('Neuron index')
-    fig2 = figure(figsize=(10,5))
-    for i in range(n_rec):
-        plot(trace_exc.t[1:] / ms, trace_exc[i].V[1:] / mV, 'g')
-        plot(trace_inh.t[1:] / ms, trace_inh[i].V[1:] / mV, 'r')
+    if full_recording:
+        return trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
+            trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh, time_array,\
+            rate_array, PRe.rate/Hz, PRi.rate/Hz, M
+    else:
+        return time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz
 
-    show()
+def transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
+                     trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh, M, n_rec=3):
+
+    Ne= int(M[0,0]['Ntot']*(1-M[0,0]['gei']))
+    
+    Raster_exc = [raster_exc.t/ms, raster_exc.i]
+    Raster_inh = [raster_inh.t/ms, raster_inh.i+Ne]
+    
+    # now traces
+    Vm_exc, Vm_inh = [], []
+    Ge_exc, Ge_inh = [], []
+    Gi_exc, Gi_inh = [], []
+
+    for i in range(n_rec):
+        Vm_exc.append(array(trace_Vm_exc[i].V/mV))
+        Vm_inh.append(array(trace_Vm_inh[i].V/mV))
+        Ge_exc.append(array(trace_Ge_exc[i].Gee/nS))
+        Gi_exc.append(array(trace_Gi_exc[i].Gie/nS))
+        Ge_inh.append(array(trace_Ge_inh[i].Gei/nS))
+        Gi_inh.append(array(trace_Gi_inh[i].Gii/nS))
+
+    return np.array(Raster_exc, dtype=float),\
+        np.array(Raster_inh, dtype=float),\
+        np.array(Vm_exc, dtype=float),\
+        np.array(Vm_inh, dtype=float),\
+        np.array(Ge_exc, dtype=float),\
+        np.array(Ge_inh, dtype=float),\
+        np.array(Gi_exc, dtype=float),\
+        np.array(Gi_inh, dtype=float)
 
 if __name__=='__main__':
 
-    import sys
-    sys.path.append('../')
-    from single_cell_models.cell_library import get_neuron_params
-    from single_cell_models.cell_construct import get_membrane_equation
-    from synapses_and_connectivity.syn_and_connec_library import get_connectivity_and_synapses_matrix
-    from synapses_and_connectivity.syn_and_connec_construct import build_up_recurrent_connections_for_2_pop,\
-        build_up_recurrent_connections, build_up_poisson_group_to_pop
 
     import argparse
     # First a nice documentation 
@@ -97,30 +122,33 @@ if __name__=='__main__':
      """
     ,formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument("--CONFIG",help="Cell and Network configuration !", default='LIF--LIF--Vogels-Abbott')
-    parser.add_argument("--Ne",help="number of excitatory neurons", type=int, default=4000)
-    parser.add_argument("--Ni",help="number of inhibitory neurons", type=int, default=1000)
+    parser.add_argument("--CONFIG",help="Cell and Network configuration !", default='RS-cell--FS-cell--CONFIG1')
     parser.add_argument("--DT",help="time steps in ms", type=float, default=0.1)
-    parser.add_argument("--tstop",help="time of simulation in ms", type=float, default=300)
+    parser.add_argument("--tstop",help="time of simulation in ms", type=float, default=1500)
     parser.add_argument("--kick_value",help=" stimulation (Hz) for the initial kick", type=float, default=0.)
-    parser.add_argument("--kick_duration",help=" stimulation duration (ms) for the initial kick", type=float, default=50.)
-    parser.add_argument("--ext_drive",help=" stimulation duration (ms) for the initial kick", type=float, default=0.)
-    parser.add_argument("--SEED",help="SEED for the simulation", type=int, default=1)
+    parser.add_argument("--kick_duration",help=" stimulation duration (ms) for the initial kick", type=float, default=100.)
+    parser.add_argument("--ext_drive",help=" stimulation duration (ms) for the initial kick", type=float, default=4.)
+    parser.add_argument("--SEED",help="SEED for the simulation", type=int, default=5)
+    parser.add_argument("-f", "--file",help="filename for saving", default='data/example.npy')
+    parser.add_argument("--n_rec",help="number of recorded neurons", type=int, default=3)
 
     args = parser.parse_args()
     
-    # print args.CONFIG
-    run_simulation(NRN_exc=args.CONFIG.split('--')[0], NRN_inh=args.CONFIG.split('--')[1],\
-                   NTWK=args.CONFIG.split('--')[2],
-                   kick_value=args.kick_value, kick_duration=args.kick_duration,
-                   DT=args.DT, tstop=args.tstop, SEED=args.SEED, ext_drive=args.ext_drive)
+    trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
+        trace_Ge_inh, trace_Gi_inh, raster_exc,\
+        raster_inh, time_array, rate_array, rate_exc, rate_inh, M = run_simulation(\
+                    NRN_exc=args.CONFIG.split('--')[0],\
+                    NRN_inh=args.CONFIG.split('--')[1],\
+                    NTWK=args.CONFIG.split('--')[2],
+                    kick_value=args.kick_value, kick_duration=args.kick_duration,
+                    DT=args.DT, tstop=args.tstop, SEED=args.SEED, ext_drive=args.ext_drive,\
+                    full_recording=True, n_rec=args.n_rec)
 
-
-
-
-
-
-
-
-
-
+    Raster_exc, Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh =\
+       transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
+                                  trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh,\
+                                  M, n_rec=args.n_rec)
+    
+    np.save(args.file,
+            [time_array, rate_array, rate_exc, rate_inh, Raster_exc, Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh])
+    
