@@ -27,7 +27,7 @@ def make_exc_inh_fig(DATA, P=None):
     
     # -- Setting up a colormap that's a simple transtion
     mymap = get_linear_colormap(color1='k', color2='gray')
-    mymap = get_linear_colormap()
+    # mymap = get_linear_colormap()
     build_bar_legend(np.round(levels,1), ax_cb, mymap,label='$\\nu_i$ inh. freq. (Hz)')
     
     for i in range(levels.size):

@@ -64,30 +64,39 @@ if __name__=='__main__':
 
     from brian2 import *
     from cell_library import get_neuron_params
-
+    import sys
+    sys.path.append('../code/')
+    from my_graph import set_plot
     
-    fig, AX = plt.subplots(1, 3, figsize=(10,3))
-    for model, ax in zip(['LIF', 'EIF', 'AdExp'], AX):
+    for model, c in zip(['RS-cell', 'FS-cell'], ['g', 'r']):
         neurons, eqs =  get_membrane_equation(get_neuron_params(model), [],\
                                               return_equations=True)
+        fig, ax = plt.subplots(figsize=(5,3))
         print('------------- NEURON model :', model)
         print(eqs)
         # V value initialization
-        neurons.V = -70.*mV
+        neurons.V = -65.*mV
         trace = StateMonitor(neurons, 'V', record=0)
         spikes = SpikeMonitor(neurons)
         run(100 * ms)
-        neurons.I0 = 250*pA
-        run(500 * ms)
+        neurons.I0 = 200*pA
+        run(400 * ms)
         neurons.I0 = 0*pA
-        run(100 * ms)
+        run(200 * ms)
         # We draw nicer spikes
         V = trace[0].V[:]
-        for t in spikes.t: V[int(t/defaultclock.dt)] = 20*mV
-        ax.plot(trace.t / ms, V / mV, 'k')
+        for t in spikes.t:
+            plt.plot(t/ms*np.ones(2), [V[int(t/defaultclock.dt)]/mV,-10], '--', color=c)
+        ax.plot(trace.t / ms, V / mV, color=c)
+        
         ax.set_title(model)
-    xlabel('time (ms)')
-    ylabel('membrane potential (mV)')
+        set_plot(ax, [])
+    ax.annotate('-65mV', (20,-70))
+    ax.plot([50], [-65], 'k>')
+    ax.plot([100,150], [-50, -50], 'k-', lw=4)
+    ax.plot([100,100], [-50, -40], 'k-', lw=4)
+    ax.annotate('10mV', (200,-40))
+    ax.annotate('50ms', (200,-50))
     show()
 
     

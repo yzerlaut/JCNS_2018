@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 sys.path.append('../')
+sys.path.append('../code')
+from my_graph import set_plot
 from transfer_functions.load_config import load_transfer_functions
 from mean_field.master_equation import build_up_differential_operator_first_order
 
@@ -34,18 +36,15 @@ def draw_phase_space(args, T=5e-3):
 
     t = np.linspace(0,.04,1e5)              # time
 
-
     # values  = np.array([[3,9],[4,9.5],[7.5,7],[5.5,4],[4,4]])
-    values  = np.array([[3,9],[4,12],[12,14],[13,8],[5.5,4]])
+    values  = np.array([[2,14],[6,12],[1,1],[5.5,4],[10,3]])
     vcolors = plt.cm.gist_heat(np.linspace(0, .8, len(values)))  # colors for each trajectory
 
     ff1 = plt.figure(figsize=(5,4))
     f1 = plt.subplot(111)
-    plt.tight_layout()
 
-    ff2 = plt.figure(figsize=(6,5))
+    ff2 = plt.figure(figsize=(5,4))
     f2 = plt.subplot(111)
-    plt.tight_layout()
 
     # X_f0 = np.array([4.,4.])
     # X_f1 = np.array([10.,10.]) # fixed points values
@@ -59,15 +58,15 @@ def draw_phase_space(args, T=5e-3):
         l2 = f1.plot(1e3*t,X[:,1],'-',lw=2, color=col)
         f2.plot(X[:,0], X[:,1], lw=2, color=col, label='X0=(%.f, %.f)' % ( X0[0], X0[1]) )
     f1.legend(('exc. pop.','inh. pop.'), prop={'size':'x-small'})
-    f1.set_xlabel("time (ms)")
-    f1.set_ylabel("frequency (Hz)")
+
+    set_plot(f1, xlabel="time (ms)", ylabel="frequency (Hz)")
 
     ###### ============ VECTOR FIELD  ============= #######
 
     #-------------------------------------------------------
     # define a grid and compute direction at each point
-    ymax = 15 ; ymin = 0
-    xmax = 15 ; xmin = 0
+    ymax = args.max_Fi ; ymin = 0
+    xmax = args.max_Fe ; xmin = 0
     nb_points = 20
 
     x = np.linspace(xmin, xmax, nb_points)
@@ -88,18 +87,17 @@ def draw_phase_space(args, T=5e-3):
     Q = plt.quiver(X1, Y1, DX1, DY1, M, pivot='mid', cmap=plt.cm.jet)
     cb = plt.colorbar(Q, cmap=plt.cm.jet,shrink=.5)
     cb.set_label('absolute speed (Hz/ms)')
-    #cb.set_ticks([0,int(M.max()/2000)*1000,int(M.max()/1000)*1000])
+    cb.set_ticks([0,10,20])
     #cb.set_ticklabels([0,int(M.max()/2000),int(M.max()/1000)])
-    plt.xlabel('exc. pop. freq. (Hz)')
-    plt.ylabel('inh. pop. freq. (Hz)')
-    # plt.legend(loc='best')
-    # plt.grid()
-    plt.xlim(xmin, xmax)
-    plt.ylim(ymin, ymax)
-    # now fixed point
     plt.plot([X[-1,0]], [X[-1,1]], 'ko', ms=10)
     plt.plot([X[-1,0], X[-1,0]], [0, X[-1,1]], 'k--', lw=4, alpha=.4)
     plt.plot([0, X[-1,0]], [X[-1,1], X[-1,1]], 'k--', lw=4, alpha=.4)
+    
+    set_plot(f2, xlabel='exc. pop. freq. (Hz)', ylabel='inh. pop. freq. (Hz)',\
+             xlim=[xmin, xmax], ylim=[ymin, ymax])
+    # plt.legend(loc='best')
+    # plt.grid()
+    # now fixed point
     print 'Fe=', X[-1,0]
     print 'Fi=', X[-1,1]
 
@@ -133,9 +131,9 @@ if __name__=='__main__':
     parser.add_argument("--ext_drive",type=float, default=0.,\
                         help="External drive (Hz)")
     
-    parser.add_argument("--max_Fe",type=float, default=20.,\
+    parser.add_argument("--max_Fe",type=float, default=15.,\
                         help="Maximum excitatory frequency (default=20.)")
-    parser.add_argument("--max_Fi",type=float, default=20.,\
+    parser.add_argument("--max_Fi",type=float, default=15.,\
                         help="Maximum inhibitory frequency (default=20.)")
     
     parser.add_argument("-s", "--save", help="save with the right name",
