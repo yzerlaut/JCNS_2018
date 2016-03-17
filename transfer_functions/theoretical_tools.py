@@ -46,6 +46,12 @@ def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pcon
 
     return muV, sV+1e-12, muGn, TvN
 
+def mean_and_var_conductance(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
+    # here TOTAL (sum over synapses) excitatory and inhibitory input
+    fe = Fe*(1.-gei)*pconnec*Ntot # default is 1 !!
+    fi = Fi*gei*pconnec*Ntot
+    return Qe*Te*fe, Qi*Ti*fi, Qe*np.sqrt(Te*fe/2.), Qi*np.sqrt(Ti*fi/2.)
+
 
 ### FUNCTION, INVERSE FUNCTION
 # @numba.jit()

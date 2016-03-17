@@ -1,7 +1,12 @@
 import numpy as np
+import sys
+sys.path.append('../')
+from transfer_functions.load_config import load_transfer_functions
+from scipy.integrate import odeint
 
 
-def build_up_differential_operator_first_order(TF1, TF2, params, T=5e-3):
+
+def build_up_differential_operator_first_order(TF1, TF2, T=5e-3):
     """
     simple first order system
     """
@@ -9,52 +14,16 @@ def build_up_differential_operator_first_order(TF1, TF2, params, T=5e-3):
         return 1./T*(TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])
     
     def A1(V, exc_aff=0, inh_aff=0):
-        return 1./T*(\
-                .5*V[2]*diff2_fe_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[3]*diff2_fe_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[3]*diff2_fi_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[4]*diff2_fi_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                TF2(V[0]+exc_aff, V[1]+inh_aff)-V[0])
-    
-    def A2(V, exc_aff=0, inh_aff=0):
-        return 1./T*(\
-                1./Ne*TF(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF(V[0]+exc_aff, V[1]+inh_aff))+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[0])**2+\
-                2.*V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                2.*V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (-2.*V[2]))
-    
-    def A3(V, exc_aff=0, inh_aff=0): # mu, nu = e,i, then lbd = e then i
-        return 1./T*(\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[0])*(TF(V[0]+exc_aff, V[1]+inh_aff)-V[1])+\
-                (-2.*V[3]))
-    
-    def A4(V, exc_aff=0, inh_aff=0):
-        return 1./T*(\
-                1./Ni*TF(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF(V[0]+exc_aff, V[1]+inh_aff))+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[1])**2+\
-                2.*V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                2.*V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (-2.*V[4]))
+        return 1./T*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])
     
     def Diff_OP(V, exc_aff=0, inh_aff=0):
         return np.array([A0(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A2(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A3(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A4(V, exc_aff=exc_aff, inh_aff=inh_aff)])
+                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff)])
     return Diff_OP
     
 
-def build_up_differential_operator_for_sym_exc_inh(TF1, TF2, params, T=5e-3):
+def build_up_differential_operator_for_sym_exc_inh(TF1, TF2,\
+                                                   Ne=8000, Ni=2000, T=5e-3):
     """
     Implements Equation (3.16) in El BOustani & Destexhe 2009
     in the case of a network of two populations:
@@ -69,9 +38,6 @@ def build_up_differential_operator_for_sym_exc_inh(TF1, TF2, params, T=5e-3):
     and d(V)/dt = Diff_OP(V)
     """
     
-    # size of populations
-    Ne, Ni = params['Ntot']*(1-params['gei']), params['Ntot']*params['gei']
-
     # we have the transfer function, now we also get its derivatives
     # TF, diff_fe, diff_fi, diff2_fe_fe, diff2_fe_fi, diff2_fi_fi, values = \
     #                         get_derivatives_of_TF(params)
@@ -90,36 +56,32 @@ def build_up_differential_operator_for_sym_exc_inh(TF1, TF2, params, T=5e-3):
                 .5*V[3]*diff2_fe_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
                 .5*V[3]*diff2_fi_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
                 .5*V[4]*diff2_fi_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                TF2(V[0]+exc_aff, V[1]+inh_aff)-V[0])
+                TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])
     
     def A2(V, exc_aff=0, inh_aff=0):
         return 1./T*(\
-                1./Ne*TF(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF(V[0]+exc_aff, V[1]+inh_aff))+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[0])**2+\
-                2.*V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                2.*V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (-2.*V[2]))
+                1./Ne*TF1(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF1(V[0]+exc_aff, V[1]+inh_aff))+\
+                (TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])**2+\
+                2.*V[2]*diff_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                2.*V[3]*diff_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                -2.*V[2])
     
     def A3(V, exc_aff=0, inh_aff=0): # mu, nu = e,i, then lbd = e then i
         return 1./T*(\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[0])*(TF(V[0]+exc_aff, V[1]+inh_aff)-V[1])+\
-                (-2.*V[3]))
+               (TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])+\
+                V[2]*diff_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
+                V[3]*diff_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                V[3]*diff_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
+                V[4]*diff_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                -2.*V[3])
     
     def A4(V, exc_aff=0, inh_aff=0):
         return 1./T*(\
-                1./Ni*TF(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF(V[0]+exc_aff, V[1]+inh_aff))+\
-                (TF(V[0]+exc_aff, V[1]+inh_aff)-V[1])**2+\
-                2.*V[2]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fe(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                2.*V[4]*diff_fi(TF, V[0]+exc_aff, V[1]+inh_aff)+\
-                (-2.*V[4]))
+                1./Ni*TF2(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF2(V[0]+exc_aff, V[1]+inh_aff))+\
+                (TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])**2+\
+                2.*V[3]*diff_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
+                2.*V[4]*diff_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
+                -2.*V[4])
     
     def Diff_OP(V, exc_aff=0, inh_aff=0):
         return np.array([A0(V, exc_aff=exc_aff, inh_aff=inh_aff),\
@@ -129,6 +91,8 @@ def build_up_differential_operator_for_sym_exc_inh(TF1, TF2, params, T=5e-3):
                          A4(V, exc_aff=exc_aff, inh_aff=inh_aff)])
     return Diff_OP
 
+##### Derivatives taken numerically,
+## to be implemented analitically ! not hard...
 
 def diff_fe(TF, fe, fi, df=1e-4):
     return (TF(fe+df/2., fi)-TF(fe-df/2.,fi))/df
@@ -148,5 +112,37 @@ def diff2_fe_fi(TF, fe, fi, df=1e-4):
 def diff2_fi_fi(TF, fe, fi, df=1e-4):
     return (diff_fi(TF, fe, fi+df/2.)-diff_fi(TF,fe, fi-df/2.))/df
 
+def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=False):
 
+    TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
+    
+    t = np.arange(20)*0.001              # time
+    
+    ### FIRST ORDER ###
+    def dX_dt_scalar(X, t=0):
+        return build_up_differential_operator_first_order(TF1, TF2, T=5e-3)(X, exc_aff=exc_aff)
+    X0 = [10, 10]
+    X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
+    if verbose:
+        print('first order prediction: ', X[-1])
 
+    ### SECOND ORDER ###
+    def dX_dt_scalar(X, t=0):
+        return build_up_differential_operator_for_sym_exc_inh(TF1, TF2, Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
+    X0 = [X[-1][0], X[-1][1], 2, 2, 2] # we start from the first order prediction !!!
+    X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
+    
+    if verbose:
+        print(X)
+    if verbose:
+        print('first order prediction: ',X[-1])
+    
+    return X[-1][0], X[-1][1], np.sqrt(X[-1][2]), np.sqrt(X[-1][3]), np.sqrt(X[-1][4])
+
+if __name__=='__main__':
+
+    find_fixed_point('LIF', 'LIF', 'Vogels-Abbott', exc_aff=0., Ne=4000, Ni=1000, verbose=True)
+    find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1', exc_aff=3., Ne=8000, Ni=2000, verbose=True)
+    
+
+    

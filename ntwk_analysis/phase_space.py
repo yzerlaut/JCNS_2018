@@ -4,13 +4,12 @@ import matplotlib.pylab as plt
 import sys
 sys.path.append('../')
 from transfer_functions.load_config import load_transfer_functions
-
+from mean_field.master_equation import build_up_differential_operator_first_order
 
 def draw_phase_space(args, T=5e-3):
 
     
     TF1, TF2 = load_transfer_functions(args.NRN1, args.NRN2, args.NTWK)
-
 
     ## now we compute the dynamical system
     ## X = [nu_e,nu_i]
@@ -18,9 +17,7 @@ def draw_phase_space(args, T=5e-3):
     # T*d(nu_i)/dt = TF2(nu_e,nu_i) - n_i
     
     def dX_dt_scalar(X, t=0):
-        out = (TF1(X[0]+args.ext_drive, X[1])-X[0])/T,\
-              (TF2(X[0]+args.ext_drive, X[1])-X[1])/T
-        return out
+        return build_up_differential_operator_first_order(TF1, TF2, T=5e-3)(X, exc_aff=args.ext_drive)
 
     def dX_dt_mesh(IN, t=0):
         [x,y] = IN
@@ -35,7 +32,7 @@ def draw_phase_space(args, T=5e-3):
         return DFx,DFy
 
 
-    t = np.linspace(0,.4,1e5)              # time
+    t = np.linspace(0,.04,1e5)              # time
 
 
     # values  = np.array([[3,9],[4,9.5],[7.5,7],[5.5,4],[4,4]])

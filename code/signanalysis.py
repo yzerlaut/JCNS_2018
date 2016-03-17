@@ -6,6 +6,9 @@ import numpy as np
 from scipy import signal
 from scipy import integrate
 
+def gaussian_func(x, mean, std):
+    return np.exp(-(x-mean)**2/2/std**2)/std/np.sqrt(2.*np.pi)
+
 def autocorrel(signal, tmax, dt):
     """
     argument : signal (np.array), tmax and dt (float)

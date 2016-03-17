@@ -220,6 +220,10 @@ if __name__=='__main__':
                help="Discretization of inhibitory frequencies (default=8)")
     parser.add_argument("--max_Fout",type=float, default=30.,\
                          help="Minimum inhibitory frequency (default=30.)")
+    parser.add_argument("--tstop",type=float, default=10.,\
+                         help="tstop in s")
+    parser.add_argument("--dt",type=float, default=5e-5,\
+                         help="dt in ms")
     parser.add_argument("--SEED",type=int, default=1,\
                   help="Seed for random number generation (default=1)")
 
@@ -252,5 +256,6 @@ if __name__=='__main__':
                                MINfinh=args.lim_Fi[0], MAXfinh=args.lim_Fi[1],\
                                discret_exc=args.discret_Fe,discret_inh=args.discret_Fi,\
                                filename=FILE,
+                               dt=args.dt, tstop=args.tstop,
                                MAXfout=args.max_Fout, SEED=args.SEED)
 
