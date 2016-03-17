@@ -5,7 +5,6 @@ from transfer_functions.load_config import load_transfer_functions
 from scipy.integrate import odeint
 
 
-
 def build_up_differential_operator_first_order(TF1, TF2, T=5e-3):
     """
     simple first order system
@@ -112,7 +111,9 @@ def diff2_fe_fi(TF, fe, fi, df=1e-4):
 def diff2_fi_fi(TF, fe, fi, df=1e-4):
     return (diff_fi(TF, fe, fi+df/2.)-diff_fi(TF,fe, fi-df/2.))/df
 
-def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=False):
+def find_fixed_point_first_order(NRN1, NRN2, NTWK,\
+                                 Ne=8000, Ni=2000, exc_aff=0.,\
+                                 verbose=False):
 
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
     
@@ -125,13 +126,24 @@ def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=Fal
     X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
     if verbose:
         print('first order prediction: ', X[-1])
+    return X[-1][0], X[-1][1] 
 
+def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=False):
+
+    # we start from the first order prediction !!!
+    X0 = find_fixed_point_first_order(NRN1, NRN2, NTWK,\
+                                      Ne=Ne, Ni=Ni, exc_aff=exc_aff,\
+                                      verbose=verbose)
+    X0 = [X0[0], X0[1], 2, 2, 2]
+    
+    TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
+    t = np.arange(20)*0.001              # time
+    
     ### SECOND ORDER ###
     def dX_dt_scalar(X, t=0):
-        return build_up_differential_operator_for_sym_exc_inh(TF1, TF2, Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
-    X0 = [X[-1][0], X[-1][1], 2, 2, 2] # we start from the first order prediction !!!
+        return build_up_differential_operator_for_sym_exc_inh(TF1, TF2,\
+                                                              Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
     X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
-    
     if verbose:
         print(X)
     if verbose:
@@ -142,7 +154,7 @@ def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=Fal
 if __name__=='__main__':
 
     find_fixed_point('LIF', 'LIF', 'Vogels-Abbott', exc_aff=0., Ne=4000, Ni=1000, verbose=True)
-    find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1', exc_aff=3., Ne=8000, Ni=2000, verbose=True)
+    find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1', exc_aff=4., Ne=8000, Ni=2000, verbose=True)
     
 
     
