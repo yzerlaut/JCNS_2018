@@ -103,7 +103,8 @@ def draw_phase_space(args, T=5e-3):
     plt.plot([X[-1,0]], [X[-1,1]], 'ko', ms=10)
     plt.plot([X[-1,0], X[-1,0]], [0, X[-1,1]], 'k--', lw=4, alpha=.4)
     plt.plot([0, X[-1,0]], [X[-1,1], X[-1,1]], 'k--', lw=4, alpha=.4)
-
+    print 'Fe=', X[-1,0]
+    print 'Fi=', X[-1,1]
 
     plt.tight_layout()
 
