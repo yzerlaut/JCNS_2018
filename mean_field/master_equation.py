@@ -117,7 +117,7 @@ def find_fixed_point_first_order(NRN1, NRN2, NTWK,\
 
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
     
-    t = np.arange(20)*0.001              # time
+    t = np.arange(2000)*1e-4              # time
     
     ### FIRST ORDER ###
     def dX_dt_scalar(X, t=0):

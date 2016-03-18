@@ -8,8 +8,9 @@ import matplotlib as mpl
 
 def heaviside(x):
     return .5*(1+np.sign(x))
-def step_input(t, T0, amp):
-    return amp*heaviside(t-T0)# np.exp(-(t-1)**2/.1)
+def step_input(t, T0, amp, T1=0.02):
+    return amp*heaviside(t-T0)*(1-np.exp(-(t-T0)/T1))
+    # return 0*amp*np.exp(-(t-T0)**2/2./T1**2)
 
 
 fig, ax = plt.subplots()
@@ -21,11 +22,11 @@ fig2, ax6 = plt.subplots()
 
 for amp in np.arange(10):
     def func(t):
-        return step_input(t, 0.05, 1.)
+        return step_input(t, 0.02, 1.)
 
     t, fe, fi, muV, sV, muG, Tv = run_mean_field('RS-cell', 'FS-cell', 'CONFIG1', func, T=5e-3,\
-                                                 ext_drive_change=amp,
-                                                 extended_output=True, tstop=0.1)
+                                                 ext_drive_change=amp, PURE_EXC_AFF=False,
+                                                 extended_output=True, tstop=0.15)
     ax.plot(t, .8*fe+.2*fi, 'k')
     ax2.plot(t, 1e3*muV, 'k')
     ax3.plot(t, fe, 'g')
