@@ -9,14 +9,14 @@ def build_up_differential_operator_first_order(TF1, TF2, T=5e-3):
     """
     simple first order system
     """
-    def A0(V, exc_aff=0, inh_aff=0):
+    def A0(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])
     
     def A1(V, exc_aff=0, inh_aff=0):
         return 1./T*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])
     
-    def Diff_OP(V, exc_aff=0, inh_aff=0):
-        return np.array([A0(V, exc_aff=exc_aff, inh_aff=inh_aff),\
+    def Diff_OP(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
+        return np.array([A0(V, exc_aff=exc_aff+pure_exc_aff,inh_aff=inh_aff),\
                          A1(V, exc_aff=exc_aff, inh_aff=inh_aff)])
     return Diff_OP
     

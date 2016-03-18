@@ -14,9 +14,9 @@ from synapses_and_connectivity.syn_and_connec_construct import build_up_recurren
 
 def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, tstop=300,\
                    kick_value=50., kick_duration=30., SEED=1, ext_drive=0., input_rate=None,\
-                   n_rec=3, full_recording=False):
+                   n_rec=3, full_recording=False, filename='data/example_data.npy'):
 
-    seed(SEED)
+    seed(SEED%100)
     
     M = get_connectivity_and_synapses_matrix(NTWK, number=2)
     # number of neurons
@@ -32,16 +32,19 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
     ## FEEDFORWARD EXCITSTORY CONNECTIONS
     time_array = np.arange(int(tstop/DT))*DT
     rate_array = np.array([kick_value*tt/kick_duration+(tt/kick_duration-1)*ext_drive\
-                           if tt<kick_duration else 0. for tt in time_array])
-    if input_rate is None:
-        input_rate = 0.*rate_array
+                           if tt<kick_duration else 0. for tt in time_array])+ext_drive
+
+    input_on_inh, input_on_exc = rate_array, rate_array
+    if input_rate is not None:
+        input_on_exc = rate_array+input_rate
+        # rate_array = input_rate
         
-    rate_array += ext_drive+input_rate
-    
+    ## FEEDFORWARD EXCITATION
     input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh = \
         build_up_excitatory_feedforward_connections_for_2_pop(\
                             [exc_neurons, inh_neurons], M,
-                            time_array, rate_array, SEED=(SEED+1)**2)
+                            time_array, input_on_exc, input_on_inh,\
+                            SEED=(SEED+1)**2)
 
     ## RECURRENT CONNECTIONS
     exc_exc, exc_inh, inh_exc, inh_inh = \
@@ -66,11 +69,15 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
     run(tstop*ms)
     
     if full_recording:
-        return trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
-            trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh, time_array,\
-            rate_array, PRe.rate/Hz, PRi.rate/Hz, M
+        Raster_exc, Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh =\
+           transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
+                                      trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh,\
+                                      M, n_rec=n_rec)
+        np.save(filename,
+                [time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz, Raster_exc,\
+                 Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh])
     else:
-        return time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz
+        np.save(filename, [time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz])
 
 def transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
                      trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh, M, n_rec=3):
@@ -134,21 +141,12 @@ if __name__=='__main__':
 
     args = parser.parse_args()
     
-    trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
-        trace_Ge_inh, trace_Gi_inh, raster_exc,\
-        raster_inh, time_array, rate_array, rate_exc, rate_inh, M = run_simulation(\
-                    NRN_exc=args.CONFIG.split('--')[0],\
-                    NRN_inh=args.CONFIG.split('--')[1],\
-                    NTWK=args.CONFIG.split('--')[2],
-                    kick_value=args.kick_value, kick_duration=args.kick_duration,
-                    DT=args.DT, tstop=args.tstop, SEED=args.SEED, ext_drive=args.ext_drive,\
-                    full_recording=True, n_rec=args.n_rec)
+    run_simulation(\
+                   NRN_exc=args.CONFIG.split('--')[0],\
+                   NRN_inh=args.CONFIG.split('--')[1],\
+                   NTWK=args.CONFIG.split('--')[2],
+                   kick_value=args.kick_value, kick_duration=args.kick_duration,
+                   DT=args.DT, tstop=args.tstop, SEED=args.SEED, ext_drive=args.ext_drive,\
+                   full_recording=True, n_rec=args.n_rec, filename=args.file)
 
-    Raster_exc, Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh =\
-       transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
-                                  trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh,\
-                                  M, n_rec=args.n_rec)
-    
-    np.save(args.file,
-            [time_array, rate_array, rate_exc, rate_inh, Raster_exc, Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh])
     

@@ -22,7 +22,9 @@ def set_spikes_from_time_varying_rate(time_array, rate_array, N, Nsyn, SEED=1):
 
 
 def build_up_excitatory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,\
-                                                          time_array, rate_array, SEED=1):
+                                                          time_array,\
+                                                          input_on_exc, input_on_inh,\
+                                                          SEED=1):
 
     exc_neurons, inh_neurons = Pops
     P = syn_conn_matrix
@@ -31,24 +33,42 @@ def build_up_excitatory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,
     Nsyn = P[0,0]['p_conn']*(1-P[0,0]['gei'])*P[0,0]['Ntot']
 
     # feedforward input on INH pop
-    indices, times = set_spikes_from_time_varying_rate(time_array, rate_array,\
+    indices, times = set_spikes_from_time_varying_rate(time_array, input_on_inh,\
                                                        inh_neurons.N, Nsyn,\
-                                                       SEED=(SEED+2)**3)
+                                                       SEED=(SEED+2)**3%100)
     input_inh = SpikeGeneratorGroup(inh_neurons.N, indices, times)
     fdfrwd_to_inh = Synapses(input_inh, inh_neurons, pre='Gei_post += w',\
                              model='w:siemens', connect='i==j')
     fdfrwd_to_inh.w=P[0,1]['Q']*nS
     
     # feedforward input on EXC pop
-    indices, times = set_spikes_from_time_varying_rate(time_array, rate_array,\
+    indices2, times2 = set_spikes_from_time_varying_rate(time_array, input_on_exc,\
                                                        exc_neurons.N, Nsyn,\
-                                                       SEED=(SEED+1)**2)
-    input_exc = SpikeGeneratorGroup(exc_neurons.N, indices, times)
+                                                       SEED=(SEED+1)**2%100)
+    input_exc = SpikeGeneratorGroup(exc_neurons.N, indices2, times2)
     fdfrwd_to_exc = Synapses(input_exc, exc_neurons, pre='Gee_post += w',\
                              model='w:siemens', connect='i==j')
     fdfrwd_to_exc.w=P[0,0]['Q']*nS
 
     return input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh
+
+def build_up_excitatory_feedforward_connections_for_exc_only(exc_neurons, syn_conn_matrix,\
+                                                             time_array, rate_array, SEED=1):
+
+    P = syn_conn_matrix
+    # number of synapses per neuron
+    Nsyn = P[0,0]['p_conn']*(1-P[0,0]['gei'])*P[0,0]['Ntot']
+    
+    # feedforward input on EXC pop
+    indices, times = set_spikes_from_time_varying_rate(time_array, rate_array,\
+                                                       exc_neurons.N, Nsyn,\
+                                                       SEED=(SEED+4)**2%100)
+    input_exc_aff = SpikeGeneratorGroup(exc_neurons.N, indices, times)
+    fdfrwd_to_exc_aff = Synapses(input_exc_aff, exc_neurons, pre='Gee_post += w',\
+                             model='w:siemens', connect='i==j')
+    fdfrwd_to_exc_aff.w=P[0,0]['Q']*nS
+
+    return input_exc_aff, fdfrwd_to_exc_aff
 
 
 # def build_up_inhibitory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,\
