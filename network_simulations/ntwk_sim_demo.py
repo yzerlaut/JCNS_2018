@@ -34,10 +34,12 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
     rate_array = np.array([kick_value*tt/kick_duration+(tt/kick_duration-1)*ext_drive\
                            if tt<kick_duration else 0. for tt in time_array])+ext_drive
 
-    input_on_inh, input_on_exc = rate_array, rate_array
-    if input_rate is not None:
-        input_on_exc = rate_array+input_rate
-        # rate_array = input_rate
+    # input_on_inh, input_on_exc = rate_array, rate_array
+    # ### PURE EXC CASE, DELETED !!
+    # if input_rate is not None:
+    #     input_on_exc = rate_array+input_rate
+    input_on_inh, input_on_exc = rate_array+input_rate, rate_array+input_rate
+
         
     ## FEEDFORWARD EXCITATION
     input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh = \
@@ -76,8 +78,10 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
         np.save(filename,
                 [time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz, Raster_exc,\
                  Raster_inh, Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh])
+        return time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz
     else:
         np.save(filename, [time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz])
+        return time_array, rate_array, PRe.rate/Hz, PRi.rate/Hz
 
 def transform_to_simple_arrays(trace_Vm_exc, trace_Vm_inh, trace_Ge_exc, trace_Gi_exc,\
                      trace_Ge_inh, trace_Gi_inh, raster_exc, raster_inh, M, n_rec=3):

@@ -25,7 +25,6 @@ def build_up_excitatory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,
                                                           time_array,\
                                                           input_on_exc, input_on_inh,\
                                                           SEED=1):
-
     exc_neurons, inh_neurons = Pops
     P = syn_conn_matrix
     

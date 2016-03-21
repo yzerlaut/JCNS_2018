@@ -118,6 +118,7 @@ if __name__=='__main__':
     plt.figure()
     plt.plot(t, fe, 'g')
     plt.plot(t, fi, 'r')
+    plt.plot(t, .8*fe+.2*fi, 'k')
     plt.figure()
     plt.plot(t, 1e3*muV)
     plt.show()
