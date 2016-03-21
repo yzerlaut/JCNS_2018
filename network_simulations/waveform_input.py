@@ -10,12 +10,20 @@ from synapses_and_connectivity.syn_and_connec_construct import build_up_recurren
     build_up_recurrent_connections, build_up_poisson_group_to_pop
 sys.path.append('../code')
 from signanalysis import gaussian_func
-
+from scipy.special import erf
 from ntwk_sim_demo import *
 from my_graph import set_plot
 
 def heaviside(x):
     return 0.5*(1+np.sign(x))
+
+def smooth_heaviside(x):
+    return 0.5*(1+erf(x))
+
+def smooth_double_gaussian(t, t0, T1, T2, amplitude, smoothing=1e-2):
+    return amplitude*(\
+                      np.exp(-(t-t0)**2/2./T1**2)*smooth_heaviside(-(t-t0)/smoothing)+\
+                      np.exp(-(t-t0)**2/2./T2**2)*smooth_heaviside((t-t0)/smoothing))
 
 def double_gaussian(t, t0, T1, T2, amplitude):
     return amplitude*(\
@@ -85,7 +93,7 @@ if __name__=='__main__':
                                        zoom_conditions=[t0, args.tstop],\
                                        raster_number=400)
         # adding the theoretical eval
-        from mean_field.euler_method import run_mean_field
+        from mean_field.euler_method import run_mean_field, run_mean_field_extended
         def rate_func(t):
             return double_gaussian(t, 1e-3*args.t0, 1e-3*args.T1, 1e-3*args.T2, args.amp)
         
@@ -96,6 +104,16 @@ if __name__=='__main__':
         AX.plot(1e3*t[1e3*t>t0], fe[1e3*t>t0], 'g-', lw=5, alpha=.4, label='mean field \n pred.')
         AX.plot(1e3*t[1e3*t>t0], fi[1e3*t>t0], 'r-', lw=5, alpha=.4, label='num. sim.')
         AX.plot(1e3*t[1e3*t>t0], .8*fe[1e3*t>t0]+.2*fi[1e3*t>t0], 'k-', lw=5, alpha=.4, label='..')
+
+        if False: # second order mean field
+            t, fe, fi, sfe, sfei, sfi = run_mean_field_extended(args.CONFIG.split('--')[0],\
+                                       args.CONFIG.split('--')[1],args.CONFIG.split('--')[2],\
+                                       rate_func,
+                                       tstop=args.tstop*1e-3)
+            AX.fill_between(1e3*t[1e3*t>t0], fe[1e3*t>t0]-sfe[1e3*t>t0], fe[1e3*t>t0]+sfe[1e3*t>t0],\
+                            color='g', alpha=.3)
+            AX.fill_between(1e3*t[1e3*t>t0], fi[1e3*t>t0]-sfi[1e3*t>t0], fi[1e3*t>t0]+sfi[1e3*t>t0],\
+                            color='r', alpha=.3)
         AX.legend(prop={'size':'xx-small'})
         plt.show()
         put_list_of_figs_to_svg_fig(FIG, visualize=False)
