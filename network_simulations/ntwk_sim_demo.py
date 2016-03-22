@@ -14,12 +14,15 @@ from synapses_and_connectivity.syn_and_connec_construct import build_up_recurren
 
 def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, tstop=300,\
                    kick_value=50., kick_duration=30., SEED=1, ext_drive=0., input_rate=None,\
-                   afferent_exc_fraction=.5,
+                   afferent_exc_fraction=0.,
                    n_rec=3, full_recording=False, filename='data/example_data.npy'):
 
     seed(SEED%100)
     
     M = get_connectivity_and_synapses_matrix(NTWK, number=2)
+    if afferent_exc_fraction<.5:
+        afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
+        
     # number of neurons
     Ne, Ni= int(M[0,0]['Ntot']*(1-M[0,0]['gei'])), int(M[0,0]['Ntot']*M[0,0]['gei'])
     
@@ -43,8 +46,6 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
     else:
         input_on_exc, input_on_inh = rate_array, rate_array
 
-
-        
     ## FEEDFORWARD EXCITATION
     input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh = \
         build_up_excitatory_feedforward_connections_for_2_pop(\

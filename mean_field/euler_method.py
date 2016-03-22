@@ -10,13 +10,13 @@ def func(t):
 
 def run_mean_field(NRN1, NRN2, NTWK, array_func,\
                    T=5e-3, dt=1e-4, tstop=2, extended_output=False,\
-                   afferent_exc_fraction=None,
-                   ext_drive_change=0., PURE_EXC_AFF=False):
+                   afferent_exc_fraction=0.,
+                   ext_drive_change=0.):
 
     # find external drive
     M = get_connectivity_and_synapses_matrix(NTWK, SI_units=True)
     ext_drive = M[0,0]['ext_drive']
-    if afferent_exc_fraction is None:
+    if afferent_exc_fraction<0.5:
         afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
 
     X0 = find_fixed_point_first_order(NRN1, NRN2, NTWK, exc_aff=ext_drive+ext_drive_change,\
@@ -58,50 +58,60 @@ def run_mean_field(NRN1, NRN2, NTWK, array_func,\
 
 def run_mean_field_extended(NRN1, NRN2, NTWK, array_func,\
                             Ne=8000, Ni=2000, T=5e-3,\
+                            afferent_exc_fraction=0.,
                             dt=1e-4, tstop=2, extended_output=False,\
-                            ext_drive_change=0., PURE_EXC_AFF=False):
+                            ext_drive_change=0.):
 
     # find external drive
     M = get_connectivity_and_synapses_matrix(NTWK, SI_units=True)
     ext_drive = M[0,0]['ext_drive']
+    if afferent_exc_fraction<0.5:
+        afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
     
     X0 = find_fixed_point(NRN1, NRN2, NTWK, exc_aff=ext_drive+ext_drive_change,\
                           Ne=Ne, Ni=Ni,
-                          verbose=False)
+                          verbose=True)
 
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
 
     t = np.arange(int(tstop/dt))*dt
     
     def dX_dt_scalar(X, t=0):
-        if PURE_EXC_AFF:
-            return build_up_differential_operator(TF1, TF2, Ne=Ne, Ni=Ni, T=T)(X,\
-                                   exc_aff=ext_drive+ext_drive_change, pure_exc_aff=array_func(t))
-        else:
-            return build_up_differential_operator(TF1, TF2, Ne=Ne, Ni=Ni, T=T)(X,\
-                                    exc_aff=ext_drive+ext_drive_change+array_func(t))
+        exc_aff = ext_drive+ext_drive_change+(1-afferent_exc_fraction)*array_func(t)
+        pure_exc_aff = (2*afferent_exc_fraction-1)*array_func(t) # what needs to be added
+        return build_up_differential_operator(TF1, TF2, Ne=Ne, Ni=Ni, T=T)(X,\
+                                      exc_aff=exc_aff, pure_exc_aff=pure_exc_aff)
 
-        
-    fe, fi, sfe, sfei, sfi = odeint(dX_dt_scalar, X0, t).T         # we don't need infodict here
+
+    X = np.zeros((len(t), len(X0)))
+    X[0,:] = X0
+    for i in range(len(t)-1):
+        exc_aff = ext_drive+ext_drive_change+(1-afferent_exc_fraction)*array_func(t[i])
+        pure_exc_aff = (2*afferent_exc_fraction-1)*array_func(t[i]) # what needs to be added
+        # X[i+1,:] = X[i,:] + dt*dX_dt_scalar(X[i,:], t=t[i])
+        X[i+1,:] = X[i,:] + (t[1]-t[0])*build_up_differential_operator(TF1, TF2,\
+                Ne=Ne, Ni=Ni)(X[i,:], exc_aff=exc_aff, pure_exc_aff=pure_exc_aff)
+    
+    fe, fi = X[:,0], X[:,1]
+    sfe, sfei, sfi = [np.sqrt(X[:,i]) for i in range(2,5)]
 
     if extended_output:
         params = get_neuron_params(NRN2, SI_units=True)
         reformat_syn_parameters(params, M)
 
-        ######### BE CAREFUL WITH THE EXCITATORY INPUT ON EACH POP !!!! ###########
-        if PURE_EXC_AFF:
-            muV_e, sV_e, muGn_e, TvN_e = get_fluct_regime_vars(\
-                            fe+ext_drive+ext_drive_change+array_func(t),\
-                            fi, *pseq_params(params))
-            muV_i, sV_i, muGn_i, TvN_i = get_fluct_regime_vars(\
-                            fe+ext_drive+ext_drive_change,\
-                            fi, *pseq_params(params))
-            muV, sV, muGn, TvN = .8*muV_e+.2*muV_i, .8*sV_e+.2*sV_i,\
+        exc_aff = ext_drive+ext_drive_change+(1-afferent_exc_fraction)*array_func(t)
+        pure_exc_aff = (2*afferent_exc_fraction-1)*array_func(t) # what needs to be added
+
+
+        # excitatory neurons have more excitation
+        muV_e, sV_e, muGn_e, TvN_e = get_fluct_regime_vars(\
+                                                           fe+exc_aff+pure_exc_aff,\
+                                                           fi, *pseq_params(params))
+        muV_i, sV_i, muGn_i, TvN_i = get_fluct_regime_vars(\
+                                                           fe+exc_aff,\
+                                                           fi, *pseq_params(params))
+        muV, sV, muGn, TvN = .8*muV_e+.2*muV_i, .8*sV_e+.2*sV_i,\
                                         .8*muGn_e+.2*muGn_i, .8*TvN_e+.2*TvN_i,
-        else: # symmetric situation
-            muV, sV, muGn, TvN = get_fluct_regime_vars(\
-                            fe+ext_drive+ext_drive_change+array_func(t),\
-                            fi, *pseq_params(params))
             
         return t, fe, fi, sfe, sfei, sfi, muV, sV, muGn, TvN
     else:

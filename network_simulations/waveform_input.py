@@ -12,7 +12,7 @@ sys.path.append('../code')
 from signanalysis import gaussian_func
 from scipy.special import erf
 from ntwk_sim_demo import *
-from my_graph import set_plot
+from my_graph import set_plot, put_list_of_figs_to_svg_fig
 
 def heaviside(x):
     return 0.5*(1+np.sign(x))
@@ -71,16 +71,18 @@ if __name__=='__main__':
     ,formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument("--CONFIG",help="Cell and Network configuration !", default='RS-cell--FS-cell--CONFIG1')
-    parser.add_argument("--afferent_exc_fraction",help="stimulation amplitude in Hz", type=float, default=.5)
-    parser.add_argument("--amp",help="stimulation amplitude in Hz", type=float, default=3.)
-    parser.add_argument("--t0",help="stimulation middle point in ms", type=float, default=600.)
-    parser.add_argument("--T1",help="stimulation rise time in ms", type=float, default=40.)
+    parser.add_argument("--afferent_exc_fraction",help="stimulation amplitude in Hz", type=float, default=0.)
+    parser.add_argument("--amp",help="stimulation amplitude in Hz", type=float, default=2.)
+    parser.add_argument("--t0",help="stimulation middle point in ms", type=float, default=800.)
+    parser.add_argument("--T1",help="stimulation rise time in ms", type=float, default=60.)
     parser.add_argument("--T2",help="stimulation rise time in ms", type=float, default=100.)
     parser.add_argument("--DT",help="time steps in ms", type=float, default=0.1)
     parser.add_argument("--tstop",help="time of simulation in ms", type=float, default=1200.)
-    parser.add_argument("--kick_duration",help=" stimulation duration (ms) for the initial kick", type=float, default=100.)
+    parser.add_argument("--kick_duration",help=" stimulation duration (ms) for the initial kick",\
+                        type=float, default=20.)
     parser.add_argument("--SEED",help="SEED for the simulation", type=int, default=5)
-    parser.add_argument("-f", "--file",help="filename for saving", default='data/waveform_input_example.npy')
+    parser.add_argument("-f", "--file",help="filename for saving",\
+                        default='data/waveform_input_example.npy')
     parser.add_argument("--n_rec",help="number of recorded neurons", type=int, default=3)
     parser.add_argument('-S', "--sim",action='store_true') # FOR SIMULATION
 
@@ -89,34 +91,10 @@ if __name__=='__main__':
     if args.sim:
         run_simulation_with_input(args, filename=args.file)
     else: # plot
-        from plot_single_sim import *
-        t0 = args.t0-4*args.T1
-        AX, FIG = plot_ntwk_sim_output(*np.load(args.file),\
-                                       zoom_conditions=[t0, args.tstop],\
+        from compare_with_mean_field import plot_ntwk_sim_output_for_waveform
+        FIGS = plot_ntwk_sim_output_for_waveform(args,
+                                       zoom_conditions=[args.t0-5*args.T1, args.tstop],\
                                        raster_number=400)
-        # adding the theoretical eval
-        from mean_field.euler_method import run_mean_field, run_mean_field_extended
-        def rate_func(t):
-            return double_gaussian(t, 1e-3*args.t0, 1e-3*args.T1, 1e-3*args.T2, args.amp)
-        
-        t, fe, fi = run_mean_field(args.CONFIG.split('--')[0],\
-                                   args.CONFIG.split('--')[1],args.CONFIG.split('--')[2],\
-                                   rate_func,
-                                   afferent_exc_fraction=args.afferent_exc_fraction,
-                                   tstop=args.tstop*1e-3)
-        AX.plot(1e3*t[1e3*t>t0], fe[1e3*t>t0], 'g-', lw=5, alpha=.4, label='mean field \n pred.')
-        AX.plot(1e3*t[1e3*t>t0], fi[1e3*t>t0], 'r-', lw=5, alpha=.4, label='num. sim.')
-        AX.plot(1e3*t[1e3*t>t0], .8*fe[1e3*t>t0]+.2*fi[1e3*t>t0], 'k-', lw=5, alpha=.4, label='..')
 
-        if False: # second order mean field
-            t, fe, fi, sfe, sfei, sfi = run_mean_field_extended(args.CONFIG.split('--')[0],\
-                                       args.CONFIG.split('--')[1],args.CONFIG.split('--')[2],\
-                                       rate_func,
-                                       tstop=args.tstop*1e-3)
-            AX.fill_between(1e3*t[1e3*t>t0], fe[1e3*t>t0]-sfe[1e3*t>t0], fe[1e3*t>t0]+sfe[1e3*t>t0],\
-                            color='g', alpha=.3)
-            AX.fill_between(1e3*t[1e3*t>t0], fi[1e3*t>t0]-sfi[1e3*t>t0], fi[1e3*t>t0]+sfi[1e3*t>t0],\
-                            color='r', alpha=.3)
-        AX.legend(prop={'size':'xx-small'})
-        plt.show()
-        put_list_of_figs_to_svg_fig(FIG, visualize=False)
+        # plt.show()
+        put_list_of_figs_to_svg_fig(FIGS, visualize=False)

@@ -9,20 +9,20 @@ def build_up_differential_operator_first_order(TF1, TF2, T=5e-3):
     """
     simple first order system
     """
-    def A0(V, exc_aff=0, inh_aff=0):
-        return 1./T*(TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])
+    def A0(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
+        return 1./T*(TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)-V[0])
     
-    def A1(V, exc_aff=0, inh_aff=0):
+    def A1(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])
     
     def Diff_OP(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
-        return np.array([A0(V, exc_aff=exc_aff+pure_exc_aff,inh_aff=inh_aff),\
-                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff)])
+        return np.array([A0(V, exc_aff=exc_aff,inh_aff=inh_aff, pure_exc_aff=pure_exc_aff),\
+                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff)])
     return Diff_OP
     
 
 def build_up_differential_operator(TF1, TF2,\
-                                                   Ne=8000, Ni=2000, T=5e-3):
+                                   Ne=8000, Ni=2000, T=5e-3):
     """
     Implements Equation (3.16) in El BOustani & Destexhe 2009
     in the case of a network of two populations:
@@ -41,15 +41,15 @@ def build_up_differential_operator(TF1, TF2,\
     # TF, diff_fe, diff_fi, diff2_fe_fe, diff2_fe_fi, diff2_fi_fi, values = \
     #                         get_derivatives_of_TF(params)
     
-    def A0(V, exc_aff=0, inh_aff=0):
+    def A0(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(\
-                .5*V[2]*diff2_fe_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[3]*diff2_fe_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[3]*diff2_fi_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
-                .5*V[4]*diff2_fi_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
-                TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])
+                .5*V[2]*diff2_fe_fe(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
+                .5*V[3]*diff2_fe_fi(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
+                .5*V[3]*diff2_fi_fe(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
+                .5*V[4]*diff2_fi_fi(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
+                TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)-V[0])
     
-    def A1(V, exc_aff=0, inh_aff=0):
+    def A1(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(\
                 .5*V[2]*diff2_fe_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
                 .5*V[3]*diff2_fe_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
@@ -57,24 +57,24 @@ def build_up_differential_operator(TF1, TF2,\
                 .5*V[4]*diff2_fi_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
                 TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])
     
-    def A2(V, exc_aff=0, inh_aff=0):
+    def A2(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(\
-                1./Ne*TF1(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF1(V[0]+exc_aff, V[1]+inh_aff))+\
-                (TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])**2+\
-                2.*V[2]*diff_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
-                2.*V[3]*diff_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                1./Ne*TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)*(1./T-TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff))+\
+                (TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)-V[0])**2+\
+                2.*V[2]*diff_fe(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
+                2.*V[3]*diff_fi(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
                 -2.*V[2])
     
-    def A3(V, exc_aff=0, inh_aff=0): # mu, nu = e,i, then lbd = e then i
+    def A3(V, exc_aff=0, inh_aff=0, pure_exc_aff=0): # mu, nu = e,i, then lbd = e then i
         return 1./T*(\
-               (TF1(V[0]+exc_aff, V[1]+inh_aff)-V[0])*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])+\
+               (TF1(V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)-V[0])*(TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])+\
                 V[2]*diff_fe(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[3]*diff_fe(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                V[3]*diff_fe(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
                 V[3]*diff_fi(TF2, V[0]+exc_aff, V[1]+inh_aff)+\
-                V[4]*diff_fi(TF1, V[0]+exc_aff, V[1]+inh_aff)+\
+                V[4]*diff_fi(TF1, V[0]+exc_aff+pure_exc_aff, V[1]+inh_aff)+\
                 -2.*V[3])
     
-    def A4(V, exc_aff=0, inh_aff=0):
+    def A4(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
         return 1./T*(\
                 1./Ni*TF2(V[0]+exc_aff, V[1]+inh_aff)*(1./T-TF2(V[0]+exc_aff, V[1]+inh_aff))+\
                 (TF2(V[0]+exc_aff, V[1]+inh_aff)-V[1])**2+\
@@ -83,11 +83,11 @@ def build_up_differential_operator(TF1, TF2,\
                 -2.*V[4])
     
     def Diff_OP(V, exc_aff=0, inh_aff=0, pure_exc_aff=0):
-        return np.array([A0(V, exc_aff=exc_aff+pure_exc_aff, inh_aff=inh_aff),\
-                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A2(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A3(V, exc_aff=exc_aff, inh_aff=inh_aff),\
-                         A4(V, exc_aff=exc_aff, inh_aff=inh_aff)])
+        return np.array([A0(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff),\
+                         A1(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff),\
+                         A2(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff),\
+                         A3(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff),\
+                         A4(V, exc_aff=exc_aff, inh_aff=inh_aff, pure_exc_aff=pure_exc_aff)])
     return Diff_OP
 
 ##### Derivatives taken numerically,

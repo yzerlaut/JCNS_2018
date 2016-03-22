@@ -1,28 +1,49 @@
 #+TITLE: A mean field model for the dynamics of multi-input integration in neocortex
 #+AUTHOR: ...
+#+INCLUDE: jneurosci_template.org
 
-# CHOOSE THE PAPER TEMPLATE, either:
-# my_template.org // jphysiol_template.org // jneurosci_template.org #
-#+INCLUDE: my_template.org
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:tf
+#+CAPTION: *Transfer functions.*
+[[../figures/tf.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:tf
+#+CAPTION: *Finding spontaneous activity configuration (fixed point of the dynamics) of dynamics with external drive.*
+[[../figures/finding_fixed_point.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:tf
+#+CAPTION: *Network activity of the configuration corresponding to the fixed point.*
+[[../figures/nwtk_activity.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:mf-stat-pred
+#+CAPTION: *Mean field prediction of the stationary activity.*
+[[../figures/mean_field_stat_pred.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:mf-temp-pred
+#+CAPTION: *Network response to a time-varying input and the associated prediction of the mean-field formalism.*
+[[../figures/ntwk_time_varying.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:mf-freq-dep
+#+CAPTION: *Accuracy of the mean field prediction in the frequency domain.*
+[[../figures/response_to_oscill.png]]
+
 
 * Key points summary
 \bfseries
 
-- 
+- We 
 
-- =Org-Mode= allows to focus on the content (and of course it is based
-  on =emacs=)
 
-- We get the best of both worlds: we write in =Org-Mode= and we use
-  the =export-to-latex= function of emacs to export to \LaTeX. Here
-  is an example implementation of
+\normalfont
 
-- Export and Compilation workflow automated with =doit= (visit
-  [[http://pydoit.org/]])
+\newpage
 
-# \newpage
-
-* Abstract
+* Abstract :noexport:
 \bfseries
 
 [...]
@@ -30,127 +51,24 @@
 \normalfont
 
 
-* Introduction
+* Introduction :noexport:
 \normalfont
 
 [...]
 
-* Results 
-<<sec:results>>
+* Results  :noexport:
 \normalsize
 
-** Section talking abour first result
+** transfer functions
 <<sec:section1>>
 
 
-#+NAME: fig:ntwk-activity
-#+CAPTION: *.* Generate the figure with : =python code/script.py= Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis sem. Nullam necmi et neque pharetra sollicitudin. Praesent im-perdiet mi nec ante. Donec ullamcorper, felis nonsodales commodo, lectus velit ultrices augue, a dig-nissim nibh lectus placerat pede. Vivamus nuncnunc, molestie ut, ultricies vel, semper in, velit.Ut porttitor. Praesent in sapien. Lorem ipsumdolor sit amet, consectetuer adipiscing elit. Duisfringilla tristique neque. Sed interdum libero utmetus. Pellentesque placerat. Nam rutrum auguea leo. Morbi sed elit sit amet ante lobortis sollici-tudin. Praesent blandit blandit mauris. Praesentlectus tellus, aliquet aliquam, luctus a, egestas a,turpis. Mauris lacinia lorem sit amet ipsum. Nuncquis urna dictum turpis accumsan semper.
-[[./figures/ntwk_activity.png]]
-
-Lorem ipsum dolor sit amet, consectetuer adipisc-
-ing elit. Etiam lobortis facilisis sem. Nullam nec
-mi et neque pharetra sollicitudin. Praesent im-
-perdiet mi nec ante. Donec ullamcorper, felis non
-sodales commodo, lectus velit ultrices augue, a dig-
-nissim nibh lectus placerat pede. Vivamus nunc
-nunc, molestie ut, ultricies vel, semper in, velit.
-Ut porttitor. Praesent in sapien. Lorem ipsum
-dolor sit amet, consectetuer adipiscing elit. Duis
-fringilla tristique neque. Sed interdum libero ut
-metus. Pellentesque placerat. Nam rutrum augue
-a leo. Morbi sed elit sit amet ante lobortis sollici-
-tudin. Praesent blandit blandit mauris. Praesent
-lectus tellus, aliquet aliquam, luctus a, egestas a,
-turpis. Mauris lacinia lorem sit amet ipsum. Nunc
-quis urna dictum turpis accumsan semper.
-
-
-** Section talking abour second result
-
-Lorem ipsum dolor sit amet, consectetuer adipisc- ing elit. Etiam
-lobortis facilisis sem. Nullam nec mi et neque pharetra
-sollicitudin. Praesent im- perdiet mi nec ante. Donec ullamcorper,
-felis non sodales commodo, lectus velit ultrices augue, a dig- nissim
-nibh lectus placerat pede. Vivamus nunc nunc, molestie ut, ultricies
-vel, semper in, velit.  Ut porttitor. Praesent in sapien. Lorem ipsum
-dolor sit amet, consectetuer adipiscing elit. Duis fringilla tristique
-neque. Sed interdum libero ut metus. Pellentesque placerat. Nam rutrum
-augue a leo. Morbi sed elit sit amet ante lobortis sollici-
-tudin. Praesent blandit blandit mauris. Praesent lectus tellus,
-aliquet aliquam, luctus a, egestas a, turpis. Mauris lacinia lorem sit
-amet ipsum. Nunc quis urna dictum turpis accumsan semper.Lorem ipsum
-dolor sit amet, consectetuer adipisc- ing elit. Etiam lobortis
-facilisis sem. Nullam nec mi et neque pharetra sollicitudin. Praesent
-im- perdiet mi nec ante. Donec ullamcorper, felis non sodales commodo,
-lectus velit ultrices augue, a dig- nissim nibh lectus placerat
-pede. Vivamus nunc nunc, molestie ut, ultricies vel, semper in, velit.
-Ut porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
-interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
-leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
-blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
-luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
-quis urna dictum turpis accumsan semper.
-
-
-#+ATTR_LATEX: :float multicolumn
-#+NAME: fig:2
-#+CAPTION: *Caption for second figure.* Generate the figure with : =python code/script.py=
-[[./figures/many_WN_hist.png]]
-
-* Discussion
+* Discussion :noexport:
 \normalsize
 
-Lorem ipsum dolor sit amet, consectetuer adipisc- ing elit. Etiam
-lobortis facilisis sem. Nullam nec mi et neque pharetra
-sollicitudin. Praesent im- perdiet mi nec ante. Donec ullamcorper,
-felis non sodales commodo, lectus velit ultrices augue, a dig- nissim
-nibh lectus placerat pede. Vivamus nunc nunc, molestie ut, ultricies
-vel, semper in, velit.  Ut porttitor. Praesent in sapien. Lorem ipsum
-dolor sit amet, consectetuer adipiscing elit. Duis fringilla tristique
-neque. Sed interdum libero ut metus. Pellentesque placerat. Nam rutrum
-augue a leo. Morbi sed elit sit amet ante lobortis sollici-
-tudin. Praesent blandit blandit mauris. Praesent lectus tellus,
-aliquet aliquam, luctus a, egestas a, turpis. Mauris lacinia lorem sit
-amet ipsum. Nunc quis urna dictum turpis accumsan semper.Lorem ipsum
-dolor sit amet, consectetuer adipisc- ing elit. Etiam lobortis
-facilisis sem. Nullam nec mi et neque pharetra sollicitudin. Praesent
-im- perdiet mi nec ante. Donec ullamcorper, felis non sodales commodo,
-lectus velit ultrices augue, a dig- nissim nibh lectus placerat
-pede. Vivamus nunc nunc, molestie ut, ultricies vel, semper in, velit.
-Ut porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
-interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
-leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
-blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
-luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
-quis urna dictum turpis accumsan semper.  Lorem ipsum dolor sit amet,
-consectetuer adipisc- ing elit. Etiam lobortis facilisis sem. Nullam
-nec mi et neque pharetra sollicitudin. Praesent im- perdiet mi nec
-ante. Donec ullamcorper, felis non sodales commodo, lectus velit
-ultrices augue, a dig- nissim nibh lectus placerat pede. Vivamus nunc
-nunc, molestie ut, ultricies vel, semper in, velit.  Ut
-porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
-interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
-leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
-blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
-luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
-quis urna dictum turpis accumsan semper.Lorem ipsum dolor sit amet,
-consectetuer adipisc- ing elit. Etiam lobortis facilisis sem. Nullam
-nec mi et neque pharetra sollicitudin. Praesent im- perdiet mi nec
-ante. Donec ullamcorper, felis non sodales commodo, lectus velit
-ultrices augue, a dig- nissim nibh lectus placerat pede. Vivamus nunc
-nunc, molestie ut, ultricies vel, semper in, velit.  Ut
-porttitor. Praesent in sapien. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Duis fringilla tristique neque. Sed
-interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a
-leo. Morbi sed elit sit amet ante lobortis sollici- tudin. Praesent
-blandit blandit mauris. Praesent lectus tellus, aliquet aliquam,
-luctus a, egestas a, turpis. Mauris lacinia lorem sit amet ipsum. Nunc
-quis urna dictum turpis accumsan semper.
+[...]
 
-* Material and Methods 
+* Material and Methods  :noexport:
 \small
 
 ** First methodological section
@@ -217,7 +135,7 @@ turpis accumsan semper.
 
 
 
-* Additional information
+* Additional information :noexport:
 \small
 
 All manuscripts must contain a statement regarding Competing interests
@@ -257,7 +175,6 @@ Additional information such as â€˜X and Y have contributed equally to this workâ
 Authors must indicate all sources of funding, including grant
 numbers. If authors have not received funding, this must be stated.
 
-
 ** Acknowledgements.
 
 Acknowledgements should be the minimum consistent with courtesy. The
@@ -265,8 +182,7 @@ wording of acknowledgements of scientific assistance or advice must
 have been seen and approved by the persons concerned. This section
 should not include details of funding.
 
-
-* References
+* References :noexport:
 \small
 
 \bibliography{tex/biblio}

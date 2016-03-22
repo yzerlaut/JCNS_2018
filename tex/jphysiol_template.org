@@ -1,17 +1,17 @@
-- _*Affiliation*_ : $^{1}$ Unité de Neurosciences, Information et
-  Complexité. Centre National de la Recherche Scientifique,
-  FRE 3693. 1 Avenue de la Terrasse, 91198, Gif-sur-Yvette, France
+# - _*Affiliation*_ : $^{1}$ Unité de Neurosciences, Information et
+#   Complexité. Centre National de la Recherche Scientifique,
+#   FRE 3693. 1 Avenue de la Terrasse, 91198, Gif-sur-Yvette, France
 
-- _*Running title*_ : A template for scientific papers based on =Org-Mode= and \LaTeX 
+# - _*Running title*_ : A template for scientific papers based on =Org-Mode= and \LaTeX 
 
-- _*Keywords*_ : Scientific writing, =Org-Mode=, \LaTeX
+# - _*Keywords*_ : Scientific writing, =Org-Mode=, \LaTeX
 
-- _*Corresponding Author*_ : Yann Zerlaut,
-  =yann.zerlaut@gmail.com=. Unité de Neurosciences, Information et
-  Complexité. Centre National de la Recherche Scientifique,
-  FRE 3693. 1 Avenue de la Terrasse, 91198, Gif-sur-Yvette, France
+# - _*Corresponding Author*_ : Yann Zerlaut,
+#   =yann.zerlaut@gmail.com=. Unité de Neurosciences, Information et
+#   Complexité. Centre National de la Recherche Scientifique,
+#   FRE 3693. 1 Avenue de la Terrasse, 91198, Gif-sur-Yvette, France
 
-- _*Table of Contents category*_: Neuroscience – cellular/molecular 
+# - _*Table of Contents category*_: Neuroscience – cellular/molecular 
 
 # ================================================================ #
 # For line numbering, you still need to include within the main org

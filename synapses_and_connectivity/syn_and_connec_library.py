@@ -34,7 +34,7 @@ def get_connectivity_and_synapses_matrix(NAME, number=2, SI_units=False):
         # in the first element we put the network number and connectivity information
         M[0,0]['Ntot'], M[0,0]['gei'] = 10000, 0.2
         M[0,0]['ext_drive'] = 4. # we also store here the choosen excitatory drive 
-        M[0,0]['afferent_exc_fraction'] = 0.9 # we also store here the choosen excitatory drive 
+        M[0,0]['afferent_exc_fraction'] = 1. # we also store here the choosen excitatory drive 
         
         
     else:

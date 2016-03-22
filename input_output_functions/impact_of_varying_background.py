@@ -18,7 +18,7 @@ def step_input(t, T0, amp, T1=0.02):
 
 
 t0, T1, T2, tstop = 200e-3, 50e-3, 70e-3, 400e-3
-amp_max = 20.
+amp_max = 15.
 amp0 = 1
 
 if sys.argv[-1]=='full':
@@ -29,6 +29,7 @@ if sys.argv[-1]=='full':
     N=25
     
     max_f_amp, max_vm_amp = np.zeros(N), np.zeros(N)
+    max_fe_amp, max_fi_amp = np.zeros(N), np.zeros(N)
     amplitudes = np.linspace(0, amp_max, N)
     
     for i in range(N):
@@ -41,12 +42,14 @@ if sys.argv[-1]=='full':
                                                      afferent_exc_fraction=None,
                                                      extended_output=True, tstop=tstop)
         max_f_amp[i] = np.max(.8*fe+.2*fi)-.8*fe[0]-.2*fi[0]
+        max_fe_amp[i] = np.max(fe)-fe[0]
+        max_fi_amp[i] = np.max(fi)-fi[0]
         max_vm_amp[i] = np.max(1e2*np.abs((muV-muV[0])/muV[0]))
 
     ax1.plot(amplitudes, max_f_amp, 'k-', lw=3)
-    ax1.fill_between(amplitudes, max_f_amp, max_f_amp[0]+0*max_f_amp, color='lightgray')
+    # ax1.fill_between(amplitudes, max_f_amp, max_f_amp[0]+0*max_f_amp, color='lightgray')
     ax1.plot([0], [0], 'wD', ms=0.1)
-    set_plot(ax1, ['left'], ylabel='max. $\\nu$ (Hz)', xticks=[])
+    set_plot(ax1, ['left'], ylabel='max. $\delta \\nu$ (Hz)', xticks=[])
     ax2.plot(amplitudes, max_vm_amp, 'k-', lw=3)
     ax2.plot([0], [0], 'wD', ms=0.1)
     ax2.fill_between(amplitudes, max_vm_amp, max_vm_amp[0]+0*max_vm_amp, color='lightgray')
