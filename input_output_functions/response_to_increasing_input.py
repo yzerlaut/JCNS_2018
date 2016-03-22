@@ -18,14 +18,14 @@ def step_input(t, T0, amp, T1=0.02):
 
 
 t0, T1, T2, tstop = 250e-3, 50e-3, 70e-3, 500e-3
-amp_max = 5
+amp_max = 12
+N=25
 
 if sys.argv[-1]=='full':
 
     fig1, [ax1, ax2] = plt.subplots(2, figsize=(5,6))
     plt.subplots_adjust(left=.25, bottom=.25 )
 
-    N=100
     
     max_f_amp, max_vm_amp = np.zeros(N), np.zeros(N)
     amplitudes = np.linspace(0, amp_max, N)

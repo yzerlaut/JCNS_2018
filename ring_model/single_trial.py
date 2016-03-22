@@ -32,13 +32,13 @@ if __name__=='__main__':
     print 'done !, now plotting...'
     ax, fig1 = space_time_vsd_style_plot(t*1e3, Fe_aff,\
                                          title='$\\nu_e^{aff}(x, t)$',\
-                                         xlabel='time (ms)')
+                                         xlabel='time (ms)', with_latency_analysis=True)
     ax, fig2 = space_time_vsd_style_plot(t*1e3, .8*Fe+.2*Fi,\
                                          title='$\\nu(x, t)$',\
-                                         xlabel='time (ms)')
+                                         xlabel='time (ms)', with_latency_analysis=True)
     ax, fig3 = space_time_vsd_style_plot(t*1e3, muVn,\
                                          xlabel='time (ms)', title='$V_m$ (x, t)',\
-                                         zlabel='(mV)')
+                                         zlabel='(mV)', with_latency_analysis=True)
     
     # ax, fig1 = space_time_vsd_style_plot(t*1e3, muVn,\
     #                                      title='$\\nu_e^{aff}(x, t)$',\

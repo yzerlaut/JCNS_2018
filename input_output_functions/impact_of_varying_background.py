@@ -18,7 +18,7 @@ def step_input(t, T0, amp, T1=0.02):
 
 
 t0, T1, T2, tstop = 200e-3, 50e-3, 70e-3, 400e-3
-amp_max = 5
+amp_max = 20.
 amp0 = 1
 
 if sys.argv[-1]=='full':
