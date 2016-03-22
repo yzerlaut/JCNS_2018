@@ -122,7 +122,7 @@ def find_fixed_point_first_order(NRN1, NRN2, NTWK,\
     ### FIRST ORDER ###
     def dX_dt_scalar(X, t=0):
         return build_up_differential_operator_first_order(TF1, TF2, T=5e-3)(X, exc_aff=exc_aff)
-    X0 = [10, 10]
+    X0 = [1, 10] # need inhibition stronger than excitation
     X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
     if verbose:
         print('first order prediction: ', X[-1])
@@ -134,26 +134,38 @@ def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=Fal
     X0 = find_fixed_point_first_order(NRN1, NRN2, NTWK,\
                                       Ne=Ne, Ni=Ni, exc_aff=exc_aff,\
                                       verbose=verbose)
-    X0 = [X0[0], X0[1], 2, 2, 2]
+    X0 = [X0[0], X0[1], .5, .5, .5]
     
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
-    t = np.arange(2000)*1e-4              # time
-    
+    t = np.arange(200)*1e-4              # time
+
     ### SECOND ORDER ###
-    def dX_dt_scalar(X, t=0):
-        return build_up_differential_operator(TF1, TF2,\
-                                              Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
-    X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
+    # def dX_dt_scalar(X, t=0):
+    #     return build_up_differential_operator(TF1, TF2,\
+    #                                           Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
+    # X = odeint(dX_dt_scalar, X0, t)         # we don't need infodict here
+
+    # simple euler
+    X = X0
+    for i in range(len(t)-1):
+        X = X + (t[1]-t[0])*build_up_differential_operator(TF1, TF2,Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
+        last_X = X
+
+    print 'Make sure that those two values are similar !!'
+    print X
+    print last_X
+    
     if verbose:
         print(X)
     if verbose:
         print('first order prediction: ',X[-1])
     
-    return X[-1][0], X[-1][1], np.sqrt(X[-1][2]), np.sqrt(X[-1][3]), np.sqrt(X[-1][4])
+    # return X[-1][0], X[-1][1], np.sqrt(X[-1][2]), np.sqrt(X[-1][3]), np.sqrt(X[-1][4])
+    return X[0], X[1], np.sqrt(X[2]), np.sqrt(X[3]), np.sqrt(X[4])
 
 if __name__=='__main__':
 
-    find_fixed_point('LIF', 'LIF', 'Vogels-Abbott', exc_aff=0., Ne=4000, Ni=1000, verbose=True)
+    # find_fixed_point('LIF', 'LIF', 'Vogels-Abbott', exc_aff=0., Ne=4000, Ni=1000, verbose=True)
     find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1', exc_aff=4., Ne=8000, Ni=2000, verbose=True)
     
 

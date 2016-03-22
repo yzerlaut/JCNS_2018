@@ -14,6 +14,7 @@ from synapses_and_connectivity.syn_and_connec_construct import build_up_recurren
 
 def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, tstop=300,\
                    kick_value=50., kick_duration=30., SEED=1, ext_drive=0., input_rate=None,\
+                   afferent_exc_fraction=.5,
                    n_rec=3, full_recording=False, filename='data/example_data.npy'):
 
     seed(SEED%100)
@@ -36,9 +37,12 @@ def run_simulation(NRN_exc='LIF', NRN_inh='LIF', NTWK='Vogels-Abbott', DT=0.1, t
 
     # input_on_inh, input_on_exc = rate_array, rate_array
     # ### PURE EXC CASE, DELETED !!
-    # if input_rate is not None:
-    #     input_on_exc = rate_array+input_rate
-    input_on_inh, input_on_exc = rate_array+input_rate, rate_array+input_rate
+    if input_rate is not None:
+        input_on_exc, input_on_inh = rate_array+afferent_exc_fraction*input_rate,\
+                                     rate_array+(1-afferent_exc_fraction)*input_rate
+    else:
+        input_on_exc, input_on_inh = rate_array, rate_array
+
 
         
     ## FEEDFORWARD EXCITATION

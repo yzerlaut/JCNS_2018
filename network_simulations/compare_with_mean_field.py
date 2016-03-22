@@ -19,15 +19,20 @@ def skew(x):
 def plot_ntwk_sim_output(time_array, rate_array, rate_exc, rate_inh,\
                          Raster_exc, Raster_inh,\
                          Vm_exc, Vm_inh, Ge_exc, Ge_inh, Gi_exc, Gi_inh,\
-                         BIN=5, EXC_AFF = 4., min_time=200):
+                         BIN=5, min_time=200):
     
     
     cond_t = (time_array>min_time) # transient behavior after 400 ms
 
-    fe0, fi0, sfe, sfie, sfi = find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1',\
-                                                exc_aff=EXC_AFF, Ne=8000, Ni=2000, verbose=False)
     params = get_neuron_params('RS-cell', SI_units=True)
     M = get_connectivity_and_synapses_matrix('CONFIG1', SI_units=True)
+    EXC_AFF = M[0,0]['ext_drive']
+    
+    print 'starting fixed point'
+    fe0, fi0, sfe, sfie, sfi = find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1',\
+                                                exc_aff=EXC_AFF, Ne=8000, Ni=2000, verbose=False)
+    print 'end fixed point'
+    
     reformat_syn_parameters(params, M) # merging those parameters
     
     xfe = fe0+np.linspace(-4,4)*sfe

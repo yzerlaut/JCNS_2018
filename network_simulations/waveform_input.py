@@ -40,13 +40,14 @@ def run_simulation_with_input(args, filename='data/1.npy'):
     ext_drive = M[0,0]['ext_drive']
 
     run_simulation(\
-                   NRN_exc=args.CONFIG.split('--')[0],\
-                   NRN_inh=args.CONFIG.split('--')[1],\
+                   NRN_exc=args.CONFIG.split('--')[0],
+                   NRN_inh=args.CONFIG.split('--')[1],
                    NTWK=args.CONFIG.split('--')[2],
                    kick_value=0, kick_duration=args.kick_duration,
-                   DT=args.DT, tstop=args.tstop, SEED=args.SEED,\
-                   ext_drive=ext_drive,input_rate=input_rate, \
-                   full_recording=True, n_rec=args.n_rec,\
+                   DT=args.DT, tstop=args.tstop, SEED=args.SEED,
+                   ext_drive=ext_drive,input_rate=input_rate,
+                   full_recording=True, n_rec=args.n_rec,
+                   afferent_exc_fraction=args.afferent_exc_fraction,
                    filename=filename)
 
 if __name__=='__main__':
@@ -70,7 +71,8 @@ if __name__=='__main__':
     ,formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument("--CONFIG",help="Cell and Network configuration !", default='RS-cell--FS-cell--CONFIG1')
-    parser.add_argument("--amp",help="stimulation amplitude in Hz", type=float, default=1.5)
+    parser.add_argument("--afferent_exc_fraction",help="stimulation amplitude in Hz", type=float, default=.5)
+    parser.add_argument("--amp",help="stimulation amplitude in Hz", type=float, default=3.)
     parser.add_argument("--t0",help="stimulation middle point in ms", type=float, default=600.)
     parser.add_argument("--T1",help="stimulation rise time in ms", type=float, default=40.)
     parser.add_argument("--T2",help="stimulation rise time in ms", type=float, default=100.)
@@ -100,6 +102,7 @@ if __name__=='__main__':
         t, fe, fi = run_mean_field(args.CONFIG.split('--')[0],\
                                    args.CONFIG.split('--')[1],args.CONFIG.split('--')[2],\
                                    rate_func,
+                                   afferent_exc_fraction=args.afferent_exc_fraction,
                                    tstop=args.tstop*1e-3)
         AX.plot(1e3*t[1e3*t>t0], fe[1e3*t>t0], 'g-', lw=5, alpha=.4, label='mean field \n pred.')
         AX.plot(1e3*t[1e3*t>t0], fi[1e3*t>t0], 'r-', lw=5, alpha=.4, label='num. sim.')

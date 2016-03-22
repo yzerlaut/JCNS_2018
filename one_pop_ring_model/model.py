@@ -50,7 +50,7 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
     ext_drive = M[0,0]['ext_drive']
     params = get_neuron_params(NRN2, SI_units=True)
     reformat_syn_parameters(params, M)
-    
+    afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
 
     print '----- ## we look for the fixed point [...]'
     fe0, fi0 = find_fixed_point_first_order(NRN1, NRN2, NTWK, exc_aff=ext_drive)
@@ -79,8 +79,9 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
         for i_x in range(len(X)): # loop over pixels
             
             # afferent excitation + exc DRIVE
-            fe = Fe_aff[i_t, i_x]+ext_drive
-            fi = Fi_aff[i_t, i_x] # but 0 !
+            fe = (1-afferent_exc_fraction)*Fe_aff[i_t, i_x]+ext_drive # common both to exc and inh
+            fe_pure_exc = (2*afferent_exc_fraction-1)*Fe_aff[i_t, i_x] # only for excitatory pop
+            fi = 0 #  0 for now.. !
 
             # EXC --- we add the recurrent activity and the lateral interactions
             for i_xn in Xn_exc: # loop over neighboring excitatory pixels
@@ -117,7 +118,7 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
                 
             # now we can guess the rate model output
             muVn[i_t+1, i_x], _, _, _ = get_fluct_regime_vars(fe, fi, *pseq_params(params))
-            Fe[i_t+1, i_x] = Fe[i_t, i_x] + dt/BIN*( TF1(fe,fi) - Fe[i_t, i_x])
+            Fe[i_t+1, i_x] = Fe[i_t, i_x] + dt/BIN*( TF1(fe+fe_pure_exc,fi) - Fe[i_t, i_x])
             Fi[i_t+1, i_x] = Fi[i_t, i_x] + dt/BIN*( TF2(fe,fi) - Fi[i_t, i_x])
 
     print '----- temporal loop over !'
