@@ -1,6 +1,32 @@
-#+TITLE: A mean field model for the dynamics of multi-input integration in neocortex
+#+TITLE: A mean field model for spatio-temporal integration in primary sensory areas
 #+AUTHOR: ...
-#+INCLUDE: jneurosci_template.org
+#+INCLUDE: my_template.org
+
+
+* Key points summary
+\bfseries
+
+- We 
+
+
+\normalfont
+
+\newpage
+
+* Abstract :noexport:
+\bfseries
+
+[...]
+
+\normalfont
+
+* Introduction :noexport:
+\normalfont
+
+[...]
+
+* Results
+\normalsize
 
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:tf
@@ -30,110 +56,17 @@
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:mf-freq-dep
 #+CAPTION: *Accuracy of the mean field prediction in the frequency domain.*
-[[../figures/response_to_oscill.png]]
-
-
-* Key points summary
-\bfseries
-
-- We 
-
-
-\normalfont
-
-\newpage
-
-* Abstract :noexport:
-\bfseries
-
-[...]
-
-\normalfont
-
-
-* Introduction :noexport:
-\normalfont
-
-[...]
-
-* Results  :noexport:
-\normalsize
-
-** transfer functions
-<<sec:section1>>
-
+[[../figures/freq_dep_of_network.png]]
 
 * Discussion :noexport:
 \normalsize
 
 [...]
 
-* Material and Methods  :noexport:
+* Material and Methods
 \small
 
-** First methodological section
-
-#+NAME: eq:first
-\begin{equation}
-\tau \, \frac{dx}{dt} = E_L-v
-\end{equation}
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam
-lobortis facilisis sem. Nullam necmi et neque pharetra
-sollicitudin. Praesent im-perdiet mi nec ante. Donec ullamcorper,
-felis nonsodales commodo, lectus velit ultrices augue, a dig-nissim
-nibh lectus placerat pede. Vivamus nuncnunc, molestie ut, ultricies
-vel, semper in, velit.Ut porttitor. Praesent in sapien. Lorem
-ipsumdolor sit amet, consectetuer adipiscing elit. Duisfringilla
-tristique neque. Sed interdum libero utmetus. Pellentesque
-placerat. Nam rutrum auguea leo. Morbi sed elit sit amet ante lobortis
-sollici-tudin. Praesent blandit blandit mauris. Praesentlectus tellus,
-aliquet aliquam, luctus a, egestas a,turpis. Mauris lacinia lorem sit
-amet ipsum. Nuncquis urna dictum turpis accumsan semper.
-
-** Second methodological section
-
-#+NAME: eq:second
-\begin{equation}
-\tau \, \frac{dx}{dt} = E_L-v + \xi (t)
-\end{equation}
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam
-lobortis facilisis sem. Nullam necmi et neque pharetra
-sollicitudin. Praesent im-perdiet mi nec ante. Donec ullamcorper,
-felis nonsodales commodo, lectus velit ultrices augue, a dig-nissim
-nibh lectus placerat pede. Vivamus nuncnunc, molestie ut, ultricies
-vel, semper in, velit.Ut porttitor. Praesent in sapien. Lorem
-ipsumdolor sit amet, consectetuer adipiscing elit. Duisfringilla
-tristique neque. Sed interdum libero utmetus. Pellentesque
-placerat. Nam rutrum auguea leo. Morbi sed elit sit amet ante lobortis
-sollici-tudin. Praesent blandit blandit mauris. Praesentlectus tellus,
-aliquet aliquam, luctus a, egestas a,turpis. Mauris lacinia lorem sit
-amet ipsum. Nuncquis urna dictum turpis accumsan semper.  Lorem ipsum
-dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis
-sem. Nullam necmi et neque pharetra sollicitudin. Praesent im-perdiet
-mi nec ante. Donec ullamcorper, felis nonsodales commodo, lectus velit
-ultrices augue, a dig-nissim nibh lectus placerat pede. Vivamus
-nuncnunc, molestie ut, ultricies vel, semper in, velit.Ut
-porttitor. Praesent in sapien. Lorem ipsumdolor sit amet, consectetuer
-adipiscing elit. Duisfringilla tristique neque. Sed interdum libero
-utmetus. Pellentesque placerat. Nam rutrum auguea leo. Morbi sed elit
-sit amet ante lobortis sollici-tudin. Praesent blandit blandit
-mauris. Praesentlectus tellus, aliquet aliquam, luctus a, egestas
-a,turpis. Mauris lacinia lorem sit amet ipsum. Nuncquis urna dictum
-turpis accumsan semper.
-
-
-
-#+NAME: table:1
-#+CAPTION: *And of course the awesome =Org-mode= tables interface*. So convenient, see =org= file.
-| model   | \(P_0\)(mV) | \(P_\mu\)(mV)             | \(P_\sigma\)(mV) | \(P_\tau\)(mV) |
-|---------+-------------+---------------------------+------------------+----------------|
-| simple  | 8           | 9                         |                4 |            387 |
-| complex | \pi/d^4     | \(\frac{\pi}{\sqrt{28}}\) |                  |                |
-|---------+-------------+---------------------------+------------------+----------------|
-
-
+Extension of [[citetext:ElBoustani2009]] to time varying input
 
 * Additional information :noexport:
 \small
@@ -182,8 +115,9 @@ wording of acknowledgements of scientific assistance or advice must
 have been seen and approved by the persons concerned. This section
 should not include details of funding.
 
-* References :noexport:
+* References 
 \small
 
-\bibliography{tex/biblio}
+\bibliography{biblio}
+
 

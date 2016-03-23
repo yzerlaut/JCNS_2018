@@ -1,6 +1,5 @@
 import matplotlib.pylab as plt
 import numpy as np
-from oscillating_input import *
 
 from multiple_freq import * # all parameters inside !!
 from oscillating_input import *
@@ -19,7 +18,7 @@ for i in range(len(freqs)):
                                                        1e-3*args.t0, args.freq,\
                                                        full_output=True)
     
-    exp_phase_shift[i] = (-coeffs[1])%(2.*np.pi)
+    exp_phase_shift[i] = (-coeffs[1]+np.pi/4)%(2.*np.pi)-np.pi/4.
     exp_modulus[i] = np.abs(coeffs[2])
 
     ## theoretical estimate
@@ -34,18 +33,21 @@ for i in range(len(freqs)):
                                                        1e-3*args.t0, args.freq,\
                                                        full_output=True)
     
-    phase_shift[i] = (-coeffs[1])%(2.*np.pi)
+    phase_shift[i] = (-coeffs[1]+np.pi/4.)%(2.*np.pi)-np.pi/4.
     modulus[i] = np.abs(coeffs[2])
     
-plt.subplots(figsize=(5,3))
+fig1, ax1 = plt.subplots(figsize=(5,3))
 plt.semilogx(freqs, modulus, 'k-', lw=3, alpha=.5)
 plt.semilogx(freqs, exp_modulus, 'kD')
-set_plot(plt.gca(), xticks=[1, 10, 100], xticks_labels=['1', '10', '100'])
-plt.subplots(figsize=(5,3))
+set_plot(plt.gca(), xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
+         ylabel='amplitude (Hz)')
+fig2, ax2 = plt.subplots(figsize=(5,3))
 plt.semilogx(freqs, phase_shift, 'k-', lw=3, alpha=.5)
 plt.semilogx(freqs, exp_phase_shift, 'kD')
 set_plot(plt.gca(), yticks=[0, np.pi, 2.*np.pi], yticks_labels=['0', '$\pi$', '2$\pi$'],\
-         xticks=[1, 10, 100], xticks_labels=['1', '10', '100'])
+         xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
+         ylabel='phase shift (Rd)', xlabel='freq. (Hz)')
 
-
+from my_graph import put_list_of_figs_to_svg_fig
+put_list_of_figs_to_svg_fig([fig1, fig2])
 plt.show()

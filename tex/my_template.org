@@ -67,7 +67,7 @@
 #+LaTeX_HEADER: \renewcommand{\refname}{\vspace{-.8cm}}
 
 #+LaTeX_HEADER: \usepackage{biology_citations}
-#+LaTeX_HEADER: \bibliographystyle{tex/biology_citations}
+#+LaTeX_HEADER: \bibliographystyle{biology_citations}
 
 
 ** supplementary

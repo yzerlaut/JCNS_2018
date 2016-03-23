@@ -46,10 +46,10 @@ if __name__=='__main__':
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, 'AM-1deg')
         np.save(args.file, [args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
-                            Fe_aff2, Fe12, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3])
+                            Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3])
     else:
         args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
-          Fe_aff2, Fe12, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3 = np.load(args.file)
+          Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3 = np.load(args.file)
 
 
     vsd_label = '%'
@@ -60,7 +60,7 @@ if __name__=='__main__':
 
     FIGS = []
     ax, fig = vsd_plot(t*1e3,\
-                       suppression,\
+                       1e2*suppression,\
                        title=r'suppression signal',\
                        zlabel=vsd_label, with_latency_analysis=True,\
                        cmap=get_linear_colormap(color1='black', color2='cyan'),
@@ -75,7 +75,7 @@ if __name__=='__main__':
                    title='$\\nu(x, t)$', xlabel='time (ms)',\
                   xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
-    ax, fig = vsd_plot(t*1e3, muVn1,\
+    ax, fig = vsd_plot(t*1e3, 1e2*muVn1,\
                    title='vsd-like signal',zlabel=vsd_label,\
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
@@ -88,7 +88,7 @@ if __name__=='__main__':
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
-    ax, fig = vsd_plot(t*1e3, muVn2,\
+    ax, fig = vsd_plot(t*1e3, 1e2*muVn2,\
                    title='vsd-like signal',zlabel=vsd_label,\
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
@@ -103,7 +103,7 @@ if __name__=='__main__':
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
-    ax, fig = vsd_plot(t*1e3, muVn3,\
+    ax, fig = vsd_plot(t*1e3, 1e2*muVn3,\
                    title='vsd-like signal', zlabel=vsd_label,\
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
@@ -111,7 +111,7 @@ if __name__=='__main__':
     
     if args.SAVE:
         for i in range(1,len(FIGS)+1):
-            exec("FIGS["+str(i)+"].savefig('fig"+str(i)+".png', dpi=300)")
+            exec("FIGS["+str(i-1)+"].savefig('fig"+str(i)+".png', dpi=300)")
     else:
         plt.show()
 

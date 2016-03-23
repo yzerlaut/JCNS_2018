@@ -61,26 +61,30 @@ def build_task_to_generate_tex(filename):
         org_cmd = 'org-latex-export-to-latex'
     return {'actions': [CmdAction("cp "+filename+".org tex/"+filename+".org"),
                         CmdAction(org_cmd0+" --file tex/"+filename+".org -f "+org_cmd)],\
-            'file_dep': DEPS,
+            'file_dep': DEPS+['tex/biblio.bib', 'tex/my_template.org'],
             'targets': ["tex/"+filename+".tex"]}
 
 def Build_task_for_pdflatex_compilation(filename):
     def func0():
-        os.system("echo '\RequirePackage{lineno}' > tex/preamble")
+        os.system("echo \RequirePackage{lineno} > tex/preamble")
         os.system("cp tex/"+filename+".tex tex/"+filename+"2.tex")
         os.system("cat tex/preamble tex/"+filename+"2.tex > tex/"+filename+".tex")
         return True
     def func1():
-        os.system("pdflatex -shell-escape -interaction=nonstopmode -output-directory=tex tex/"+filename+".tex > tex/compil_output")
+        os.chdir('./tex')
+        os.system("pdflatex -shell-escape -interaction=nonstopmode "+filename+".tex > compil_output")
+        os.chdir('./..')
         return True
     def func2():
-        os.system("bibtex -terse tex/"+filename+".aux")
+        os.chdir('./tex')
+        os.system("bibtex - terse "+filename+".aux")
+        os.chdir('./..')
         return None
     def func3():
-        os.system("mv tex/"+filename+".pdf pdf_output/"+filename+".pdf")
+        os.system("mv ./tex/"+filename+".pdf ./pdf_output/"+filename+".pdf")
         return None
     return {'actions': [func0, func1, func2, func1, func1, func3],
-            'file_dep': SVG_FILES+[filename+'.org'],
+            'file_dep': SVG_FILES+[filename+'.org', 'tex/biblio.bib', 'tex/my_template.org'],
             'targets':['pdf_output/'+filename+'.pdf'],
             "clean": True,
             # force doit to always mark the task
