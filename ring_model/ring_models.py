@@ -86,9 +86,11 @@ if __name__=='__main__':
         sys.path.append('../code')
         from my_graph import set_plot
         fig, ax = plt.subplots(1)
+        plt.subplots_adjust(left=.3, bottom=.3, top=.8)
         x = np.linspace(-p['X_extent']/2., p['X_extent']/2., 1e3)
-        ax.plot(x, gaussian_connectivity(x, 0., p['exc_connect_extent']), 'b-', lw=3, label='excitation')
         ax.plot(x, gaussian_connectivity(x, 0., p['inh_connect_extent']), 'r-', lw=3, label='inhibition')
+        ax.plot(x, gaussian_connectivity(x, 0., p['exc_connect_extent']), 'b-', lw=3, label='excitation')
+        ax.set_title('connectivity \n profile')
         ax.legend(frameon=False)
         set_plot(ax, ylabel='connectivity probability',\
                  xlabel='distance from center pixel (mm)')

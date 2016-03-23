@@ -3,13 +3,31 @@ import matplotlib as mpl
 import matplotlib.pylab as plt
 
 import sys
-sys.path.append('../analysis/')
-from phase_latency import find_latencies_over_space
+sys.path.append('../code/')
+from my_graph import set_plot
+
+def find_latencies_over_space(t, X, signal,\
+                              signal_criteria=0.01,\
+                              baseline=0, discard=20,\
+                              amp_criteria=1./4.):
+    signal2 = np.abs(signal)-np.abs(signal[1,:]).mean()
+    i_discard = int(discard/(t[1]-t[0]))
+    t = t[i_discard:]
+    signal2 = signal2[i_discard:,:]-baseline
+    XX, TT = [], []
+    for i in range(signal2.shape[1]):
+        imax = np.argmax(signal2[:,i])
+        if signal2[imax,i]>=signal_criteria*signal2.max():
+            ii = np.argmin(np.abs(signal2[:imax,i]-amp_criteria*signal2[imax,i]))
+            XX.append(X[i])
+            TT.append(t[ii]+t[i_discard])
+    return TT, XX
 
 def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
                               xlabel='time (ms)', ylabel='cortical distance (mm)', title='',
-                              zlim=None, with_latency_analysis=False,\
-                              phase_criteria=-np.pi/2.+np.pi/6.,
+                              zlim=None, with_latency_analysis=False,
+                              bar_mm=5,
+                              amp_criteria=1./5.,
                               params=None, xzoom=None, yzoom=None):
     """
     takes an array of shape (t, X, Y) and plots its value in 2d for different times !
@@ -36,19 +54,25 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     ax = plt.subplot2grid((1,7), (0,0), colspan=6)
     plt.imshow(array.T, vmin=MIN, vmax=MAX, cmap=cmap,
         interpolation='none', aspect='auto', extent=[t[0],t[-1], ylim0,0])
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
 
     if with_latency_analysis:
         TT, XX = find_latencies_over_space(t, np.linspace(0,1,array.shape[1])*ylim0,\
-                                           array, phase_criteria=phase_criteria)
+                                           array, amp_criteria=amp_criteria)
         plt.plot(TT, XX, 'w--', lw=3)
 
-    if xzoom is not None:
-        plt.xlim(xzoom)
-    if yzoom is not None:
-        plt.ylim(yzoom)
-        
+    plt.annotate(str(bar_mm)+'mm', (0.1,0.1)) # bar
+    if (xzoom is not None) and (xzoom is not None):
+        plt.plot([0,0], [yzoom[0], yzoom[0]+bar_mm], 'k-', lw=5)
+        set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, xlim=xzoom, ylim=yzoom, yticks=[])
+    elif xzoom is not None:
+        set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, xlim=xzoom, yticks=[])
+    elif yzoom is not None:
+        plt.plot([0,0], [yzoom[0], yzoom[0]+bar_mm], 'k-', lw=5)
+        set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, ylim=yzoom, yticks=[])
+    else:
+        plt.plot([0,0], [0, bar_mm], 'k-', lw=5)
+        set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, yticks=[])    
+    
     ax2 = plt.subplot2grid((1, 7), (0, 6), rowspan=1)
     cb = mpl.colorbar.ColorbarBase(ax2, cmap=cmap, norm=norm)
     cb.set_label(zlabel)
