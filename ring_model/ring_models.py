@@ -4,8 +4,8 @@ Loads the RING model parameters
 import numpy as np
 
 default_params = {\
-'X_discretization':50.,
-'X_extent':50., # mm
+'X_discretization':30.,
+'X_extent':36., # mm
 'exc_connect_extent':5., # mm
 'inh_connect_extent':1., # mm
 'conduction_velocity_mm_s': 300. # mm/s
@@ -13,7 +13,7 @@ default_params = {\
 
 def from_mm_to_discretized_model(params):
     """
-    translate all quantities of the ring model from mmto pixels !
+    translate all quantities of the ring model from mm to pixels !
     """
     params['mm_per_pixel'] = params['X_extent']/params['X_discretization']
     params['exc_decay_connect'] = params['exc_connect_extent']/params['mm_per_pixel']
