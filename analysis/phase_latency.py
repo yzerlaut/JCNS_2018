@@ -50,7 +50,7 @@ def find_positive_phase_crossing(t, phase, criteria=-np.pi/2.+np.pi/6.):
 def find_latencies_over_space(t, X, signal,\
                               signal_criteria=0.05,\
                               baseline=0, discard=20,\
-                              phase_criteria=-np.pi/2.+np.pi/6.):
+                              phase_criteria=-np.pi/2.+np.pi/4.):
     signal2 = np.abs(signal)
     i_discard = int(discard/(t[1]-t[0]))
     t = t[i_discard:]

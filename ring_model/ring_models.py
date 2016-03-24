@@ -11,6 +11,14 @@ default_params = {\
 'conduction_velocity_mm_s': 300. # mm/s
 }
 
+def pixels_per_mm(MODEL):
+    params = get_model_params(MODEL)
+    return params['X_discretization']/params['X_extent']
+    
+def mm_per_pixel(MODEL):
+    params = get_model_params(MODEL)
+    return params['X_extent']/params['X_discretization']
+
 def from_mm_to_discretized_model(params):
     """
     translate all quantities of the ring model from mm to pixels !

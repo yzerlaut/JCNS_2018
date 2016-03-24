@@ -115,7 +115,7 @@ and
 \newpage
 
 * References
-\bibliography{tex/biblio}
+\bibliography{biblio}
 
 ** biblio :noexport:
 
@@ -124,4 +124,4 @@ and
 #+LaTeX_HEADER: \hypersetup{allcolors = blue} % to have all the hyperlinks in 1 color
 #+LaTeX_HEADER: \renewcommand{\refname}{\vspace{-.8cm}}
 #+LaTeX_HEADER: \usepackage{biology_citations}
-#+LaTeX_HEADER: \bibliographystyle{tex/biology_citations}
+#+LaTeX_HEADER: \bibliographystyle{biology_citations}

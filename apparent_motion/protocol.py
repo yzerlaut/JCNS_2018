@@ -5,6 +5,7 @@ import matplotlib.pylab as plt
 
 from ring_model.plotting_tools import space_time_vsd_style_plot as vsd_plot
 from ring_model.model import Euler_method_for_ring_model
+from ring_model.ring_models import pixels_per_mm
 
 sys.path.append('../code/')
 from my_graph import get_linear_colormap
@@ -23,7 +24,7 @@ if __name__=='__main__':
     parser.add_argument("--xzoom",help="zoom on the x axis", nargs=2, default=[0.,400.], type=float)
     parser.add_argument("--xzoom_suppression",help="zoom on the x axis", nargs=2, default=[50.,300.], type=float)
     parser.add_argument("--yzoom",help="zoom on the y axis", nargs=2, default=[8.,26.], type=float)
-    parser.add_argument("--yzoom_suppression",help="zoom on the y axis", nargs=2, default=[2.,22.], type=float)
+    parser.add_argument("--yzoom_suppression",help="zoom on the y axis", nargs=2, default=[8.,26.], type=float)
     parser.add_argument("-s", "--SAVE",help="save the figures as SVG", action="store_true")
     parser.add_argument("--no_sim", help="plot only", action="store_true")
     parser.add_argument("-f", "--file",help="filename for saving", default='data/example_data.npy')
@@ -36,21 +37,21 @@ if __name__=='__main__':
         print '====================== FIRST STIM simulation [...]'
         t, X, Fe_aff1, Fe1, Fi1, muVn1 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'FIRST_STIM')
+                                                                 args.NTWK, args.RING, 'FIRST_STIM-1deg')
         print '====================== SECOND STIM simulation [...]'
         t, X, Fe_aff2, Fe2, Fi2, muVn2 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'SECOND_STIM')
+                                                                 args.NTWK, args.RING, 'SECOND_STIM-1deg')
         print '====================== APPARENT MOTION simulation [...]'
         t, X, Fe_aff3, Fe3, Fi3, muVn3 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, 'AM-1deg')
         np.save(args.file, [args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
                             Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3])
+        args2 = args
     else:
-        args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
+        args2, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
           Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3 = np.load(args.file)
-
 
     vsd_label = '%'
 
@@ -58,53 +59,65 @@ if __name__=='__main__':
     
     suppression = np.abs(muVn3-(muVn1+muVn2))
 
+    params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
+    
     FIGS = []
     ax, fig = vsd_plot(t*1e3,\
                        1e2*suppression,\
                        title=r'suppression signal',\
                        zlabel=vsd_label, with_latency_analysis=True,\
                        cmap=get_linear_colormap(color1='black', color2='cyan'),
+                       params=params,
                        xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
     FIGS.append(fig)
 
     ax, fig = vsd_plot(t*1e3, Fe_aff1,\
                    title='$\\nu_e^{aff}(x, t)$',\
-                  xzoom=args.xzoom, yzoom=args.yzoom)
+                       params=params,
+                       xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     ax, fig = vsd_plot(t*1e3, F1,\
                    title='$\\nu(x, t)$', xlabel='time (ms)',\
+                       params=params,
                   xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     ax, fig = vsd_plot(t*1e3, 1e2*muVn1,\
                    title='vsd-like signal',zlabel=vsd_label,\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     ax, fig = vsd_plot(t*1e3, Fe_aff2,\
                    title='$\\nu_e^{aff}(x, t)$',\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     ax, fig = vsd_plot(t*1e3, F2,\
                    title='$\\nu(x, t)$', xlabel='time (ms)',\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
     ax, fig = vsd_plot(t*1e3, 1e2*muVn2,\
                    title='vsd-like signal',zlabel=vsd_label,\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
     ax, fig = vsd_plot(t*1e3, Fe_aff3,\
                    title='$\\nu_e^{aff}(x, t)$',\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     
     ax, fig = vsd_plot(t*1e3, F3,\
                    title='$\\nu(x, t)$',\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
     ax, fig = vsd_plot(t*1e3, 1e2*muVn3,\
                    title='vsd-like signal', zlabel=vsd_label,\
+                       params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 

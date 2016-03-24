@@ -5,13 +5,13 @@ Loads the parameters of the stimulus and experiment !!
 import numpy as np
 
 default_params = {\
-                  'sX':1.2, # extension of the stimulus (gaussian in space)
+                  'sX':1.5, # extension of the stimulus (gaussian in space)
                   'dt':5e-4,
                   'BIN':5e-3, # for markovian formalism
                   'tstop':600e-3,
-                  'tstart':50e-3,
-                  'amp':10.,
-                  'Tau1':70e-3,
+                  'tstart':150e-3,
+                  'amp':15.,
+                  'Tau1':50e-3,
                   'Tau2':150e-3}
 
 am_params = {
@@ -25,9 +25,10 @@ def heaviside(x):
 
 def triple_gaussian(t, X, t0, T1, T2, X0, sX, amplitude):
     return amplitude*(\
-                      np.exp(-(t-t0-2*T1)**2/2./T1**2)*heaviside(-(t-t0-2*T1))+\
-                      np.exp(-(t-t0-2*T1)**2/2./T2**2)*heaviside(t-t0-2*T1))*\
-                      np.exp(-(X-X0)**2/2./sX**2)
+                      np.exp(-(t-t0)**2/2./T1**2)*heaviside(-(t-t0))+\
+                      np.exp(-(t-t0)**2/2./T2**2)*heaviside(t-t0))*\
+                      heaviside(X-X0+sX/2.)*heaviside(X0+sX/2.-X)
+                      # np.exp(-(X-X0)**2/2./sX**2)
 
 
 def get_stimulation(X, MODEL, return_print=False):
@@ -54,9 +55,11 @@ def get_stimulation(X, MODEL, return_print=False):
     elif BASE=='FIRST_STIM':
 
         if ARG1=='1deg':
-            am_params['stimuli_shift'] /= 2
+            stimuli_shift = am_params['stimuli_shift']/2.
+        else:
+            stimuli_shift = am_params['stimuli_shift']
             
-        X0 = X[int(len(X)/2.)]-am_params['stimuli_shift']/2.
+        X0 = X[int(len(X)/2.)]-stimuli_shift/2.
         t = np.arange(int((params['tstop'])/params['dt']))*params['dt'] # time array
         X1, t1 = np.meshgrid(X, t)
         nu_e_aff = triple_gaussian(\
@@ -67,9 +70,11 @@ def get_stimulation(X, MODEL, return_print=False):
     elif BASE=='SECOND_STIM':
         
         if ARG1=='1deg':
-            am_params['stimuli_shift'] /= 2
+            stimuli_shift = am_params['stimuli_shift']/2.
+        else:
+            stimuli_shift = am_params['stimuli_shift']
             
-        X0 = X[int(len(X)/2.)]+am_params['stimuli_shift']/2.
+        X0 = X[int(len(X)/2.)]+stimuli_shift/2.
         t = np.arange(int((params['tstop'])/params['dt']))*params['dt'] # time array
         X1, t1 = np.meshgrid(X, t)
         nu_e_aff = triple_gaussian(\
@@ -80,10 +85,12 @@ def get_stimulation(X, MODEL, return_print=False):
     elif BASE=='AM':
 
         if ARG1=='1deg':
-            am_params['stimuli_shift'] /= 2
+            stimuli_shift = am_params['stimuli_shift']/2.
+        else:
+            stimuli_shift = am_params['stimuli_shift']
         
         # first stimulus
-        X0 = X[int(len(X)/2.)]-am_params['stimuli_shift']/2.
+        X0 = X[int(len(X)/2.)]-stimuli_shift/2.
         t = np.arange(int((params['tstop'])/params['dt']))*params['dt'] # time array
         X1, t1 = np.meshgrid(X, t)
         nu_e_aff1 = triple_gaussian(\
@@ -91,7 +98,7 @@ def get_stimulation(X, MODEL, return_print=False):
                                    params['Tau1'], params['Tau2'],\
                                    X0, params['sX'], params['amp'])
         # second stimulus
-        X0 = X[int(len(X)/2.)]+am_params['stimuli_shift']/2.
+        X0 = X[int(len(X)/2.)]+stimuli_shift/2.
         t = np.arange(int((params['tstop'])/params['dt']))*params['dt'] # time array
         X1, t1 = np.meshgrid(X, t)
         nu_e_aff2 = triple_gaussian(\

@@ -1,13 +1,21 @@
-#+TITLE: A mean field model for spatio-temporal integration in primary sensory areas
+#+TITLE: A mean field model for spatio-temporal population dynamics in neocortex
 #+AUTHOR: ...
 #+INCLUDE: my_template.org
-
 
 * Key points summary
 \bfseries
 
-- We 
+- Extension of [[citetext:ElBoustani2009]] to temporal dynamics.
 
+- Comparison with numerical simulations.
+
+- Investigating the integrative properties of the mean field model.
+
+- Implementation in a ring geometry to describe the spatial
+  integration across the neocortical sheet.
+
+- Comparison with optical imaging of spatio-temporal dynamics in the
+  primary visual cortex of awake behaving monkey.
 
 \normalfont
 
@@ -30,33 +38,63 @@
 
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:tf
-#+CAPTION: *Transfer functions.*
+#+CAPTION: *Transfer functions.* *(A)* Excitatory cells. *(B)* Inhibitory cells
 [[../figures/tf.png]]
 
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
-#+NAME: fig:tf
+#+NAME: fig:phase-space
 #+CAPTION: *Finding spontaneous activity configuration (fixed point of the dynamics) of dynamics with external drive.*
 [[../figures/finding_fixed_point.png]]
 
-#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+ATTR_LATEX: :float multicolumn :width .4\linewidth
 #+NAME: fig:tf
 #+CAPTION: *Network activity of the configuration corresponding to the fixed point.*
 [[../figures/nwtk_activity.png]]
 
-#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+ATTR_LATEX: :float multicolumn :width .6\linewidth
 #+NAME: fig:mf-stat-pred
 #+CAPTION: *Mean field prediction of the stationary activity.*
 [[../figures/mean_field_stat_pred.png]]
 
-#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+ATTR_LATEX: :float multicolumn :width .45\linewidth
 #+NAME: fig:mf-temp-pred
 #+CAPTION: *Network response to a time-varying input and the associated prediction of the mean-field formalism.*
 [[../figures/ntwk_time_varying.png]]
 
-#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+ATTR_LATEX: :float multicolumn :width .3\linewidth
 #+NAME: fig:mf-freq-dep
 #+CAPTION: *Accuracy of the mean field prediction in the frequency domain.*
 [[../figures/freq_dep_of_network.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
+#+NAME: fig:varying-amp-in-ntwk
+#+CAPTION: *Varying input amplitudes in the mean field model.*
+[[../figures/varying_input_amp.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
+#+NAME: fig:varying-ng-in-ntwk
+#+CAPTION: *Impact of background activity in the mean field model.*
+[[../figures/impact_of_bg_act.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .99\linewidth
+#+NAME: fig:simple-stim
+#+CAPTION: *A model of the cortical sheet.*
+[[../figures/simple_stim.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
+#+NAME: fig:spt-temp-charact
+#+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
+[[../figures/spatio_temporal_profile_charact.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
+#+NAME: fig:data
+#+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
+[[../figures/data.png]]
+
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
+#+NAME: fig:suppression
+#+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression.*
+[[../figures/suppression.png]]
 
 * Discussion :noexport:
 \normalsize
@@ -65,8 +103,6 @@
 
 * Material and Methods
 \small
-
-Extension of [[citetext:ElBoustani2009]] to time varying input
 
 * Additional information :noexport:
 \small

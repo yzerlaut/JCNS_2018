@@ -77,7 +77,7 @@ def Build_task_for_pdflatex_compilation(filename):
         return True
     def func2():
         os.chdir('./tex')
-        os.system("bibtex - terse "+filename+".aux")
+        os.system("bibtex -terse "+filename+".aux")
         os.chdir('./..')
         return None
     def func3():

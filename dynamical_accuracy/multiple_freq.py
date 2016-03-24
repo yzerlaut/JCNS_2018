@@ -1,11 +1,11 @@
 import os
 import numpy as np
 
-N = 15
+N = 30
 freqs = np.logspace(0, np.log(500)/np.log(10), N)
 seeds = np.arange(len(freqs))
 tstop = 2000.
-amp = 4.
+amp = 5.
 t0 = 500.
 
 if __name__=='__main__':
