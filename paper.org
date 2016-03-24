@@ -28,7 +28,7 @@
 
 \normalfont
 
-* Introduction :noexport:
+* Introduction 
 \normalfont
 
 [...]
@@ -96,7 +96,7 @@
 #+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression.*
 [[../figures/suppression.png]]
 
-* Discussion :noexport:
+* Discussion
 \normalsize
 
 [...]

@@ -27,8 +27,8 @@ def triple_gaussian(t, X, t0, T1, T2, X0, sX, amplitude):
     return amplitude*(\
                       np.exp(-(t-t0)**2/2./T1**2)*heaviside(-(t-t0))+\
                       np.exp(-(t-t0)**2/2./T2**2)*heaviside(t-t0))*\
-                      heaviside(X-X0+sX/2.)*heaviside(X0+sX/2.-X)
-                      # np.exp(-(X-X0)**2/2./sX**2)
+                      np.exp(-(X-X0)**2/2./sX**2)
+                      # heaviside(X-X0+sX/2.)*heaviside(X0+sX/2.-X)
 
 
 def get_stimulation(X, MODEL, return_print=False):
