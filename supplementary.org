@@ -83,7 +83,7 @@ We take the fourier transform:
 # #+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
 # [[./figures/log_WN_hist.png]]
 
-** kjsdf
+** Standard deviation and autocorrelation-time of the fluctuations
 
 
 because:
@@ -113,6 +113,7 @@ and
 
 
 \newpage
+
 
 * References
 \bibliography{biblio}

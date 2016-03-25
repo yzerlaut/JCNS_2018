@@ -1,11 +1,14 @@
-#+TITLE: A mean field model for spatio-temporal population dynamics in neocortex
+#+TITLE: A markovian model for spatio-temporal population dynamics in neocortex
 #+AUTHOR: ...
 #+INCLUDE: my_template.org
 
 * Key points summary
 \bfseries
 
-- Extension of [[citetext:ElBoustani2009]] to temporal dynamics.
+- We investigate whether the markovian formalism proposed in
+  [[citetext:ElBoustani2009]] allows to describe the population dynamics
+  of a network of excitatory and inhibitory neurons with different
+  electrophysiological properties.
 
 - Comparison with numerical simulations.
 
@@ -33,6 +36,254 @@
 
 [...]
 
+* Material and Methods
+\small
+
+** Single neuron models
+
+The neuronal model used in this study is the adaptative exponential
+and fire (AdExp) model [[cite:Brette2005a]]. The equation for the membrane
+potential and the adaptation current therefore reads:
+
+#+NAME: eq:iAdExp
+\begin{equation}
+\hspace{-.2cm}
+  \left\{
+  \begin{split}
+  & C_\mathrm{m}\,\frac{dV}{dt} = g_\mathrm{L} \,(E_\mathrm{L}-V) + I_{syn}(V,t) + k_a e^{\frac{V - V_{thre} }{k_a}}- I_w \\
+  & \tau_w \frac{d I_w}{dt} = - I_w + \sum_{t_s \in \{t_{spike}\}} b \, \, \delta (t-t_s)
+  \end{split}
+\right.
+\end{equation}
+
+where $I_{syn}(V, t)$ is the current emulating synaptic activity that
+will create the fluctuations, $I_w$ reproduces the I_m current
+[[cite:McCormick1985]]. The spiking mechanism is the following: when
+$V(t)$ reaches \(V_{thre}+5 \, k_a \), this triggers a spike t_s \in
+\{t_{spike}\}, this increases the adaptation variable $I_w$ by \(b\),
+the membrane potential is then clamped at \(E_L\) for a duration
+\tau_{refrac}=5ms. We consider two versions of this model: a regular
+spkiking neuron for the excitatory cells and a fast spiking neuron for
+the inhibitory cells (see Figure [[fig:tf]]). The parameters of those thwo
+models can be found on Table [[table:params]].
+
+#+ATTR_LATEX: :float multicolumn
+#+NAME: table:params
+#+CAPTION: *Model parameters*. The passive properties and the mean morphology are fitted while 
+| *Parameters*          | Parameter Name               | Symbol            | Value | Unit |
+|-----------------------+------------------------------+-------------------+-------+------|
+| /                     | <>                           | <>                |    <> | /    |
+|                       |                              |                   |       |      |
+| *cellular properties* |                              |                   |       |      |
+|                       | leak conductance             | \(g_L\)           |    10 | nS   |
+|                       | leak reversal potential      | \(E_L\)           |   -65 | mV   |
+|                       | membrane capacitance         | \(C_m\)           |   150 | pF   |
+|                       | leak reversal potential      | \(E_L\)           |   -65 | mV   |
+|                       | AP threshold                 | \(V_{thre}\)      |   -50 | mV   |
+|                       | refractory period            | \(\tau_{refrec}\) |     5 | ms   |
+|                       | adaptation time constant     | \(\tau_w\)        |   500 | ms   |
+| *excitatory cell*     |                              |                   |       |      |
+| *(Regular Spiking)*   | sodium sharpness             | \(k_a\)           |     2 | mV   |
+|                       | adaptation current increment | \(b\)             |    20 | pA   |
+|                       | adaptation conductance       | \(a\)             |     4 | nS   |
+| *inhibitory cell*     |                              |                   |       |      |
+| *(Fast Spiking)*      | sodium sharpness             | \(k_a\)           |   0.5 | mV   |
+|                       | adaptation current increment | \(b\)             |     0 | pA   |
+|                       | adaptation conductance       | \(a\)             |     0 | nS   |
+| *numerical network*   |                              |                   |       |      |
+|                       | cell number                  | \(N_{tot}\)       | 10000 |      |
+|                       | connectivity probability     | \(\epsilon\)      |    5% |      |
+|                       | fraction of inhibitory cells | g                 |   20% |      |
+| *ring model*          |                              |                   |       |      |
+|                       | total extent                 | L_{tot}           |    40 | mm   |
+
+** Synaptic model
+
+The time- and voltage-dependent current that stimulate the neuron is
+made of the sum of an excitatory and inhibitory currents (indexed by
+\(s \in \{e,i\}\)):
+
+#+NAME: eq:syn-current
+\begin{equation}
+ I_{syn}(V,t) = \sum_{s \in \{e,i\}} \sum_{t_s \in \{t_s\}} Q_s \, e^{-\frac{t}{\tau_s}} \, \mathcal{H}(t-t_s)
+\end{equation}
+where \(\mathcal{H}\) is the Heaviside function.
+
+This synaptic model is refered to as the /conductance-based
+exponential/ synapse. The set of events \(\{t_e\}\) and \(\{t_i\}\)
+are the set of excitatory and inhibitory events arriving to the
+neuron. In numerical simulations of single neurons, it will be
+generated by a stationary Poisson process. In numerical simulations of
+network dynamics it will correspond to the set of spike times of the
+neurons connecting to the targent neurons, both via recurrent and
+feedforward connectivity.
+
+** Numerical network model
+
+All simulations of numerical network were performed with the =brian2=
+simulator [[cite:Goodman2009]], see [[http://brian2.readthedocs.org]]. For all
+simulations, the network was composed of \(N_{tot}\)=10000 neurons,
+separated in two populations, one excitatory and one inhibitory with a
+ratio of g=20% inhibitory cells. Those two populations we recurrently
+connected (internally and mutually) with a connectivity probability
+\(\epsilon\)=5%.
+
+Because this network did not display self-sustained activity (see
+Figure [[fig:phase-space]], in contrast to [[citext:Vogels2005]]), an
+excitatory population exerted an /external drive/ to bring the network
+out of the quiescent state. This population targetted both the
+excitatory and inhibitory neurons. Note that the firing rate of this
+population was linearly increased to avoid a too strong initial
+synchronization (see Figure [[ntwk-act]]). Finally, an excitatory
+population of time varying firing rate could was added to evoke
+activity transients in the population dynamics. This last stimulation
+targetted only the excitatory population. The number of neurons in
+those two excitatory populations was taken as identical to the number
+of excitatory neurons (i.e. \((1-g)\,N_{tot}\)) and created synapses
+onto the recurrent network with the same probability
+\(\epsilon\). After temporal discretization, the firing rates of those
+afferent populations were converted into spikes by using the
+properties of a Poisson process (i.e. eliciting a spike at \(t\) with
+a probability \(\nu(t) \,dt \)). All simulations were performed with a
+time-step dt=0.1ms.
+
+** Calculus of the subthreshold membrane potential fluctuations
+
+The input is made of two Poisson shotnoise: one excitatory and one
+inhibitory that are both convoluted with an exponential waveform to
+produce the synaptic conductances time courses.
+
+*** Mean synaptic bombardment
+
+We introduce the quantitity relative to the mean synaptic
+bombardement: the mean conductances (excitatory \(\mu_{Ge}\),
+inhibitory \(\mu_{Gi}\) and total \(\mu_{G}\)) and
+
+\begin{equation}
+\begin{split}
+& \mu_{Ge}(\nu_e, \nu_i) = \nu_e \, K_e \, \tau_e \, Q_e \\
+& \mu_{Gi}(\nu_e, \nu_i) = \nu_i \, K_i \, \tau_i \, Q_i \\
+& \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
+& \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}\\
+\end{split}
+\end{equation}
+
+*** Mean membrane potential
+
+The mean membrane potential is taken as the stationary solution to
+static conductances given by the mean synaptic bombardement:
+
+\begin{equation}
+\mu_V(\nu_e, \nu_i) = \frac{\mu_{Ge} \, E_e + \mu_{Gi} \, E_i + g_L \, E_L}{\mu_{G}}
+\end{equation}
+
+*** Power spectrum of the membrane potential fluctuations
+
+From shotnoise theory, we have:
+
+\begin{equation}
+\begin{split}
+ P_V(f)  = & \sum_{syn} \nu_{syn} \, \| \hat{\mathrm{PSP}}(f) \|^2 \\
+ & = 2 \nu_{in} \, \frac{Q_I^2 \, \tau_S^2 / \mu_G^2 }{
+ \big(1+4 \pi^2 f^2 \tau_S^2 \big) \big(1+4 \pi^2 f^2 (\tau_m^\mathrm{eff})^2 \big)}
+\end{split}
+\end{equation}
+
+Obtained by computing a PSP event, then shotnoise theory:
+
+Equation for \(\delta V(t)\) around \mu_V:
+
+\begin{equation}
+\left\{
+\begin{split}
+& \tau_m \frac{d \delta V}{dt} + \delta V = U_{syn} \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_{syn}}} \\
+& U_{syn} = \frac{Q_{syn}}{\mu_G} (E_{syn} - \mu_V)
+\end{split}
+\right.
+\end{equation}
+
+That has the solution:
+
+\begin{equation}
+\delta V(t)  = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, \big( 
+e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_{syn}}} \big) \, \mathcal{H}(t)
+\end{equation}
+
+We take the fourier transform:
+
+
+\begin{equation}
+\hat{\delta V}(f) = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, 
+\big(
+\frac{\tau_{m}}{2 \, i  \,  \pi \, f \, \tau_{m} +1} 
+- \frac{\tau_{syn}}{2 \, i  \,  \pi \, f \, \tau_{syn} +1} \big)
+\end{equation}
+
+\begin{equation}
+ \int_\mathbb{R} \| \hat{\mathrm{PSP}}(f) \|^2 \, df = \frac{ \| \hat{\mathrm{PSP}}(0) \|^2}{2 \, (\tau_m + \tau_{syn})}
+\end{equation}
+
+# #+NAME: fig:1
+# #+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
+# [[./figures/log_WN_hist.png]]
+
+*** Standard deviation and autocorrelation-time of the fluctuations
+
+
+because:
+
+\begin{equation}
+\int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) }
+\end{equation}
+
+we get:
+
+\begin{equation}
+ \sigma_V  = \sqrt{ \sum_{syn} K_{syn} \, \nu_{syn} \, \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) } }
+\end{equation}
+
+and
+
+\begin{equation}
+  \tau_V = \Big( \frac{
+  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2\big) 
+  }{
+  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) \big)
+  } \Big)
+\end{equation}
+
+
+
+
+
+\newpage
+
+** Master equation for local population dynamics
+
+The [[citetext:ElBoustani2009]]
+
+#+NAME: master-equation
+\begin{equation}
+\left\{
+\begin{split}
+T \, \frac{\partial \nu_\mu}{\partial t} = & (\mathcal{F}_\mu - \nu_\mu )
+   + \frac{1}{2} \, c_{\lambda \eta} \, 
+\frac{\partial^2 \mathcal{F}_\mu}{\partial \nu_\lambda \partial \nu_\eta} \\
+T \, \frac{\partial c_{\lambda \eta} }{\partial t}  =  & \delta_{\lambda \eta} \, A_\lambda +
+(\mathcal{F}_\lambda - \nu_\lambda ) \, (\mathcal{F}_\eta - \nu_\eta ) + \\
+ & c_{\lambda \mu} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\lambda} +
+ c_{\mu \eta} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\eta} 
+ - 2  c_{\lambda \eta}
+\end{split}
+\right.
+\end{equation}
+
+with:
+
+\begin{equation}
+A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
+\end{equation}
+
 * Results
 \normalsize
 
@@ -47,7 +298,7 @@
 [[../figures/finding_fixed_point.png]]
 
 #+ATTR_LATEX: :float multicolumn :width .4\linewidth
-#+NAME: fig:tf
+#+NAME: fig:ntwk-act
 #+CAPTION: *Network activity of the configuration corresponding to the fixed point.*
 [[../figures/nwtk_activity.png]]
 
@@ -101,43 +352,16 @@
 
 [...]
 
-* Material and Methods
-\small
-
 * Additional information :noexport:
 \small
 
-All manuscripts must contain a statement regarding Competing interests
-and Funding. If you have no competing interests or have not receiving
-funding, statements to this effect must be included. This will be
-published under a section entitled Additional Information at the end
-of the paper.
-
 ** Competing interests.
 
-All manuscripts must contain a statement regarding Competing interests. If there are no competing interests, a statement to this effect must be included. All authors should disclose any conflict of interest in accordance with journal policy.
+The authors declare no competing interests.
 
 ** Author contributions.
 
-This section must state the laboratory where the experiments were
-performed and list the contribution (in words) of each author (using
-their initials) to the following aspects of the study:
-
-    1. conception or design of the work; or
-    2. acquisition, analysis, or interpretation of data for the work; AND
-    3. drafting the work or revising it critically for important intellectual content.
-
-All authors must have contributed to 1 or 2 AND 3.
-
-This section must also confirm that all authors:
-
-    4. approved the final version of the manuscript; AND
-    5. agree to be accountable for all aspects of the work in ensuring that questions related to the accuracy or integrity of any part of the work are appropriately investigated and resolved; AND
-    6. all persons designated as authors qualify for authorship, and all those who qualify for authorship are listed.
-
-Contributors who do not meet the above criteria for authorship should not be listed as authors, but have their contribution (e.g. acquisition of funding, general supervision of a research group, general administrative support, writing assistance, technical editing, language editing, or proofreading) listed in the Acknowledgements.
-
-Additional information such as ‘X and Y have contributed equally to this work’ may be added as a footnote on the title page.
+[...]
 
 ** Funding.
 
@@ -146,10 +370,7 @@ numbers. If authors have not received funding, this must be stated.
 
 ** Acknowledgements.
 
-Acknowledgements should be the minimum consistent with courtesy. The
-wording of acknowledgements of scientific assistance or advice must
-have been seen and approved by the persons concerned. This section
-should not include details of funding.
+[...]
 
 * References 
 \small

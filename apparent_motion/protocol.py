@@ -37,15 +37,15 @@ if __name__=='__main__':
         print '====================== FIRST STIM simulation [...]'
         t, X, Fe_aff1, Fe1, Fi1, muVn1 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'FIRST_STIM-1deg')
+                                                                 args.NTWK, args.RING, 'FIRST_STIM')
         print '====================== SECOND STIM simulation [...]'
         t, X, Fe_aff2, Fe2, Fi2, muVn2 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'SECOND_STIM-1deg')
+                                                                 args.NTWK, args.RING, 'SECOND_STIM')
         print '====================== APPARENT MOTION simulation [...]'
         t, X, Fe_aff3, Fe3, Fi3, muVn3 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'AM-1deg')
+                                                                 args.NTWK, args.RING, 'AM')
         np.save(args.file, [args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
                             Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3])
         args2 = args
@@ -59,6 +59,8 @@ if __name__=='__main__':
     
     suppression = np.abs(muVn3-(muVn1+muVn2))
 
+    zlim_vsd = [0, 1e2*np.max(np.abs(muVn1)+np.abs(muVn2))]
+    
     params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
     
     FIGS = []
@@ -67,6 +69,15 @@ if __name__=='__main__':
                        title=r'suppression signal',\
                        zlabel=vsd_label, with_latency_analysis=True,\
                        cmap=get_linear_colormap(color1='black', color2='cyan'),
+                       params=params,
+                       xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
+    FIGS.append(fig)
+    
+    ax, fig = vsd_plot(t*1e3,\
+                       1e2*(np.abs(muVn1)+np.abs(muVn2)),\
+                       zlim=zlim_vsd,
+                       title=r'linear prediction',\
+                       zlabel=vsd_label, with_latency_analysis=True,\
                        params=params,
                        xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
     FIGS.append(fig)
@@ -82,6 +93,7 @@ if __name__=='__main__':
                   xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
     ax, fig = vsd_plot(t*1e3, 1e2*muVn1,\
+                       zlim=zlim_vsd,
                    title='vsd-like signal',zlabel=vsd_label,\
                        params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
@@ -99,6 +111,7 @@ if __name__=='__main__':
 
     ax, fig = vsd_plot(t*1e3, 1e2*muVn2,\
                    title='vsd-like signal',zlabel=vsd_label,\
+                       zlim=zlim_vsd,
                        params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
@@ -117,6 +130,7 @@ if __name__=='__main__':
 
     ax, fig = vsd_plot(t*1e3, 1e2*muVn3,\
                    title='vsd-like signal', zlabel=vsd_label,\
+                       zlim=zlim_vsd,
                        params=params,
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)

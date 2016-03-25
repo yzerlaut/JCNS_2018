@@ -1,9 +1,10 @@
+
 \blfootnote{ $\,^1$ Unité de Neurosciences, Information et Complexité, Centre National de la Recherche Scientifique, FRE 3693, Gif sur Yvette, France}
 
-\blfootnote{correspondance : <lastname>unic.cnrs-gif.fr}
+\blfootnote{correspondance : <lastname>@unic.cnrs-gif.fr}
 
-#+LaTeX_HEADER: \def\shorttitle{your shortitle}
-# #+LaTeX_HEADER: \def\shortauthor{Y. Zerlaut} 
+#+LaTeX_HEADER: \def\shorttitle{A markovian model for spatio-temporal population dynamics in neocortex}
+#+LaTeX_HEADER: \def\shortauthor{[...]} 
 #+LaTeX_HEADER: \def\shortdate{\today} 
 
 # #+LaTeX_HEADER: \renewcommand{\includegraphics}[2][]{\fbox{#2}}
@@ -30,8 +31,13 @@
 #+LaTeX_HEADER: \usepackage[labelfont=bf]{caption}
 
 
-** Sections in roman
-#+LaTeX_HEADER: \renewcommand\thesection{\,\Roman{section}}
+# FOR Sections in roman
+# #+LaTeX_HEADER: \renewcommand\thesection{\,\Roman{section}}
+
+# FOR no Sections numbering 
+#+LaTeX_HEADER: \renewcommand\thesection{}
+#+LaTeX_HEADER: \renewcommand\thesubsection{}
+#+LaTeX_HEADER: \renewcommand\thesubsubsection{}
 
 
 ** Hyperref setup
@@ -68,3 +74,6 @@
 #+LaTeX_HEADER: \usepackage{biology_citations}
 #+LaTeX_HEADER: \bibliographystyle{biology_citations}
 
+
+** supplementary
+#+LaTeX_HEADER: \newcommand{\beginsupplement}{\setcounter{table}{0} \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}  }
