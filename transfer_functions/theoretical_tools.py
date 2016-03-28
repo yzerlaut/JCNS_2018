@@ -31,7 +31,7 @@ def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pcon
     
     muGe, muGi = Qe*Te*fe, Qi*Ti*fi
     muG = Gl+muGe+muGi
-    muV = (muGe*Ee+muGi*Ei+Gl*El)/muG ## ADAPTATION HERE !!!
+    muV = (muGe*Ee+muGi*Ei+Gl*El)/muG
     muGn, Tm = muG/Gl, Cm/muG
     
     Ue, Ui = Qe/muG*(Ee-muV), Qi/muG*(Ei-muV)

@@ -1,7 +1,9 @@
 
 \blfootnote{ $\,^1$ Unité de Neurosciences, Information et Complexité, Centre National de la Recherche Scientifique, FRE 3693, Gif sur Yvette, France}
 
-\blfootnote{correspondance : <lastname>@unic.cnrs-gif.fr}
+\blfootnote{ $\,^2$ Team InVibe, Institut de Neurosciences de la Timone, UMR 7289, CNRS and Aix-Marseille Université, Marseille, France}
+
+# \blfootnote{correspondance : <lastname>@unic.cnrs-gif.fr}
 
 #+LaTeX_HEADER: \def\shorttitle{A markovian model for spatio-temporal population dynamics in neocortex}
 #+LaTeX_HEADER: \def\shortauthor{[...]} 

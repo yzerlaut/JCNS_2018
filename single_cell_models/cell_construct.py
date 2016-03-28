@@ -86,7 +86,7 @@ if __name__=='__main__':
         # We draw nicer spikes
         V = trace[0].V[:]
         for t in spikes.t:
-            plt.plot(t/ms*np.ones(2), [V[int(t/defaultclock.dt)]/mV,-10], '--', color=c)
+            plt.plot(t/ms*np.ones(2), [V[int(t/defaultclock.dt)]/mV+2,-10], '--', color=c)
         ax.plot(trace.t / ms, V / mV, color=c)
         
         ax.set_title(model)

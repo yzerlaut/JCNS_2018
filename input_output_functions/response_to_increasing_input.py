@@ -18,7 +18,7 @@ def step_input(t, T0, amp, T1=0.02):
 
 
 t0, T1, T2, tstop = 250e-3, 50e-3, 70e-3, 500e-3
-amp_max = 8
+amp_max = 15
 N=25
 
 if sys.argv[-1]=='full':
@@ -36,7 +36,7 @@ if sys.argv[-1]=='full':
             # return step_input(t, 0.02, 1.)*amp
             return double_gaussian(t, t0, T1, T2, amp)
         t, fe, fi, muV, sV, muG, Tv = run_mean_field('RS-cell', 'FS-cell', 'CONFIG1', func, T=5e-3,\
-                                                     ext_drive_change=amp,
+                                                     ext_drive_change=0,
                                                      afferent_exc_fraction=None,
                                                      extended_output=True, tstop=tstop)
         max_f_amp[i] = np.max(.8*fe+.2*fi)
@@ -45,11 +45,11 @@ if sys.argv[-1]=='full':
     ax1.plot(amplitudes-amplitudes[0], max_f_amp, 'k-', lw=3)
     # pol = np.polyfit(amplitudes[:3], max_f_amp[:3], 1)
     # ax1.plot(amplitudes[:int(2*N/3.)], np.polyval(pol, amplitudes[:int(2*N/3.)]), 'k--')
-    set_plot(ax1, ['left'], ylabel='max. $\delta \\nu$ (Hz)', xticks=[])
+    set_plot(ax1, ['left'], ylabel='max. $\delta \\nu$ (Hz)', xticks=[], yticks=[0,30,60])
     ax2.plot(amplitudes, max_vm_amp, 'k-', lw=3)
     pol = np.polyfit(amplitudes[:3], max_vm_amp[:3], 1)
     ax2.plot(amplitudes[:int(2*N/3.)], np.polyval(pol, amplitudes[:int(2*N/3.)]), 'k--')
-    set_plot(ax2, ylabel=r'max. $\| \delta V/V_0 \| $ %', xlabel='$\\nu_{e, \, max}^{aff}$ (Hz)')
+    set_plot(ax2, ylabel=r'max. $\| \delta V/V_0 \| $ %', xlabel='$\\nu_{e, \, max}^{aff}$ (Hz)', yticks=[0,15,30])
     plt.show()
 
 else:
@@ -63,7 +63,7 @@ else:
             return double_gaussian(t, t0, T1, T2, amp)
 
         t, fe, fi, muV, sV, muG, Tv = run_mean_field('RS-cell', 'FS-cell', 'CONFIG1', func, T=5e-3,\
-                                                     ext_drive_change=amp,
+                                                     ext_drive_change=0,
                                                      afferent_exc_fraction=None,
                                                      extended_output=True, tstop=tstop)
         ax1.plot(1e3*t, func(t), 'k')
@@ -73,7 +73,7 @@ else:
     ax1.annotate('external input', (0,0))    
     set_plot(ax1, ['left'], ylabel='$\\nu_e^{aff}$ (Hz)', xticks=[])
     ax2.annotate('network response', (0,0))    
-    set_plot(ax2, ['left'], ylabel='$\\nu$ (Hz)', xticks=[])
+    set_plot(ax2, ['left'], ylabel='$\\nu$ (Hz)', xticks=[], yticks=[0,30,60])
     ax3.annotate('mean membrane potential', (0,0))    
     set_plot(ax3, ylabel=r'$\| \delta V/V_0 \| $ %', xlabel='time (ms)')
     plt.show()

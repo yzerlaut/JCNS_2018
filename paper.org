@@ -1,5 +1,5 @@
 #+TITLE: A markovian model for spatio-temporal population dynamics in neocortex
-#+AUTHOR: ...
+#+AUTHOR:  Collab.: S. Chemla^2 & F. Chavane^2 (/in vivo/ VSD imaging)
 #+INCLUDE: my_template.org
 
 * Key points summary
@@ -18,13 +18,14 @@
   integration across the neocortical sheet.
 
 - Comparison with optical imaging of spatio-temporal dynamics in the
-  primary visual cortex of awake behaving monkey.
+  primary visual cortex of awake behaving monkey (Chemla & Chavane,
+  unpublished results).
 
 \normalfont
 
 \newpage
 
-* Abstract :noexport:
+* Abstract
 \bfseries
 
 [...]
@@ -34,10 +35,30 @@
 * Introduction 
 \normalfont
 
-[...]
+In [[citetext:ElBoustani2009]], it was shown that using the stationary
+solution to this euqation could describe the stationary activity of a
+numerical network of identical neurons. We investigate here whether
+this translates into the description of assymetric populations, and
+more importantly whether the Markovien description can describe the
+temporal dynamics in response to time-varying input.
+
+We investigate whether the Markovian formalismm proposed in
+[[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
+artificial neural networks. Answering this kind of question precisely
+set what is the relevance of /stationary/ responses and what are real
+transient effects.
 
 * Material and Methods
 \small
+
+We describe the equations and parameters used for the neuronal,
+synaptic and network modeling. We present our /heuristic/ treatment of
+the neuronal /transfer functions/: the quantity that accounts for the
+cellular computation in /mean-field/ models of population
+activity. Then, we present the specific markovian model of population
+activity used in this study. Finally, we embed this description of
+local population dynamics in a ring model to describe spatio-temporal
+integration on the neocortical sheet.
 
 ** Single neuron models
 
@@ -64,48 +85,51 @@ $V(t)$ reaches \(V_{thre}+5 \, k_a \), this triggers a spike t_s \in
 the membrane potential is then clamped at \(E_L\) for a duration
 \tau_{refrac}=5ms. We consider two versions of this model: a regular
 spkiking neuron for the excitatory cells and a fast spiking neuron for
-the inhibitory cells (see Figure [[fig:tf]]). The parameters of those thwo
+the inhibitory cells (see Figure [[fig:tf]]). The parameters of those two
 models can be found on Table [[table:params]].
 
 #+ATTR_LATEX: :float multicolumn
 #+NAME: table:params
 #+CAPTION: *Model parameters*. The passive properties and the mean morphology are fitted while 
-| *Parameters*          | Parameter Name               | Symbol            | Value | Unit |
-|-----------------------+------------------------------+-------------------+-------+------|
-| /                     | <>                           | <>                |    <> | /    |
-|                       |                              |                   |       |      |
-| *cellular properties* |                              |                   |       |      |
-|                       | leak conductance             | \(g_L\)           |    10 | nS   |
-|                       | leak reversal potential      | \(E_L\)           |   -65 | mV   |
-|                       | membrane capacitance         | \(C_m\)           |   150 | pF   |
-|                       | leak reversal potential      | \(E_L\)           |   -65 | mV   |
-|                       | AP threshold                 | \(V_{thre}\)      |   -50 | mV   |
-|                       | refractory period            | \(\tau_{refrec}\) |     5 | ms   |
-|                       | adaptation time constant     | \(\tau_w\)        |   500 | ms   |
-| *excitatory cell*     |                              |                   |       |      |
-| *(Regular Spiking)*   | sodium sharpness             | \(k_a\)           |     2 | mV   |
-|                       | adaptation current increment | \(b\)             |    20 | pA   |
-|                       | adaptation conductance       | \(a\)             |     4 | nS   |
-| *inhibitory cell*     |                              |                   |       |      |
-| *(Fast Spiking)*      | sodium sharpness             | \(k_a\)           |   0.5 | mV   |
-|                       | adaptation current increment | \(b\)             |     0 | pA   |
-|                       | adaptation conductance       | \(a\)             |     0 | nS   |
-| *numerical network*   |                              |                   |       |      |
-|                       | cell number                  | \(N_{tot}\)       | 10000 |      |
-|                       | connectivity probability     | \(\epsilon\)      |    5% |      |
-|                       | fraction of inhibitory cells | g                 |   20% |      |
-| *ring model*          |                              |                   |       |      |
-|                       | total extent                 | L_{tot}           |    40 | mm   |
+| *Parameters*          | Parameter Name                 | Symbol            | Value | Unit |
+|-----------------------+--------------------------------+-------------------+-------+------|
+| /                     | <>                             | <>                |    <> | /    |
+|                       |                                |                   |       |      |
+| *cellular properties* |                                |                   |       |      |
+|                       | leak conductance               | \(g_L\)           |    10 | nS   |
+|                       | leak reversal potential        | \(E_L\)           |   -65 | mV   |
+|                       | membrane capacitance           | \(C_m\)           |   150 | pF   |
+|                       | leak reversal potential        | \(E_L\)           |   -65 | mV   |
+|                       | AP threshold                   | \(V_{thre}\)      |   -50 | mV   |
+|                       | refractory period              | \(\tau_{refrec}\) |     5 | ms   |
+|                       | adaptation time constant       | \(\tau_w\)        |   500 | ms   |
+| *excitatory cell*     |                                |                   |       |      |
+| *(Regular Spiking)*   | sodium sharpness               | \(k_a\)           |     2 | mV   |
+|                       | adaptation current increment   | \(b\)             |    20 | pA   |
+|                       | adaptation conductance         | \(a\)             |     4 | nS   |
+| *inhibitory cell*     |                                |                   |       |      |
+| *(Fast Spiking)*      | sodium sharpness               | \(k_a\)           |   0.5 | mV   |
+|                       | adaptation current increment   | \(b\)             |     0 | pA   |
+|                       | adaptation conductance         | \(a\)             |     0 | nS   |
+| *numerical network*   |                                |                   |       |      |
+|                       | cell number                    | \(N_{tot}\)       | 10000 |      |
+|                       | connectivity probability       | \(\epsilon\)      |    5% |      |
+|                       | fraction of inhibitory cells   | g                 |   20% |      |
+|                       | external drive                 | \(\nu_e^{drive}\) |     4 | Hz   |
+| *ring model*          |                                |                   |       |      |
+|                       | total extent                   | \(L_{tot}\)       |    40 | mm   |
+|                       | excitatory connectivity extent | \(l_{exc}\)    |     5 | mm   |
+|                       | inhibitory connectivity extent | \(l_{inh}\)    |     1 | mm   |
 
 ** Synaptic model
 
 The time- and voltage-dependent current that stimulate the neuron is
 made of the sum of an excitatory and inhibitory currents (indexed by
-\(s \in \{e,i\}\)):
+\(s \in \{e,i\}\) and having a reversal potential \(E_s\)):
 
 #+NAME: eq:syn-current
 \begin{equation}
- I_{syn}(V,t) = \sum_{s \in \{e,i\}} \sum_{t_s \in \{t_s\}} Q_s \, e^{-\frac{t}{\tau_s}} \, \mathcal{H}(t-t_s)
+ I_{syn}(V,t) = \sum_{s \in \{e,i\}} \sum_{t_s \in \{t_s\}} Q_s \, e^{-\frac{t}{\tau_s}} \, (E_{s}-V) \, \mathcal{H}(t-t_s)
 \end{equation}
 where \(\mathcal{H}\) is the Heaviside function.
 
@@ -113,7 +137,7 @@ This synaptic model is refered to as the /conductance-based
 exponential/ synapse. The set of events \(\{t_e\}\) and \(\{t_i\}\)
 are the set of excitatory and inhibitory events arriving to the
 neuron. In numerical simulations of single neurons, it will be
-generated by a stationary Poisson process. In numerical simulations of
+generated by stationary Poisson processes. In numerical simulations of
 network dynamics it will correspond to the set of spike times of the
 neurons connecting to the targent neurons, both via recurrent and
 feedforward connectivity.
@@ -129,12 +153,12 @@ connected (internally and mutually) with a connectivity probability
 \(\epsilon\)=5%.
 
 Because this network did not display self-sustained activity (see
-Figure [[fig:phase-space]], in contrast to [[citext:Vogels2005]]), an
+Figure [[fig:phase-space]], in contrast to [[citetext:Vogels2005]]), an
 excitatory population exerted an /external drive/ to bring the network
 out of the quiescent state. This population targetted both the
 excitatory and inhibitory neurons. Note that the firing rate of this
 population was linearly increased to avoid a too strong initial
-synchronization (see Figure [[ntwk-act]]). Finally, an excitatory
+synchronization (see Figure [[fig:ntwk-act]]). Finally, an excitatory
 population of time varying firing rate could was added to evoke
 activity transients in the population dynamics. This last stimulation
 targetted only the excitatory population. The number of neurons in
@@ -147,22 +171,114 @@ properties of a Poisson process (i.e. eliciting a spike at \(t\) with
 a probability \(\nu(t) \,dt \)). All simulations were performed with a
 time-step dt=0.1ms.
 
+** Estimating the transfer functions of single neurons
+
+The transfer function \(\mathcal{F}\) of a single neuron is defined
+here as the function that maps the value of the stationary excitatory
+and inhibitory presynaptic release frequencies to the output
+stationary firing rate response, i.e. \(\nu_{out} = \mathcal{F}(\nu_e,
+\nu_i)\). Note the stationary hypothesis in the definition of the
+transfer function (see discussion in main text).
+
+Because an analytical solution of this function for the single neuron
+models considered in our study is a very challenging mathematical
+problem, we adopted a semi-analytical approach. We performed numerical
+simulations of single cell dynamics at various excitatory and
+inhibitory presynaptic frequencies (\(\nu_e\) and \(\nu_i\)
+respectively) (see the output in Figure [[fig:tf]]) on which we fitted the
+coefficients of an analytical template to capture the single cell
+model's response.
+
+The procedure relied on fitting a /phenomenological threshold/
+\(V_{thre}^{eff}\) that accounts for the single neuron non-linearities
+(spiking and reset mechanism, adaptation mechanisms) on top of the
+subthreshold integration effects [[cite:Zerlaut2016]]. This
+phenomenological threshold is then plugged-in into the following
+formula (analogous to [[citetext:Amit1997]]) to become our firing response
+estimate:
+
+#+NAME: eq:template
+\begin{equation}
+  \nu_{out} = \frac{1}{2\,\tau_V} \cdot 
+  {Erfc}(\frac{V_{thre}^{eff}-\mu_V}{\sqrt{2} \, \sigma_V})
+\end{equation}
+
+Where \( (\mu_V, \sigma_V, \tau_V) \) are the mean, standard deviation
+and autocorrelation time constant of the membrane potential
+fluctuations. How to calculate those quantities as a response to a
+stationary stimulation is the focus of the next section.
+
+The phenomenological threshold was taken as a second order polynomial
+in the three dimensional space \( (\mu_V, \sigma_V, \tau_V) \):
+
+#+NAME: eq:quadratic-threshold
+\begin{equation}
+  \begin{split}
+   V_{thre}^{eff} & (\mu_V, \sigma_V, \tau_V^N) = P_0 + 
+   \sum_{x \in \{ \mu_V, \sigma_V, \tau_V^N\}} P_x \cdot \Big(  \frac{x - x^0}{\delta x^0} \Big) + \\
+   & \sum_{ x,y \in \{ \mu_V, \sigma_V, \tau_V^N\}^2} P_{xy} \cdot
+   \Big( \frac{x - x^0}{\delta x^0}  \Big) \,  \Big( \frac{y - y^0}{\delta y^0} \Big)
+ \end{split}
+\end{equation}
+
+Where the normalization factors \(\mu_V^0\)=-60mV, \(\delta
+\mu_V^0\)=10mV, \(\sigma_V^0\)=4mV, \(\delta \sigma_V^0\) = 6mV,
+\(\tau_V^{N0}\)=0.5 and \(\delta \tau_V^{N0}\)= 1 arbitrarily delimits
+the /fluctuation-driven/ regime (a mean value $x$ and an extent
+$\delta x$, \(\forall x \in \{\mu_V, \sigma_V, \tau_V^N\}\)).  They
+render the fitting of the phenomenological threshold easier, as they
+insure that the coefficients take similar values. It is kept constant
+all along the study. The phenomenological threshold was taken as a
+second order polynomial and not as a linear threshold, for two
+reasons: 1) unlike in an experimental study [[cite:Zerlaut2016]], we are
+not limited by the number of sampling points, the number of fitted
+coefficients can thus be higher as the probability of overfitting
+becomes negligible 2) it gives more flexibility to the template,
+indeed the linear threshold was found a good approximation in the
+/fluctuation-driven/ regime, i.e. when the diffusion approximation
+holds, however, for low values of the presynaptic frequencies, we can
+be far from this approximation, the additional coefficients are used
+to capture the firing response in those domains.
+
+
+The fitting procedure was identical to [[citetext:Zerlaut2016]], it
+consisted first in a linear regression in the phenomenological
+threshold space of Equation [[eq:quadratic-threshold]], followed by a
+non-linear optimization of Equation [[eq:template]] on the firing rate
+response. Both fitting were performed with the =leastsq= method in the
+=optimize= package of =SciPy=.
+
 ** Calculus of the subthreshold membrane potential fluctuations
 
-The input is made of two Poisson shotnoise: one excitatory and one
-inhibitory that are both convoluted with an exponential waveform to
-produce the synaptic conductances time courses.
+Here, we detail the analytical calculus that translate the input to
+the neuron into the properties of the membrane potential
+fluctuations. The input is made of two Poisson shotnoise: one
+excitatory and one inhibitory that are both convoluted with an
+exponential waveform to produce the synaptic conductances time
+courses.
 
-*** Mean synaptic bombardment
+*** Conductances fluctuations
 
-We introduce the quantitity relative to the mean synaptic
-bombardement: the mean conductances (excitatory \(\mu_{Ge}\),
-inhibitory \(\mu_{Gi}\) and total \(\mu_{G}\)) and
+From Campbell's theorem [[cite:Papoulis1991]], we first get the mean
+(\(\mu_{Ge}, \mu_{Gi}\)) and standard deviation (\(\sigma_{Ge},
+\sigma_{Gi}\)) of the excitatory and inhibitory conductance
+fluctuations:
 
 \begin{equation}
 \begin{split}
 & \mu_{Ge}(\nu_e, \nu_i) = \nu_e \, K_e \, \tau_e \, Q_e \\
+& \sigma_{Ge}(\nu_e, \nu_i) = \sqrt{\frac{\nu_e \, K_e \, \tau_e}{2}} \, Q_e \\
 & \mu_{Gi}(\nu_e, \nu_i) = \nu_i \, K_i \, \tau_i \, Q_i \\
+& \sigma_{Gi}(\nu_e, \nu_i) = \sqrt{\frac{\nu_i \, K_i \, \tau_i}{2}} \, Q_i 
+\end{split}
+\end{equation}
+
+The mean conductances will control the input conductance of the neuron
+\(\mu_G\) and therefore its effective membrane time constant
+\(\tau_m\):
+
+\begin{equation}
+\begin{split}
 & \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
 & \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}\\
 \end{split}
@@ -170,97 +286,161 @@ inhibitory \(\mu_{Gi}\) and total \(\mu_{G}\)) and
 
 *** Mean membrane potential
 
-The mean membrane potential is taken as the stationary solution to
-static conductances given by the mean synaptic bombardement:
+Following [[citetext:Kuhn2004]], the mean membrane potential is obtained
+by taking the stationary solution to static conductances given by the
+mean synaptic bombardement (for the passive version of Equation
+[[eq:iAdExp]], i.e. removing the adaptation and spiking mechanisms). We
+obtain:
 
+#+NAME: eq:mu-v
 \begin{equation}
 \mu_V(\nu_e, \nu_i) = \frac{\mu_{Ge} \, E_e + \mu_{Gi} \, E_i + g_L \, E_L}{\mu_{G}}
 \end{equation}
 
+We will now approximate the driving force \(E_s - V(t)\) of synaptic
+events by the level resulting from the mean conductance bombardment:
+\(E_s - \mu_V\). This will enable an analytical solution for the
+standard deviation \( \sigma_V\) and the autocorrelation time \(
+\sigma_V\) of the fluctuations/
+
 *** Power spectrum of the membrane potential fluctuations
 
-From shotnoise theory, we have:
+Obtaining \( \sigma_V\) and \(\tau_V\) is achieved by computing the
+power spectrum density of the fluctuations. In the case of Poisson
+processes, the power spectrum density of the fluctuations resulting
+from the sum of events \(PSP_{s}(t)\) at frequency \(K_{s} \, \nu_s\)
+can be obtained from shotnoise theory [[cite:Daley2007]]:
 
 \begin{equation}
 \begin{split}
- P_V(f)  = & \sum_{syn} \nu_{syn} \, \| \hat{\mathrm{PSP}}(f) \|^2 \\
- & = 2 \nu_{in} \, \frac{Q_I^2 \, \tau_S^2 / \mu_G^2 }{
- \big(1+4 \pi^2 f^2 \tau_S^2 \big) \big(1+4 \pi^2 f^2 (\tau_m^\mathrm{eff})^2 \big)}
+ P_V(f)  = & \sum_{s \in \{e,i\}} K_s \, \nu_{s} \, \| \hat{\mathrm{PSP}_s}(f) \|^2
 \end{split}
 \end{equation}
 
-Obtained by computing a PSP event, then shotnoise theory:
+where \(\hat{\mathrm{PSP}_s}(f)\) is the Fourier transform of the
+time-varying function \(\mathrm{PSP}(t)\). Note that the relations
+presented in this paper rely on the following convention for the
+Fourier transform: \( \hat{F}(f) = \int_\mathbb{R} F(t) \, e^{- 2 i
+\pi f t} \, dt\).
 
-Equation for \(\delta V(t)\) around \mu_V:
+After fixing the driving force to \(E_s - \mu_V\), the equation for a
+ post-synaptic membrane potential event \(s\) around \(\mu_V\) is
 
 \begin{equation}
-\left\{
-\begin{split}
-& \tau_m \frac{d \delta V}{dt} + \delta V = U_{syn} \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_{syn}}} \\
-& U_{syn} = \frac{Q_{syn}}{\mu_G} (E_{syn} - \mu_V)
+ \tau_m \frac{d \, \mathrm{PSP}_s }{dt} + \mathrm{PSP}_s = U_s \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_s}}
 \end{split}
 \right.
 \end{equation}
 
-That has the solution:
+where \( U_s = \frac{Q_s}{\mu_G} (E_s - \mu_V) \) and \(
+\mathcal{H}(t) \) is the Heaviside function.
+
+Its solution is:
 
 \begin{equation}
-\delta V(t)  = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, \big( 
-e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_{syn}}} \big) \, \mathcal{H}(t)
+\mathrm{PSP}_s(t)  = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, \big( 
+e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_s}} \big) \, \mathcal{H}(t)
 \end{equation}
 
 We take the fourier transform:
 
-
 \begin{equation}
-\hat{\delta V}(f) = U_{syn} \, \frac{\tau_{syn}}{\tau_m - \tau_{syn}} \, 
+\hat{\mathrm{PSP}_s}(f) = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, 
 \big(
 \frac{\tau_{m}}{2 \, i  \,  \pi \, f \, \tau_{m} +1} 
-- \frac{\tau_{syn}}{2 \, i  \,  \pi \, f \, \tau_{syn} +1} \big)
+- \frac{\tau_s}{2 \, i  \,  \pi \, f \, \tau_s +1} \big)
 \end{equation}
 
+We will need the value of the square modulus at \(f=0\):
+
+#+NAME: eq:psp0
 \begin{equation}
- \int_\mathbb{R} \| \hat{\mathrm{PSP}}(f) \|^2 \, df = \frac{ \| \hat{\mathrm{PSP}}(0) \|^2}{2 \, (\tau_m + \tau_{syn})}
+\| \hat{\mathrm{PSP}}(0) \|^2 = (U_s \cdot \tau_s)^2
 \end{equation}
 
-# #+NAME: fig:1
-# #+CAPTION: *Caption for first figure.* Generate the figure with : =python code/script.py= \blindtext[0]
-# [[./figures/log_WN_hist.png]]
+As well as the integral of the square modulus:
 
-*** Standard deviation and autocorrelation-time of the fluctuations
-
-
-because:
-
+#+NAME: eq:psp-int
 \begin{equation}
-\int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) }
+\int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) }
 \end{equation}
 
-we get:
+*** Standard deviation of the fluctuations
+
+The standard deviation follows:
 
 \begin{equation}
- \sigma_V  = \sqrt{ \sum_{syn} K_{syn} \, \nu_{syn} \, \frac{(U_{syn} \cdot \tau_{syn})^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) } }
+ (\sigma_V)^2  = \int_\mathbb{R}  df \, P_V(f)
 \end{equation}
 
-and
+Using Equation [[eq:psp-int]], we find the final expression for \(\sigma_V\):
+
+#+NAME: eq:sigma-v
+\begin{equation}
+ \sigma_V(\nu_e, \nu_i)  = \sqrt{ \sum_s K_s \, \nu_s \, \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) } }
+\end{equation}
+
+*** Autocorrelation-time of the fluctuations
+
+We defined the global autocorrelation time as [[cite:Zerlaut2016]]:
 
 \begin{equation}
-  \tau_V = \Big( \frac{
-  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2\big) 
+  \tau_V = \frac{1}{2} \, \big( \frac{\int_\mathbb{R} P_V(f) \, d f}{ P_V(0) } \big)^{-1}
+\end{equation}
+
+Using Equations [[eq:psp-int]] and [[eq:psp0]], we find the final expression
+for \(\tau_V\):
+
+#+NAME: eq:tau-v
+\begin{equation}
+  \tau_V(\nu_e, \nu_i) = \Big( \frac{
+  \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2\big) 
   }{
-  \sum_{syn} \big( K_{syn} \, \nu_{syn} \, (U_{syn} \cdot \tau_{syn})^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_{syn} ) \big)
+  \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) \big)
   } \Big)
 \end{equation}
 
+Therefore the set of Equations [[eq:mu-v]], [[eq:sigma-v]] and [[eq:tau-v]]
+translate the presynaptic frequencies into membrane fluctuations
+properties \(\mu_V, \sigma_V, \tau_V\).
 
-
-
-
-\newpage
+The previous methodological section allowed to translate the
+fluctuations properties \(\mu_V, \sigma_V, \tau_V\) into a spiking
+probability thanks to a minimization procedure. The combination of the
+present analytical calculus and the previous fitting procedure (on
+numerical simulations data) constitute our semi-analytical approach to
+determine the transfer function of a single cell model: \( \nu_{out} =
+\mathcal{F}(\nu_e, \nu_i)\).
 
 ** Master equation for local population dynamics
 
-The [[citetext:ElBoustani2009]]
+An analytical description of the cellular transfer function is the
+core of theoretical descriptions of asynchronous dynamics in sparsely
+connected random networks [[cite:Amit1997,Brunel2000,Renart2004]].
+
+Because we will investigate relatively slow dynamics
+(\(\tau\)>25-50ms) (and because of the stationary formulation of our
+transfer function), we will use the Markovian description develloped
+in [[citetext:ElBoustani2009]], it describes network activity at a time
+scale \(T\), for which the network dynamics should be Markovian. The
+choice of the time-scale \(T\) is quite crucial in this formalism, it
+should be large enough so that activity can be considered as
+memoryless (e.g. it can not be much smaller than the refractory
+period, that would introduce memory effects) and small enough so that
+each neuron can fire statistically only once per time interval
+\(T\). Following [[citetext:ElBoustani2009]], we will arbitrarily take
+\(T\)=5ms all along the study as it offers a good compromise between
+those two constraints.
+
+The formalism describes  equations describes the first and second 
+
+derive a
+second-order mean-field set of ordinary differential equations describ-
+ing the temporal evolution of randomly connected balanced networks
+
+for the pop
+
+
 
 #+NAME: master-equation
 \begin{equation}
@@ -284,19 +464,59 @@ with:
 A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
 \end{equation}
 
+** Ring model 
+
+Each of the 
+
+With lateral connectivity 
+
 * Results
 \normalsize
 
+** Transfer functions of the 
+
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:tf
-#+CAPTION: *Transfer functions.* *(A)* Excitatory cells. *(B)* Inhibitory cells
+#+CAPTION: *Single cell models of the excitatory and inhibitory populations.* Top: response to a current step of 200pA lasting 300ms. Bottom: /transfer function/ of the single cell, i.e. output firing rate as a function of the excitatory (x-axis) and inhibitory (color-coded) presynaptic release frequencies. Note that the range of the excitatory and frequencies assumes numbers of synapses (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition respectively).  *(A)* Excitatory cells. Note the presence of spike-frequency adaptation and subthreshold adaptation. *(B)* Inhibitory cells. Note the very narrow spike initiation dynamics (\(k_a\)=0.5mV). Also, note the steepest relation to excitation (with respect to the excitatory cell) at various inhibitory levels as a result of the increased exctability as a result of the increased excitaability of the inhibitory cell (with respect to the excitatory cell).
 [[../figures/tf.png]]
 
+This kind of input-output functions lie at the core of /mean-field/
+models of population dynamics, reviewed in [[citetext:Renart2004]]. Note
+here that the formulation of the transfer function imply a stationary
+hypothesis: both for the input (stationary Poisson processes) and the
+output firing (a stationary firing rate). 
+
+A commonly adopted strategy for solving this problem analytically is
+to approximate the time course of the synaptic conductances by the
+realisation of a stochastic process (here it would be an
+Ornstein-Uhlenbeck process because of the /exponential/ synaptic
+events). The problem can thus be formulated in terms of a
+multi-dimensional stochastic process for which an equation that
+describes the probability density can be derived: the Fokker-Planck
+equation. The firing rate is then given by the first-passage time
+through the threshold of the integrate and fire model (either simple
+integrate and fire or exponential integrate and fire model)
+
+Because an analytical solution of this function for the single neuron
+considered here is a very challenging mathematical problem, we adopted
+a semi-analytical approach. The procedure relied on fitting a
+/phenomenological threshold/ that accounts for the single neuron
+non-linearities (spiking and reset mechanism, adaptation mechanisms)
+on top of the subthreshold integration effects [[cite:Zerlaut2016]].
+
+
+We will therefore study in the following what are the limitations
+introduced by this stationary hypothesis in the description of the
+temporal dynamics of network activity.
+
+
+** Looking for network configurations
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:phase-space
 #+CAPTION: *Finding spontaneous activity configuration (fixed point of the dynamics) of dynamics with external drive.*
 [[../figures/finding_fixed_point.png]]
 
+** Comparison with numerical simulations
 #+ATTR_LATEX: :float multicolumn :width .4\linewidth
 #+NAME: fig:ntwk-act
 #+CAPTION: *Network activity of the configuration corresponding to the fixed point.*
@@ -307,16 +527,20 @@ A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
 #+CAPTION: *Mean field prediction of the stationary activity.*
 [[../figures/mean_field_stat_pred.png]]
 
+** Applicability to time-varying input
 #+ATTR_LATEX: :float multicolumn :width .45\linewidth
 #+NAME: fig:mf-temp-pred
 #+CAPTION: *Network response to a time-varying input and the associated prediction of the mean-field formalism.*
 [[../figures/ntwk_time_varying.png]]
+
+** Limitations of the markoviann description
 
 #+ATTR_LATEX: :float multicolumn :width .3\linewidth
 #+NAME: fig:mf-freq-dep
 #+CAPTION: *Accuracy of the mean field prediction in the frequency domain.*
 [[../figures/freq_dep_of_network.png]]
 
+** Integrative properties of the network
 #+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:varying-amp-in-ntwk
 #+CAPTION: *Varying input amplitudes in the mean field model.*
@@ -326,6 +550,8 @@ A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
 #+NAME: fig:varying-ng-in-ntwk
 #+CAPTION: *Impact of background activity in the mean field model.*
 [[../figures/impact_of_bg_act.png]]
+
+** Embedding the model in a ring model to describe spatial integration
 
 #+ATTR_LATEX: :float multicolumn :width .99\linewidth
 #+NAME: fig:simple-stim
@@ -337,10 +563,14 @@ A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
 #+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
 [[../figures/spatio_temporal_profile_charact.png]]
 
+** Calibration on in vivo imaging
+
 #+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:data
 #+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
 [[../figures/data.png]]
+
+** Predictions of the model
 
 #+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:suppression
@@ -350,7 +580,13 @@ A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
 * Discussion
 \normalsize
 
-[...]
+
+We investigate whether the Markovian formalismm proposed in
+[[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
+artificial neural networks. Answering this kind of question precisely
+set what is the relevance of /stationary/ responses and what are real
+transient effects.
+
 
 * Additional information :noexport:
 \small
