@@ -63,7 +63,7 @@
 #+LaTeX_HEADER: \usepackage{titlesec} % Allows customization of titles
 # ## WE EXPLICIT THE FOOTNOTEMARK IN THE AUTHORS (for easier change) :
 #+LaTeX_HEADER:\renewcommand{\@fnsymbol}[1]{  \ensuremath{    \ifcase#1  \or \dagger    \or \ddagger    \or \mathsection    \or \mathparagraph    \else      \@ctrerr    \fi  } }
-#+LaTeX_HEADER: \def\@maketitle{  \newpage  \null  \vspace{-10mm}   \begin{center}  \let \footnote \thanks    {\LARGE \textbf{\@title} \par}    \vskip 1.2em    {\large      \lineskip .5em      \begin{tabular}[t]{c}        \scshape      \normalsize        \@author      \end{tabular}\par}   \vskip .6em   { \@date}  \end{center}  \par  \vskip 1em}
+#+LaTeX_HEADER: \def\@maketitle{  \null  \vspace{-10mm}   \begin{center}  \let \footnote \thanks    {\LARGE \textbf{\@title} \par}    \vskip 1.2em    {\large      \lineskip .5em      \begin{tabular}[t]{c}        \scshape      \normalsize        \@author      \end{tabular}\par}   \vskip .6em   { \@date}  \end{center}  \par  \vskip 1em}
 #+LaTeX_HEADER: \makeatother
 #+LaTeX_HEADER: \renewcommand{\thefootnote}{\arabic{footnote}} % we restor the arabic number footnotes
 

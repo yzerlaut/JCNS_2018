@@ -24,8 +24,6 @@
 
 \normalfont
 
-\newpage
-
 * Abstract
 \bfseries
 
@@ -617,7 +615,6 @@ Similar to [[cite:Muller2014]]
 #+CAPTION: *Single cell models of the excitatory and inhibitory populations.* Top: response to a current step of 200pA lasting 300ms. Bottom: /transfer function/ of the single cell, i.e. output firing rate as a function of the excitatory (x-axis) and inhibitory (color-coded) presynaptic release frequencies. Note that the range of the excitatory and frequencies assumes numbers of synapses (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition respectively).  *(A)* Excitatory cells. Note the presence of spike-frequency adaptation and subthreshold adaptation. *(B)* Inhibitory cells. Note the very narrow spike initiation dynamics (\(k_a\)=0.5mV). Also, note the steepest relation to excitation (with respect to the excitatory cell) at various inhibitory levels as a result of the increased exctability as a result of the increased excitaability of the inhibitory cell (with respect to the excitatory cell).
 [[../figures/tf.png]]
 
-
 The results are organized as follows. We first construct the
 analytical model that will describe the dynamics of a single cortical
 column. In particular, we describe the semi-analytical workflow that
@@ -797,55 +794,62 @@ Close to a Hopf bifurcation, see Kumar et al.
 * Discussion
 \normalsize
 
+By taking advantage of the theoretical work performed at the
+mesoscopic level (\(\sim\) 10000 neurons) to analytically describe
+population dynamics in terms of few variables, we were able to design
+a tractable model of population dynamics in Layer II-III at the
+\(\sim\) 30 millimeter scale of the neocortical sheet.
 
-Why not considering symmetric electrophysiological properties like in
-other network studies [[cite:Brunel2000,Vogels2005,Kumar2008]]
-
-The reason for putting this assymetry in the excitabilities was
-
-exactly to produce an inhibitory control of the mean membrane
-potential flcutuations that would give rise to such a strong
-suppression.
-
-
-We investigate whether the Markovian formalismm proposed in
+We investigated whether the Markovian formalism proposed in
 [[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
 artificial neural networks. Answering this kind of question precisely
 set what is the relevance of /stationary/ responses and what are real
-transient effects.
+transient effects. The hyperpolarization (unpublished observations)
 
-An important constraint was that the strong suppressive mechanism
-would be cortico-cortical, indeed depression at the thalamo-cortical
-synapses can contribute to the suppression of cortical responses [[ref]]
+We studied the properties of this model in the context of multi-input
+integration. In particular, we implemented a typical paradigm of
+visual processing: the apparent motion protocol. Similarly to what is
+observed /in vivo/ we found a strong suppression signal that
+originating in the second stimulus that propagated toward the first
+stimulus.
 
-Future directions for the present model includes: stimulus response
-dependency to the level of ongoing activity [[cite:Arieli1996]] dependency
-on the level of ongoing activity
+Why not considering symmetric electrophysiological properties like in
+other network studies [[cite:Brunel2000,Vogels2005,Kumar2008]]. The reason
+was twofolds: first it was an insightful step to demonstrate the
+relative accuracy of the markovian formalism (with the semi-analytical
+approach) in a situation including this increased complexity, but more
+importantly, this assymetry in the excitabilities was the mechanism
+that led to a very strong suppression in the response to multiple
+inputs. This feature produce an inhibitory control of the mean
+membrane potential fluctuations. When the external stimulation
+increases the local excitatory activity, inhibition is recruited via
+recurrent connections and because of its higher excitability this
+recruitment is stronger than for the excitatory population (see
+e.g. Figure [[fig:mf-temp-pred]]B).
 
-Improving the theoretical descriptions of the local cortical network,
-for example the hyperpolarization can be described by adding a
-variable: the "population spike-frequency adaptation current" (not
+Other possible mechanisms for suppression were considered, in
+particular conductance shunting of the input due to background
+activity, spike-frequency adaptation currents. Note here that an
+important constraint to account for the observed experimental data was
+that the strong suppressive mechanism would be
+cortico-cortical. Depression at the thalamo-cortical synapses can
+contribute to the suppression of cortical responses [[ref]], but this semt
+unlikely to play here as the sensory stimuli are well separated in the
+visual space and are likely to also be well separated in the thalamic
+nucleus.
+
+We envision several future directions for the present model.
+
+First, to improve the theoretical descriptions of the local cortical
+network, for example the hyperpolarization can be described by adding
+a variable: the "population spike-frequency adaptation current" (not
 shown).
 
-* Additional information :noexport:
-\small
-
-** Competing interests.
-
-The authors declare no competing interests.
-
-** Author contributions.
-
-[...]
-
-** Funding.
-
-Authors must indicate all sources of funding, including grant
-numbers. If authors have not received funding, this must be stated.
-
-** Acknowledgements.
-
-[...]
+Second, implementing the model to several cortical includes: stimulus
+response dependency to the level of ongoing activity [[cite:Arieli1996]]
+dependency on the level of ongoing activity. When the the ongoing
+activity is modulated by the level of afferent activity is this model
+sufficient to describe the spatio-temporal
 
 * References 
 \small
