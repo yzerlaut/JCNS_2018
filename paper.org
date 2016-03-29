@@ -1,8 +1,9 @@
 #+TITLE: A markovian model for spatio-temporal population dynamics in neocortex
-#+AUTHOR:  Collab.: S. Chemla^2 & F. Chavane^2 (/in vivo/ VSD imaging)
+#+AUTHOR:  Collab.: S. Chemla^1 & F. Chavane^1 (/in vivo/ VSD imaging)
+#+DATE:  \textsc{Y. Zerlaut}^2 & \textsc{A. Destexhe}^2 
 #+INCLUDE: my_template.org
 
-* Key points summary
+* Key points summary :noexport:
 \bfseries
 
 - We investigate whether the markovian formalism proposed in
@@ -28,25 +29,96 @@
 * Abstract
 \bfseries
 
-[...]
+The focus of the present communication is to design a theoretical
+model of neocortical dynamics with the following properties: 1) it
+operates at the temporal and spatial scales scanned by optical imaging
+and 2) it has a correlate in terms of single-cell dynamics (in
+particular membrane potential dynamics), so that the model can
+directly generate predictions for the signal imaged by the
+voltage-sensitive dye imaging technique.
+
+In this communication, by comparing its prediction with numerical
+simulations of artificial neural networks, we investigate whether the
+markovian formalism proposed in [[citetext:ElBoustani2009]] allows to
+describe the population dynamics of a network of excitatory and
+inhibitory neurons with different electrophysiological properties. In
+particular, we investigate whether this formalism generalizes to the
+description of network dynamics in the presence of time-dependent
+inputs. We find that, while missing a resonant behavior at
+\(\sim\)70Hz, the response to slow modulations (0-40Hz) provides a
+good approximation of the response of this complex numerical neural
+networks. We next analyze the integrative properties of the model: how
+does it responds to increasing stimuli strength or how is it modulated
+by an increase in external background activity. We found that, while
+the firing response scales linearly the response in terms of membrane
+potential variations over the population exhibits a strong
+suppression. We then embed this local network description
+(\(\sim\)10000 neurons) in a ring geometry to describe the spatial
+integration across the neocortical sheet. We re-construct a typical
+experimental paradigm of visual processing: the apparent-motion
+protocol and we compare the model's response to optical imaging of
+spatio-temporal dynamics in the primary visual cortex of awake
+behaving monkey (Chemla & Chavane, unpublished results). We found a
+similar strong suppression as observed /in vivo/, our study therefore
+proposes a precise mechanistic understanding of this phenomena.
 
 \normalfont
 
 * Introduction 
 \normalfont
 
-In [[citetext:ElBoustani2009]], it was shown that using the stationary
-solution to this euqation could describe the stationary activity of a
-numerical network of identical neurons. We investigate here whether
-this translates into the description of assymetric populations, and
-more importantly whether the Markovien description can describe the
-temporal dynamics in response to time-varying input.
+Recent advances in imaging technique, in particular voltage-sensitive
+dye imaging (VSDi), have revealed fundamental properties of
+neocortical processing
+[[cite:Arieli1996,Contreras2001,Petersen2001,Ferezou2006,Civillico2012]]:
+subthreshold responses to sensory inputs are locally homogeneous in
+primary sensory areas, depolarizations tend to spread across spatially
+neighboring regions and responses to sensory stimuli are strongly
+affected by the level of ongoing activity. It also appears as great
+tools to undesrtand how the spatio-temporal dynamics in the neocortex
+shape canonical cortical operations such as normalization
+[[cite:Reynaud2012]].
 
-We investigate whether the Markovian formalismm proposed in
-[[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
-artificial neural networks. Answering this kind of question precisely
-set what is the relevance of /stationary/ responses and what are real
-transient effects.
+
+On the other hand, the litterature lacks, to our knowledge, a
+theoretical model that provides a detailed account of those phenomena
+with a clear relation between how this signal is generated and those
+physiolgical principles at that spatial scale (i.e. at the millimeters
+or centimeters scale).
+
+The aim of the present communication is to design a theoretical model
+of neocortical dynamics with the following properties: 1) it should
+operate at the temporal and spatial scales of optical imaging and 2)
+it has a correlate in terms of single-cell dynamics (in particular
+membrane potential dynamics), so that the model can directly generate
+predictions for the signal imaged by the VSDi technique
+[[cite:Berger2007]].
+
+More specifically, our study focuses on network dynamics in
+/activated/ cortical states, thus the desired model should describe
+neocortical computation in the asynchronous regime, where cortical
+activity is characterized by irregular firing and strong subthreshold
+fluctuations at the neuronal level [[cite:Steriade2001,Destexhe2003]]. The
+strategy behind the present model is to take advantage of the
+/mean-field/ descriptions of network dynamics in this regime. Via
+self-consistent approaches, those descriptions allow to capture the
+dynamical properties of population activity in recurrent networks
+[[cite:Amit1997,Brunel1999,Brunel2000,Latham2000,ElBoustani2009]]. The
+model thus relies on the following scheme: 1) we consider the randomly
+connected network of 10000 neurons as a unit to describe a cortical
+column and 2) we embeded the analytical description of this cortical
+column model into a ring geometry with physiological local
+connectivity profiles to model spatio-temporal integration on the
+neocortical sheet.
+
+A prerequisite was therefore to establish the accuracy of the
+analytical description of the cortical column model. This is the focus
+of the first part of this paper: by comparing analytical prediction of
+the model with numerical simulations, we can precisely evaluate the
+accuracy and/or weaknesses of the analytical description to evaluate
+its potential impact on the modeling of the network.
+
+The second part of the paper investigates the properties of the model
 
 * Material and Methods
 \small
@@ -104,11 +176,11 @@ models can be found on Table [[table:params]].
 |                       | refractory period              | \(\tau_{refrec}\) |     5 | ms   |
 |                       | adaptation time constant       | \(\tau_w\)        |   500 | ms   |
 | *excitatory cell*     |                                |                   |       |      |
-| *(Regular Spiking)*   | sodium sharpness               | \(k_a\)           |     2 | mV   |
+|                       | sodium sharpness               | \(k_a\)           |     2 | mV   |
 |                       | adaptation current increment   | \(b\)             |    20 | pA   |
 |                       | adaptation conductance         | \(a\)             |     4 | nS   |
 | *inhibitory cell*     |                                |                   |       |      |
-| *(Fast Spiking)*      | sodium sharpness               | \(k_a\)           |   0.5 | mV   |
+|                       | sodium sharpness               | \(k_a\)           |   0.5 | mV   |
 |                       | adaptation current increment   | \(b\)             |     0 | pA   |
 |                       | adaptation conductance         | \(a\)             |     0 | nS   |
 | *numerical network*   |                                |                   |       |      |
@@ -118,8 +190,9 @@ models can be found on Table [[table:params]].
 |                       | external drive                 | \(\nu_e^{drive}\) |     4 | Hz   |
 | *ring model*          |                                |                   |       |      |
 |                       | total extent                   | \(L_{tot}\)       |    40 | mm   |
-|                       | excitatory connectivity extent | \(l_{exc}\)    |     5 | mm   |
-|                       | inhibitory connectivity extent | \(l_{inh}\)    |     1 | mm   |
+|                       | excitatory connectivity extent | \(l_{exc}\)       |     5 | mm   |
+|                       | inhibitory connectivity extent | \(l_{inh}\)       |     1 | mm   |
+|                       | propagation delay              | \(v_c\)           |   300 | mm/s |
 
 ** Synaptic model
 
@@ -430,17 +503,21 @@ period, that would introduce memory effects) and small enough so that
 each neuron can fire statistically only once per time interval
 \(T\). Following [[citetext:ElBoustani2009]], we will arbitrarily take
 \(T\)=5ms all along the study as it offers a good compromise between
-those two constraints.
-
-The formalism describes  equations describes the first and second 
-
-derive a
-second-order mean-field set of ordinary differential equations describ-
-ing the temporal evolution of randomly connected balanced networks
-
-for the pop
+those two constraints. 
 
 
+The formalism describes the first and second moments of the population
+activity for each populations. We consider here two populations: one
+excitatory and one inhibitory, the formalism thus describes the
+evolution of five quantities: the two means \(\nu_e(t)\) and
+\(\nu_i(t)\) of the excitatory and inhibitory population activity
+respectively (the instantaneous population firing rate, i.e. after
+binning in bins of \(T\)=5ms, see discussion in
+[[citetext:ElBoustani2009]]), the two variances \(c_{ee}(t)\) and
+\(c_{ii}(t)\) of the the excitatory and inhibitory population activity
+respectively and the covariance \(c_{ei}(t)\) between the excitatory
+and inhibitory population activities. The set of differential
+equations followed by those quantities reads [[cite:ElBoustani2009]]:
 
 #+NAME: master-equation
 \begin{equation}
@@ -449,7 +526,7 @@ for the pop
 T \, \frac{\partial \nu_\mu}{\partial t} = & (\mathcal{F}_\mu - \nu_\mu )
    + \frac{1}{2} \, c_{\lambda \eta} \, 
 \frac{\partial^2 \mathcal{F}_\mu}{\partial \nu_\lambda \partial \nu_\eta} \\
-T \, \frac{\partial c_{\lambda \eta} }{\partial t}  =  & \delta_{\lambda \eta} \, A_\lambda +
+T \, \frac{\partial c_{\lambda \eta} }{\partial t}  =  & A_{\lambda \eta} +
 (\mathcal{F}_\lambda - \nu_\lambda ) \, (\mathcal{F}_\eta - \nu_\eta ) + \\
  & c_{\lambda \mu} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\lambda} +
  c_{\mu \eta} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\eta} 
@@ -459,70 +536,208 @@ T \, \frac{\partial c_{\lambda \eta} }{\partial t}  =  & \delta_{\lambda \eta} \
 \end{equation}
 
 with:
-
 \begin{equation}
-A_{\mu} = \frac{\mathcal{F}_\mu \, (1/T - \mathcal{F}_\mu -)}{N_\mu}
+A_{\lambda \eta} =  
+\left\{
+\begin{split}
+\frac{\mathcal{F}_\lambda \, (1/T - \mathcal{F}_\lambda)}{N_\lambda} 
+\qquad & \textrm{if  } \lambda=\eta \\
+0 \qquad & \textrm{otherwise}
+\end{split}
+\right.
 \end{equation}
+
+Note that, for the concision of the expressions, we used Einstein's
+index summation convention: if an index is repeated in a product, a
+summation over the whole range of value is implied (e.g. we sum over
+\(\lambda \in \{e,i\} \) in the first equation, note that,
+consequently, \(\lambda\) does not appear in the left side of the
+equation). Also the dependency of the firing rate response to the
+excitatory and inhibitory activities has been omitted: yielding
+\(\mathcal{F}_\mu\) instead of \(\mathcal{F}_\mu(\nu_e,\nu_i)\),
+\(\forall \mu \in \{e,i\} \).
 
 ** Ring model 
 
-Each of the 
+We now embed the previous markovian description of population dynamics
+in a ring geometry to model spatio-temporal integration on the
+neocortical sheet. For simplicity, we consider here only the first
+moments of the second-order description: i.e. the means of the
+excitatory and inhibitory population activities: \(\nu_e(t)\) and
+\(\nu_i(t)\) respectively. 
 
-With lateral connectivity 
+We introduce the gaussian connectivity profiles (see Figure
+[[fig:simple-stim]]) that defines the connectivity across cortical columns
+(i.e. local networks described in the previous section):
+
+\begin{equation}
+\mathcal{N}_e(x) = \frac{1}{\sqrt{2 \pi} l_e} e^{-(\frac{x}{\sqrt{2} l_e})^2} \quad ; \quad 
+\mathcal{N}_i(x) = \frac{1}{\sqrt{2 \pi} l_i} e^{-(\frac{x}{\sqrt{2} l_i})^2}
+\end{equation}
+
+where \(l_e\) and \(l_i\) are the excitatory and inhibitory extent of
+the connectivity profiles respectively.
+
+We also introduce the effect of a finite axonal conduction speed
+\(v_c\), this will intriduce delays for the propagation of activity
+across cortical columns: for a network at a distance \(x\), the
+afferent activity will arrive delayed by \(x/v_c\).
+
+Finally, the equations that govern the activity in space and time are
+given by:
+
+\begin{equation}
+\left\{
+\begin{split}
+\nu_e^{input}(x,t) = &\nu_e^{drive}  + 
+\int_\mathbb{R} dy \, \mathcal{N}_e(x-y) \, \nu_e(y, t-\|y-x\|/v_c) \\
+\nu_i^{input}(x,t) = & \int_\mathbb{R} dy \, \mathcal{N}_i(x-y) \, \nu_i(y, t-\|y-x\|/v_c) \\
+T \frac{\partial \nu_e(x,t)}{\partial t} = & -  \nu_e(x,t) + \\
+& \mathcal{F}_e(\nu_e^{aff}(x,t)+\nu_e^{input}(x,t), \nu_i^{input}(x,t) ) \\
+T \frac{\partial \nu_i(x,t)}{\partial t} = & -  \nu_i(x,t) + \mathcal{F}_i(\nu_e^{input}(x,t), \nu_i^{input}(x,t) )
+\end{split}
+\right.
+\end{equation}
+
+where \(\nu_e^{drive}\) is the external drive and \(\nu_e^{aff}(x,t)\)
+is the afferent (thalamic) stimulation.
+
+The local correlate in terms of mean membrane potential \(\mu_V(x,t)\)
+is given by Equation [[eq:mu-v]].
+
+** Evidencing propagation effects
+
+Similar to [[cite:Muller2014]]
 
 * Results
 \normalsize
-
-** Transfer functions of the 
 
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:tf
 #+CAPTION: *Single cell models of the excitatory and inhibitory populations.* Top: response to a current step of 200pA lasting 300ms. Bottom: /transfer function/ of the single cell, i.e. output firing rate as a function of the excitatory (x-axis) and inhibitory (color-coded) presynaptic release frequencies. Note that the range of the excitatory and frequencies assumes numbers of synapses (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition respectively).  *(A)* Excitatory cells. Note the presence of spike-frequency adaptation and subthreshold adaptation. *(B)* Inhibitory cells. Note the very narrow spike initiation dynamics (\(k_a\)=0.5mV). Also, note the steepest relation to excitation (with respect to the excitatory cell) at various inhibitory levels as a result of the increased exctability as a result of the increased excitaability of the inhibitory cell (with respect to the excitatory cell).
 [[../figures/tf.png]]
 
-This kind of input-output functions lie at the core of /mean-field/
-models of population dynamics, reviewed in [[citetext:Renart2004]]. Note
-here that the formulation of the transfer function imply a stationary
-hypothesis: both for the input (stationary Poisson processes) and the
-output firing (a stationary firing rate). 
 
-A commonly adopted strategy for solving this problem analytically is
-to approximate the time course of the synaptic conductances by the
-realisation of a stochastic process (here it would be an
-Ornstein-Uhlenbeck process because of the /exponential/ synaptic
-events). The problem can thus be formulated in terms of a
-multi-dimensional stochastic process for which an equation that
-describes the probability density can be derived: the Fokker-Planck
-equation. The firing rate is then given by the first-passage time
-through the threshold of the integrate and fire model (either simple
-integrate and fire or exponential integrate and fire model)
+The results are organized as follows. We first construct the
+analytical model that will describe the dynamics of a single cortical
+column. In particular, we describe the semi-analytical workflow that
+enables the derivation of the cellular transfer function: the core of
+the population model. Next, we investigate whether the analytical
+description accurately descrive population dynamics by comparing its
+prediction to numerical simulations. Thenm we investigate the
+integrative properties of the network model. Finally we embed the
+cortical column model into a ring model and we compare its predictions
+to VSDi recordings in the visual cortex of awake behaving monkey.
 
-Because an analytical solution of this function for the single neuron
-considered here is a very challenging mathematical problem, we adopted
-a semi-analytical approach. The procedure relied on fitting a
-/phenomenological threshold/ that accounts for the single neuron
-non-linearities (spiking and reset mechanism, adaptation mechanisms)
-on top of the subthreshold integration effects [[cite:Zerlaut2016]].
+** Modeling a single cortical column
 
+Because optical imaging presumably sample most of its signals from
+superficial layers, we model here the layer II/III network: it is
+characterized by a strong recurrent connectivity and an important
+cellular diversity, in particular one finds many types of interneurons
+[[cite:Markram2004,Ascoli2008a]]. We adopt here a very simplistic
+description of this network, it is made of two neuronal population:
+one excitatory and one inhibitory comprising 8000 and 2000 neurons
+respectively. All neurons within the two population synaptically
+interconnect randomly to each other with a connectivity probability of
+5%. The excitatory and inhibitory cells have the same passive
+properties. We nonetheless include an assymetry between the excitatory
+and inhibitory populations: because the inhibitory population includes
+Fast-Spiking cells that can exhibit very high firing frequencies
+[[cite:Markram2004]], we set its spiking mechanism sharper (more precisely
+its sodium activation activation curve is steeper, see Methods) than
+that of excitatory cells, additionally we add a strong spike-frequency
+adaptation current in excitatory cells that is absent in inhibitory
+cells. Those two effects render the inhibitory neurons more excitable
+(see the different responses to the same current step in Figure
+[[fig:tf]]). All parameters of the cortical column can be found in Table
+[[table:params]].
 
-We will therefore study in the following what are the limitations
-introduced by this stationary hypothesis in the description of the
-temporal dynamics of network activity.
+** A Markovian model to describe population dynamics
 
+We now want to have an analytical description of the collective
+dynamics of this local network. We adopted the formalism presented in
+[[citetext:ElBoustani2009]]. Two reasons motivated this choice: 1) because
+10000 neurons is still far from the large network limit, finite-size
+effects could have a significant impact on the dynamics and 2) because
+of the relative complexity of the cellular models, an analytic
+treatment of the type [[citetext:Amit1997]] is, to our knowledge, not
+accessible and would be extremely challenging to derive. The Markovian
+framework proposed in [[citetext:ElBoustani2009]] positively respond to
+those two constraints: it is a second-order description of population
+activity that describes fluctuations emerging from finite-size effects
+and it is applicable to any neuron model as long as its transfer
+function can be characterized. In a companion study [[cite:Zerlaut2016]],
+we develloped a semi-analytical approach to characterize those
+transfer functions (see next section), we will therefore incorporate
+this description into the formalism.
 
-** Looking for network configurations
+Nonetheless, the study of [[citetext:ElBoustani2009]] only investigated
+the ability of the formalism to describe 1) the stationary point of
+the network activity and 2) in a situation where the neuronal models
+models had an analytic estimate for the transfer function
+(current-based integrate-and-fire model). Investigating whether this
+description generalizes to transient dynamics and transfer functions
+estimated with a semi-analytical approach is investigated in the next
+sections.
+
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:phase-space
 #+CAPTION: *Finding spontaneous activity configuration (fixed point of the dynamics) of dynamics with external drive.*
 [[../figures/finding_fixed_point.png]]
 
-** Comparison with numerical simulations
-#+ATTR_LATEX: :float multicolumn :width .4\linewidth
+** Transfer functions of excitatory and inhibitory cells
+
+We briefly describe here the semi-analytical approach used to
+characterize the transfer function (see details in the Methods).
+
+The transfer function \(\mathcal{F}\) of a single neuron is defined
+here as the function that maps the value of the stationary excitatory
+and inhibitory presynaptic release frequencies to the output
+stationary firing rate response, i.e. \(\nu_{out} = \mathcal{F}(\nu_e,
+\nu_i)\). This kind of input-output functions lie at the core of
+/mean-field/ models of population dynamics, reviewed in
+[[citetext:Renart2004]] and is also the main ingredient of the formalism
+adopted here [[cite:ElBoustani2009]]. Note here that the formulation of
+the transfer function imply a stationary hypothesis: both for the
+input (stationary Poisson processes) and the output firing (a
+stationary firing rate). We will study in the following what are the
+limitations introduced by this stationary hypothesis in the
+description of the temporal dynamics of network activity.
+
+In a previous communication [[cite:Zerlaut2016]], we found that the firing
+rate response of several models (including the adaptative exponential
+integrate and fire considered in this study) would be captured by a
+/fluctuations-dependent/ threshold in a simple approximation of the
+firing probability (see Methods).
+
+The semi-analytical approach thus consisted in making numerical
+simulations of single-cell dynamics for various presynaptic activity
+levels (i.e. scanning various \(\nu_e, \nu_i\) configurations) and
+measuring the output firing rate \(\nu_{out}\). All those
+configurations corresponded to analytical estimates of
+\((\mu_V,\sigma_V,\tau_V)\), we then fitted the
+/fluctutations-dependent/ threshold that bring the analytical estimate
+to the measured firing response. This procedure resulted in the
+analytical estimates shown in Figure [[fig:tf]] and compared with the
+results of numerical simulations.
+
+#+ATTR_LATEX: :width .7\linewidth
 #+NAME: fig:ntwk-act
 #+CAPTION: *Network activity of the configuration corresponding to the fixed point.*
 [[../figures/nwtk_activity.png]]
 
-#+ATTR_LATEX: :float multicolumn :width .6\linewidth
+** Looking for configurations of spontaneous activity in the cortical column
+
+We now have a 
+
+ investigate the predictive power of this semi-analytical
+procedure. The first problem is to look at the network configuration
+predicted by this workflow.
+
+** Accuracy of the description of the spontaneous activity state
+
+#+ATTR_LATEX: :width .8\linewidth
 #+NAME: fig:mf-stat-pred
 #+CAPTION: *Mean field prediction of the stationary activity.*
 [[../figures/mean_field_stat_pred.png]]
@@ -534,6 +749,8 @@ temporal dynamics of network activity.
 [[../figures/ntwk_time_varying.png]]
 
 ** Limitations of the markoviann description
+
+Close to a Hopf bifurcation, see Kumar et al.
 
 #+ATTR_LATEX: :float multicolumn :width .3\linewidth
 #+NAME: fig:mf-freq-dep
@@ -581,12 +798,34 @@ temporal dynamics of network activity.
 \normalsize
 
 
+Why not considering symmetric electrophysiological properties like in
+other network studies [[cite:Brunel2000,Vogels2005,Kumar2008]]
+
+The reason for putting this assymetry in the excitabilities was
+
+exactly to produce an inhibitory control of the mean membrane
+potential flcutuations that would give rise to such a strong
+suppression.
+
+
 We investigate whether the Markovian formalismm proposed in
 [[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
 artificial neural networks. Answering this kind of question precisely
 set what is the relevance of /stationary/ responses and what are real
 transient effects.
 
+An important constraint was that the strong suppressive mechanism
+would be cortico-cortical, indeed depression at the thalamo-cortical
+synapses can contribute to the suppression of cortical responses [[ref]]
+
+Future directions for the present model includes: stimulus response
+dependency to the level of ongoing activity [[cite:Arieli1996]] dependency
+on the level of ongoing activity
+
+Improving the theoretical descriptions of the local cortical network,
+for example the hyperpolarization can be described by adding a
+variable: the "population spike-frequency adaptation current" (not
+shown).
 
 * Additional information :noexport:
 \small
