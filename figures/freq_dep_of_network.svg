@@ -14,7 +14,7 @@
    viewbox="0 0 21cm 29.7cm"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="fig.svg">
+   sodipodi:docname="freq_dep_of_network.svg">
   <metadata
      id="metadata861">
     <rdf:RDF>
@@ -88,9 +88,9 @@
      inkscape:window-height="1057"
      id="namedview857"
      showgrid="false"
-     inkscape:zoom="0.44851477"
-     inkscape:cx="569.5549"
-     inkscape:cy="861.09522"
+     inkscape:zoom="1.2685913"
+     inkscape:cx="582.79573"
+     inkscape:cy="682.24222"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -2630,17 +2630,71 @@
     </g>
   </g>
   <text
-     style="font-weight:bold;font-size:19.19700432px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:26.03109169px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text853"
-     y="226.47391"
-     x="179.26912"
+     y="243.67572"
+     x="154.04344"
      font-weight="bold"
      font-size="14">A</text>
   <text
-     style="font-weight:bold;font-size:19.19700432px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:26.03109169px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text855"
-     y="426.17889"
-     x="176.16649"
+     y="438.17889"
+     x="149.83627"
      font-weight="bold"
      font-size="14">B</text>
-</svg>
+  <use
+     style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter"
+     x="242.00993"
+     xlink:href="#m5384db8480"
+     y="117.82841"
+     id="use71-3"
+     width="100%"
+     height="100%"
+     transform="translate(208.09561,304.64275)" />
+  <use
+     style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter"
+     x="242.00993"
+     xlink:href="#m5384db8480"
+     y="117.82841"
+     id="use71-3-9"
+     width="100%"
+     height="100%"
+     transform="translate(224.95561,304.64275)" />
+  <path
+     style="fill:#808080;fill-rule:evenodd;stroke:#808080;stroke-width:4.39674664;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 445.3759,454.06081 29.57034,0"
+     id="path4677"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cc" />
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot4679"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.47848163,0,0,0.47848163,433.66968,362.03152)"><flowRegion
+       id="flowRegion4681"
+       style="stroke-linecap:butt;stroke-linejoin:round"><rect
+         id="rect4683"
+         width="260.13104"
+         height="48.873108"
+         x="104.8407"
+         y="99.336647"
+         style="stroke-linecap:butt;stroke-linejoin:round" /></flowRegion><flowPara
+       id="flowPara4685"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:cmr10;-inkscape-font-specification:cmr10;stroke-linecap:butt;stroke-linejoin:round">num. sim.</flowPara></flowRoot>  <flowRoot
+     xml:space="preserve"
+     id="flowRoot4679-8"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="matrix(0.47848163,0,0,0.47848163,414.91117,388.201)"><flowRegion
+       id="flowRegion4681-6"
+       style="stroke-linecap:butt;stroke-linejoin:round"><rect
+         id="rect4683-8"
+         width="266.72086"
+         height="124.65593"
+         x="104.8407"
+         y="99.336647"
+         style="stroke-linecap:butt;stroke-linejoin:round" /></flowRegion><flowPara
+       id="flowPara4685-2"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:cmr10;-inkscape-font-specification:cmr10;text-align:center;text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round">mean field</flowPara><flowPara
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:cmr10;-inkscape-font-specification:cmr10;text-align:center;text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round"
+       id="flowPara4711">pred.</flowPara></flowRoot></svg>
