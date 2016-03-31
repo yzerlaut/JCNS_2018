@@ -222,6 +222,11 @@ feedforward connectivity.
 
 ** Numerical network model
 
+#+ATTR_LATEX: :width .6\linewidth
+#+NAME: ntwk-architect
+#+CAPTION: *Schematic of the local network architecture*. The network is made of \(N_e=(1-g) \, N_{tot}\) excitatory and \(N_i=g \, N_{tot}\) inhibitory neurons. All excitatory connections (afferent and recurrent) onto a neuron corresponds to \(K_e= \epsilon \, (1-g) \, N_{tot}\) synapses of weight \(Q_e\). All inhibitory connections (afferent and recurrent) onto a neuron corresponds to \(K_i= \epsilon \, g \, N_{tot}\) synapses of weight \(Q_i\)
+[[../figures/architext-ntwk.png]]
+
 All simulations of numerical network were performed with the =brian2=
 simulator [[cite:Goodman2009]], see [[http://brian2.readthedocs.org]]. For all
 simulations, the network was composed of \(N_{tot}\)=10000 neurons,
@@ -634,7 +639,6 @@ Thus, we independently control: 1) the maximum amplitude \(A\) of the
 stimulation, its rising time constant \(\tau_1\) and its decay time
 constant \(\tau_2\).
 
-
 * Results
 \normalsize
 
@@ -649,12 +653,14 @@ integrative properties of the network model. Finally we embed the
 cortical column model into a ring model and we compare its predictions
 to VSDi recordings in the visual cortex of awake behaving monkey.
 
+** Modeling a single cortical column
+
 #+ATTR_LATEX: :float multicolumn :width .7\linewidth
 #+NAME: fig:tf
 #+CAPTION: *Single cell models of the excitatory and inhibitory populations.* Top: response to a current step of 200pA lasting 300ms. Bottom: /transfer function/ of the single cell, i.e. output firing rate as a function of the excitatory (x-axis) and inhibitory (color-coded) presynaptic release frequencies. Note that the range of the excitatory and frequencies assumes numbers of synapses (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition respectively).  *(A)* Excitatory cells. Note the presence of spike-frequency adaptation and subthreshold adaptation. *(B)* Inhibitory cells. Note the very narrow spike initiation dynamics (\(k_a\)=0.5mV). Also, note the steepest relation to excitation (with respect to the excitatory cell) at various inhibitory levels as a result of the increased exctability as a result of the increased excitaability of the inhibitory cell (with respect to the excitatory cell).
 [[../figures/tf.png]]
 
-** Modeling a single cortical column
+
 
 Because optical imaging presumably sample most of its signals from
 superficial layers, we model here the layer II/III network: it is
@@ -708,11 +714,6 @@ sections.
 
 ** Transfer functions of excitatory and inhibitory cells
 
-#+ATTR_LATEX: :float multicolumn :width .7\linewidth
-#+NAME: fig:phase-space
-#+CAPTION: *Using the analytical description to look for a stable configuration of spontanous network activity.* Phase space of the dynamical system resulting from the first order of the markovian description, shown for two levels of external excitatory drive \(\nu_e^{drive}\). The lines represents trajectories resulting from different initial conditions. The vector field correspond to the time-evolution operator (the arrows represent the direction in the two-dimensional space and the color codes for the norm of the vector). *(A)* Phase space in the absence of an external drive \(\nu_e^{drive}\)=0Hz, the stable fixed point of the dynamics correspond to the quiescent network state \(\nu_e=\nu_i\)=0Hz. *(A)* Phase space with an external drive \(\nu_e^{drive}\)=4Hz, the stable fixed point of the dynamics correspond now corresponds to an active state with assymetric activity levels: \(\nu_e\)=1.6Hz and \(\nu_i\)=8.9Hz (round marker). 
-[[../figures/finding_fixed_point.png]]
-
 We briefly describe here the semi-analytical approach used to
 characterize the transfer function (see details in the Methods).
 
@@ -747,15 +748,17 @@ to the measured firing response. This procedure resulted in the
 analytical estimates shown in Figure [[fig:tf]] and compared with the
 results of numerical simulations.
 
-
 ** Spontaneous activity in the cortical column
+
+#+ATTR_LATEX: :float multicolumn :width .7\linewidth
+#+NAME: fig:phase-space
+#+CAPTION: *Using the analytical description to look for a stable configuration of spontanous network activity.* Phase space of the dynamical system resulting from the first order of the markovian description, shown for two levels of external excitatory drive \(\nu_e^{drive}\). The lines represents trajectories resulting from different initial conditions. The vector field correspond to the time-evolution operator (the arrows represent the direction in the two-dimensional space and the color codes for the norm of the vector). *(A)* Phase space in the absence of an external drive \(\nu_e^{drive}\)=0Hz, the stable fixed point of the dynamics correspond to the quiescent network state \(\nu_e=\nu_i\)=0Hz. *(A)* Phase space with an external drive \(\nu_e^{drive}\)=4Hz, the stable fixed point of the dynamics correspond now corresponds to an active state with assymetric activity levels: \(\nu_e\)=1.6Hz and \(\nu_i\)=8.9Hz (round marker). 
+[[../figures/finding_fixed_point.png]]
 
 #+ATTR_LATEX: :width .7\linewidth
 #+NAME: fig:ntwk-act
 #+CAPTION: *Numerical simulations of the dynamics of a recurrent network of 10000 neurons (see parameters in Table [[table:params]])*. Note that all plots have the same x-axis: time. *(A)* Sample of the spiking activity of 500 neurons (green, 400 excitatory and red, 100 inhibitory). *(B)* Population activity (i.e. spiking activity sampled in 5ms time bins across the population) of the excitatory (green) and inhibitory (red) sub-populations. We also show the applied external drive (\(\nu_e^{drive}(t)\), black line), note the slow linear increase to reach \(\nu_e^{drive}\)=4Hz and try to reduce the initial synchronization that would result from an abrupt onset. *(C)* Membrane potential (top) and conductances (bottom, excitatory in green and inhibitory in red) time courses of three randomly choosen inhibitory neurons. *(D)* Membrane potential and conductances time courses of three randomly choosen excitatory neurons.
 [[../figures/nwtk_activity.png]]
-
-
 
 
 #+ATTR_LATEX: :width .8\linewidth
@@ -871,7 +874,7 @@ response after 500ms of initial simulation to discard transient
 effects.
 
 We first choose an afferent input of relatively low frequency content
-(\(\sim \) [5-20]Hz, \( \tau_1 \)=60ms and \( \tau_2 \)=100ms in
+(\(\sim\) [5-20]Hz, \( \tau_1 \)=60ms and \( \tau_2 \)=100ms in
 Equation [[eq:input]]). The afferent input waveform, formulated in terms
 of firing rate, was translated into individual afferent spikes
 targetting the excitatory population. The response of the network to
@@ -894,29 +897,48 @@ is not a fundamental limitation of the Markovian formalism, it is a
 limitation of this version of the formalism, that contains only
 variables related to the instantaneous activity (see Discussion).
 
-
 #+ATTR_LATEX: :width .7\linewidth
 #+NAME: fig:mf-freq-dep
-#+CAPTION: *Limitations of the Markovian description in the frequency domain.* Response of the network (numerical simulation and analytical description) to sinusoidal stimulation of the form \(\nu_e^{aff} = 5\mathrm{Hz} \, \big(1-\cos(2 \pi f (t-t_0))\big)/2\). The stimulation was set on at \(t_0\)=500ms. *(A)* Amplitude of the sinusoidal response for various frequencies. *(B)* Phase shift of the sinusoidal response for various frequencies.
+#+CAPTION: *Limitations of the Markovian description in the frequency domain.* Response of the network (numerical simulation and analytical description) to sinusoidal stimulation of the form \(\nu_e^{aff} = 5\mathrm{Hz} \, \big(1-\cos(2 \pi f (t-t_0))\big)/2\). The stimulation was set on at \(t_0\)=500ms. The response was fitted by a function of the form  \(\nu(t) = A \, \big(1-\cos(2 \pi f (t-t_0) - \phi)\big)/2\). *(A)* Amplitude of the sinusoidal response (\(A\) in the fitted response) for various frequencies. *(B)* Phase shift of the sinusoidal response (\(\phi\) in the fitted response) for various frequencies.
 [[../figures/freq_dep_of_network.png]]
 
-
 To study more precisely the temporal validity of the formalism, we
-modulated the network activity by sinusoidal input (i.e. sinusoidal
-presynaptic firing rates that were then translated into individual
-afferent spikes)
+modulated the network activity by sinusoidal input and compared the
+response predicted by the analytical description.
 
-The main input of this is to show that the network react very fast
-(compared to the scale of VSDi) and that the model accurately
-reproduce this feature.
+The numerical simulations showed a marked resonance at
+\(\sim\)50Hz. Given the relatively high strength (compared to the
+external input) of the excitatory-inhibitory loop, the network is
+close to a bifurcation toward oscillations that are typically in the
+gamma range [[cite:Brunel2003]]. A sinusoidal input therefore amplifies
+those frequencies [[cite:Ledoux2011]]. Because the individual excitatory
+and inhibitory post-synaptic currents approximately match each other,
+the theoretical study of [[citetext:Brunel2003]] would predict
+oscillations at 50-60Hz (the bifurcation would be achieved by reducing
+\(\tau_e\)), thus compatible with the present obsrevation.
 
-The network time constant would be
+More importantly, the main insight of this analysis is to show that
+the network can track very fast temporal variations in the
+input. Recurent neural networks globally behave as low-pass filters
+(though see [[cite:Ledoux2011]] for a detailed treatment of the appearance
+of resonances), but with a high cutoff frequency compared to the
+frequency content of thalamic input of classical artificial stimuli
+(drifting gratings, supra-10ms flashes, etc...).
 
-Limitations of the markoviann description
-
-Close to a Hopf bifurcation, see Kumar et al.
+Leaving apart the failure of capturing the network resonance (that is
+linked to this special configuration of synaptic parameters), we
+conclude that in the frequency range that will be used in the
+following (f<50-100Hz) the description of the formalism gives a
+relatively accurate description of the network response in the sense
+that it accurately predicts that there should not be a frequency
+filtering within this range. Again, /in vivo/ experiments in awake
+mice suggested that V1 cortical networks had a cut-off frequency above
+this range (\(sim\)100Hz in [[citetext:Reinhold2015]]).
 
 ** Integrative properties of the network
+
+Now, we leave numerical simulations
+
 
 #+ATTR_LATEX: :width .8\linewidth
 #+NAME: fig:varying-amp-in-ntwk
@@ -960,11 +982,13 @@ Close to a Hopf bifurcation, see Kumar et al.
 
 We first investigated whether the Markovian formalism proposed in
 [[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
-artificial neural networks. Answering this kind of question precisely
-set what is the relevance of /stationary/ responses and what are real
-transient effects. We highlighted two example phenomena that l
+artificial neural networks. Though this formalism was shown to be an
+relatively accurate description of the response simulated in numerical
+networks, we highlighted two example phenomena that was missed by our
+description. The relative complexity of the theoretical problem should
+be stressed, indeed no exact treatment of this situation could be
+achieved as this represents a really tough mathematical problem. 
 
-The hyperpolarization (unpublished observations)
 
 By taking advantage of this theoretical work performed at the
 mesoscopic level (\(\sim\) 10000 neurons) to analytically describe
