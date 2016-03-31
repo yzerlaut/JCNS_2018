@@ -57,8 +57,8 @@ if __name__=='__main__':
 
     F1, F2, F3 = .8*Fe1+.2*Fi1, .8*Fe2+.2*Fi2, .8*Fe3+.2*Fi3
     
-    suppression = np.abs(muVn3-(muVn1+muVn2))
-
+    suppression = muVn3-(muVn1+muVn2)
+    
     zlim_vsd = [0, 1e2*np.max(np.abs(muVn1)+np.abs(muVn2))]
     
     params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
@@ -66,9 +66,9 @@ if __name__=='__main__':
     FIGS = []
     ax, fig = vsd_plot(t*1e3,\
                        1e2*suppression,\
+                       zlim=[-1e2*np.abs(suppression).max(),1e2*np.abs(suppression).max()],
                        title=r'suppression signal',\
                        zlabel=vsd_label, with_latency_analysis=True,\
-                       cmap=get_linear_colormap(color1='black', color2='cyan'),
                        params=params,
                        xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
     FIGS.append(fig)

@@ -28,6 +28,7 @@ if sys.argv[-1]=='full':
 
     
     max_f_amp, max_vm_amp = np.zeros(N), np.zeros(N)
+    max_f_amp2 = 0*max_f_amp
     amplitudes = np.linspace(0, amp_max, N)
     
     for i in range(N):
@@ -40,9 +41,12 @@ if sys.argv[-1]=='full':
                                                      afferent_exc_fraction=None,
                                                      extended_output=True, tstop=tstop)
         max_f_amp[i] = np.max(.8*fe+.2*fi)
+        # max_f_amp[i] = np.max(fe)
+        # max_f_amp2[i] = np.max(fi)
         max_vm_amp[i] = np.max(1e2*np.abs((muV-muV[0])/muV[0]))
 
     ax1.plot(amplitudes-amplitudes[0], max_f_amp, 'k-', lw=3)
+    # ax1.plot(amplitudes-amplitudes[0], max_f_amp2, 'r--', lw=3)
     # pol = np.polyfit(amplitudes[:3], max_f_amp[:3], 1)
     # ax1.plot(amplitudes[:int(2*N/3.)], np.polyval(pol, amplitudes[:int(2*N/3.)]), 'k--')
     set_plot(ax1, ['left'], ylabel='max. $\delta \\nu$ (Hz)', xticks=[], yticks=[0,30,60])

@@ -222,7 +222,7 @@ feedforward connectivity.
 
 ** Numerical network model
 
-#+ATTR_LATEX: :width .6\linewidth
+#+ATTR_LATEX: :width .5\linewidth
 #+NAME: ntwk-architect
 #+CAPTION: *Schematic of the local network architecture*. The network is made of \(N_e=(1-g) \, N_{tot}\) excitatory and \(N_i=g \, N_{tot}\) inhibitory neurons. All excitatory connections (afferent and recurrent) onto a neuron corresponds to \(K_e= \epsilon \, (1-g) \, N_{tot}\) synapses of weight \(Q_e\). All inhibitory connections (afferent and recurrent) onto a neuron corresponds to \(K_i= \epsilon \, g \, N_{tot}\) synapses of weight \(Q_i\)
 [[../figures/architext-ntwk.png]]
@@ -918,12 +918,14 @@ oscillations at 50-60Hz (the bifurcation would be achieved by reducing
 \(\tau_e\)), thus compatible with the present obsrevation.
 
 More importantly, the main insight of this analysis is to show that
-the network can track very fast temporal variations in the
-input. Recurent neural networks globally behave as low-pass filters
-(though see [[cite:Ledoux2011]] for a detailed treatment of the appearance
-of resonances), but with a high cutoff frequency compared to the
-frequency content of thalamic input of classical artificial stimuli
-(drifting gratings, supra-10ms flashes, etc...).
+the network can track very fast temporal variations in the input, even
+at time scales smaller than the integration time constant of the
+single neurons [[cite:VanVreeswijk1996]].  Recurent neural networks
+globally behave as low-pass filters (though see [[cite:Ledoux2011]] for a
+detailed treatment of the appearance of resonances), but with a high
+cutoff frequency compared to the frequency content of thalamic input
+for classical artificial stimuli (e.g. in the visual system: drifting
+gratings, supra-10ms flashes, etc...).
 
 Leaving apart the failure of capturing the network resonance (that is
 linked to this special configuration of synaptic parameters), we
@@ -935,46 +937,86 @@ filtering within this range. Again, /in vivo/ experiments in awake
 mice suggested that V1 cortical networks had a cut-off frequency above
 this range (\(sim\)100Hz in [[citetext:Reinhold2015]]).
 
+This section concludes the comparison between numerical simulations of
+network dynamics and the Markovian formalism. We showed that, despite
+some discrepancies, this analytical framework describes both the
+spontaneous activity and the response in the [0,100]Hz range of a
+sparsely connected recurrent network of distinct excitatory and
+inhibitory cells.
+
+
 ** Integrative properties of the network
 
-Now, we leave numerical simulations
+#+ATTR_LATEX: :width .95\linewidth
+#+NAME: fig:integrative-prop
+#+CAPTION: *Integrative properties of the network model.* For all stimuli the waveform (Equation [[eq:input]]) keeps the temporal characteristics: \( \tau_1 \)=60ms and \( \tau_2 \)=100ms. For both *A* and *B*: (i) Time courses of the stimulus, the network response and the normalized membrane potential (see main text) (ii) Maximum of the population rate responses as a function of the amplitude. (iii) Maximum of the normalized membrane potential deflection as a function of the amplitude. *(A)* Stimulus-response relationship. We increase the amplitude of the stimulus from 0 to 15Hz. In (iii), we show the linear prediction (dashed line) for comaprison. *(B)* Modulation of the response to a stimulus by various levels of background activity (external drive varied from 0 to 15Hz).
+[[../figures/integrative_properties.png]]
 
 
-#+ATTR_LATEX: :width .8\linewidth
-#+NAME: fig:varying-amp-in-ntwk
-#+CAPTION: *Varying input amplitudes in the mean field model.*
-[[../figures/varying_input_amp.png]]
+As the computational cost of the analytical description is negligible,
+we can now perform a detailed analysis of the network model. We want
+to investigate the /integrative properties/ of the network, i.e. the
+relation between the network response and the stimulus properties. We
+analyzed two quantities in the network response: 1) the population
+activity \(\nu(t) = (1-g) \nu_e(t) + g \nu_i(t) \), i.e. the firing
+rates weighted by the fraction of neurons in each population, this is
+the kind of signals sampled by multi-unit recordings, and 2) the
+normalized membrane potential over the population \(\delta V(t)/V_0 =
+(1-g) \, (V_m^{exc}(t)-V_{m,}^{stat})/V_{m}^{stat} + g
+(V_m^{inh}(t)-V_{m,}^{stat})/V_{m}^{stat} \) where \( V_m^{exc}(t) \)
+and \( V_m^{inh}(t) \) are the time courses of the excitatory and
+inhibitory membrane potential respectively and \(V_{m}^{stat}\) is the
+stationary membrane potenial value before stimulus onset. This
+quantity provides a first approximation of the signal recorded by
+voltage-sensitive dye imaging [[cite:Berger2007]], see [[citetext:Chemla2010]]
+for a more detailed treatment of the relation between neural activity
+and VSDi signals in a cortical column.
 
+First, we investigated the relation between stimulus intensity and
+network response, see [[fig:integrative-prop]]A. On top of the external
+drive, we added a time-varying stimulus with various amplitudes, see
+Figure [[fig:integrative-prop]]A(i). We found that the population activity
+scaled linearly with the strength on the input. Therefore despite the
+highly nonlinear dynamics of single neurons (see Figure [[fig:tf]]), the
+network exhibits a linear response [[cite:VanVreeswijk1996]]. On the other
+hand, the normalized membrane potential deflection (the "vsd-like
+signal" in Figure [[fig:integrative-prop]]A(i,iii)) behave non linearly,
+it exhibits a strong sublinear behavior (see the distance to the
+linear prediction, dashed line in Figure
+[[fig:integrative-prop]]A(iii)). This behavior follows from the non-linear
+relation that associate the mean membrane potential to the excitatory
+and inhibitory activities (Equation [[eq:mu-v]]): the mean membrane
+potential is not a linear combination of the excitatory and inhibitory
+contribution it is strongly /shunted/ by the total activity.
 
-#+ATTR_LATEX: :width .8\linewidth
-#+NAME: fig:varying-bg-in-ntwk
-#+CAPTION: *Impact of background activity in the mean field model.*
-[[../figures/impact_of_bg_act.png]]
+Another important /integrative property/ is how a given input will be
+modulated by changes in local ongoing activity (that could either come
+from local spontaneous fluctuations or from afferent activity). The
+response in terms of population activity was found to be unaffected by
+the level of background activity, again, in accordance with the
+characteristics of a linear system. On the other hand the membrane
+potential response exhibited a strong suppression (up to 60% of the
+response in absence of additional drive). This phenomena also
+naturally follows from the previously described non-linear
+relationship between population activity and mean membrane potential.
+
 
 ** Embedding the model in a ring model to describe spatial integration
 
-#+ATTR_LATEX: :float multicolumn :width .6\linewidth
+We now embed this local population model into a to
+investigate the emergence of spatio-temporal integration properties
+
+#+ATTR_LATEX: :float multicolumn :width \linewidth
 #+NAME: fig:simple-stim
 #+CAPTION: *A model of the cortical sheet.*
 [[../figures/simple_stim.png]]
 
-# #+ATTR_LATEX: :float multicolumn :width .8\linewidth
-# #+NAME: fig:spt-temp-charact
-# #+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
-# [[../figures/spatio_temporal_profile_charact.png]]
 
-# ** Calibration on in vivo imaging :noexport:
+** Comparison with VSDi response in 
 
-# #+ATTR_LATEX: :float multicolumn :width .8\linewidth
-# #+NAME: fig:data
-# #+CAPTION: *Spatio-temporal characterization of the resulting pattern.*
-# [[../figures/data.png]]
-
-** Predictions of the model
-
-#+ATTR_LATEX: :float multicolumn :width .6\linewidth
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:suppression
-#+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression.*
+#+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression: comparison between the model and VSDi recordings in an awake behaving monkey.* *(A)* The apparent motion protocol. *(B)* VSDi in the primary visual cortex in vivo. *(C)* COmparison between model and experiments.
 [[../figures/suppression.png]]
 
 * Discussion
