@@ -73,24 +73,26 @@ subthreshold responses to sensory inputs are locally homogeneous in
 primary sensory areas, depolarizations tend to spread across spatially
 neighboring regions and responses to sensory stimuli are strongly
 affected by the level of ongoing activity. It also appears as great
-tools to undesrtand how the spatio-temporal dynamics in the neocortex
+tools to unveil how the spatio-temporal dynamics in the neocortex
 shape canonical cortical operations such as normalization
 [[cite:Reynaud2012]].
 
-
-On the other hand, the litterature lacks, to our knowledge, a
-theoretical model that provides a detailed account of those phenomena
-with a clear relation between how this signal is generated and those
-physiolgical principles at that spatial scale (i.e. at the millimeters
-or centimeters scale).
-
-The aim of the present communication is to design a theoretical model
-of neocortical dynamics with the following properties: 1) it should
+On the other hand, the litterature lacks, to the best of our
+knowledge, theoretical models that provides a detailed account of
+those phenomena with a clear relation between how this signal is
+generated and those physiolgical phenomena at that spatial scale
+(i.e. at the millimeters or centimeters scale). Detailed model of a
+neocortical column (i.e. \(\sim\)0.5mm^2 scale) have been recently
+proposed, see [[citetext:Chemla2010]] for the link with the VSDi signal or
+more generally [[citetext:Markram2015]], but their computational cost
+impedes the generalization to higher spatial scale. The aim of the
+present communication is thus to design a theoretical model of
+neocortical dynamics with the following properties: 1) it should
 operate at the temporal and spatial scales of optical imaging and 2)
-it has a correlate in terms of single-cell dynamics (in particular
-membrane potential dynamics), so that the model can directly generate
-predictions for the signal imaged by the VSDi technique
-[[cite:Berger2007]].
+it should have a correlate in terms of single-cell dynamics (in
+particular membrane potential dynamics), so that the model can
+directly generate predictions for the signal imaged by the VSDi
+technique [[cite:Berger2007]].
 
 More specifically, our study focuses on network dynamics in
 /activated/ cortical states, thus the desired model should describe
@@ -102,10 +104,10 @@ strategy behind the present model is to take advantage of the
 self-consistent approaches, those descriptions allow to capture the
 dynamical properties of population activity in recurrent networks
 [[cite:Amit1997,Brunel1999,Brunel2000,Latham2000,ElBoustani2009]]. The
-model thus relies on the following scheme: 1) we consider the randomly
-connected network of 10000 neurons as a unit to describe a cortical
-column and 2) we embeded the analytical description of this cortical
-column model into a ring geometry with physiological local
+present model thus relies on the following scheme: 1) we consider the
+randomly connected network of 10000 neurons as a unit to describe a
+cortical column and 2) we embeded the analytical description of this
+cortical column model into a ring geometry with physiological local
 connectivity profiles to model spatio-temporal integration on the
 neocortical sheet.
 
@@ -116,7 +118,11 @@ the model with numerical simulations, we can precisely evaluate the
 accuracy and/or weaknesses of the analytical description to evaluate
 its potential impact on the modeling of the network.
 
-The second part of the paper investigates the properties of the model
+The second part of the paper investigates the integrative properties
+of the model, i.e. the relation between the network response and the
+properties of the input. Finally we compare the model prediction with
+VSDi recordings in awake behaving monkey in a stereotypical paradigm
+of visual processing: the apparent-motion protocol.
 
 * Material and Methods
 \small
@@ -579,22 +585,26 @@ T \, \frac{\partial \nu_\mu}{\partial t} = \mathcal{F}_\mu - \nu_\mu \\
 
 We now embed the previous markovian description of population dynamics
 in a ring geometry to model spatio-temporal integration on the
-neocortical sheet. For simplicity, we consider here only the first
-moments of the second-order description: i.e. the means of the
-excitatory and inhibitory population activities: \(\nu_e(t)\) and
-\(\nu_i(t)\) respectively. 
+neocortical sheet. The ring geometry corresponds to a one dimensional
+spatial description with a translational invariance, i.e. for all
+quantities \(f\), \(f(x)=f(x+L)\)(also termed one dimensional periodic
+boundary conditions), where \(L\) is the length of the ring model. For
+simplicity, we consider here only the first moments of the
+second-order description: i.e. the means of the excitatory and
+inhibitory population activities: \(\nu_e(t)\) and \(\nu_i(t)\)
+respectively.
 
-We introduce the gaussian connectivity profiles (see Figure
+We introduce the Gaussian connectivity profiles (see Figure
 [[fig:simple-stim]]) that defines the connectivity across cortical columns
 (i.e. local networks described in the previous section):
 
 \begin{equation}
-\mathcal{N}_e(x) = \frac{1}{\sqrt{2 \pi} l_e} e^{-(\frac{x}{\sqrt{2} l_e})^2} \quad ; \quad 
-\mathcal{N}_i(x) = \frac{1}{\sqrt{2 \pi} l_i} e^{-(\frac{x}{\sqrt{2} l_i})^2}
+\mathcal{N}_e(x) = \frac{1}{\sqrt{2 \pi} l_{exc}} e^{-(\frac{x}{\sqrt{2} l_{exc}})^2} \quad ; \quad 
+\mathcal{N}_i(x) = \frac{1}{\sqrt{2 \pi} l_{inh}} e^{-(\frac{x}{\sqrt{2} l_{inh}})^2}
 \end{equation}
 
-where \(l_e\) and \(l_i\) are the excitatory and inhibitory extent of
-the connectivity profiles respectively.
+where \(l_{exc}\) and \(l_{inh}\) are the excitatory and inhibitory
+extent of the connectivity profiles respectively.
 
 We also introduce the effect of a finite axonal conduction speed
 \(v_c\), this will intriduce delays for the propagation of activity
@@ -625,7 +635,8 @@ is given by Equation [[eq:mu-v]].
 
 ** Afferent stimulation 
 
-The afferent input was choosen as a piecewise double gaussian waveform:
+In the case of the local population model, the afferent input was
+choosen as a piecewise double Gaussian waveform:
 
 #+NAME: eq:input
 \begin{equation}
@@ -638,6 +649,20 @@ e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
 Thus, we independently control: 1) the maximum amplitude \(A\) of the
 stimulation, its rising time constant \(\tau_1\) and its decay time
 constant \(\tau_2\).
+
+In the case of the ring model, this temporal waveform was multiplied
+by a Gaussian profile in space of extent \(l_{stim}\) to yield the
+waveform:
+
+#+NAME: eq:ring-input
+\begin{equation}
+\nu_e^{aff}(x,t)) = A \, e^{-(\frac{x-x_0}{\sqrt{2} l_{stim}})^2}
+\, \Big(
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_1})^2} \mathcal{H}(t_0-t)+
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
+\Big)
+\end{equation}
+
 
 * Results
 \normalsize
@@ -935,7 +960,7 @@ relatively accurate description of the network response in the sense
 that it accurately predicts that there should not be a frequency
 filtering within this range. Again, /in vivo/ experiments in awake
 mice suggested that V1 cortical networks had a cut-off frequency above
-this range (\(sim\)100Hz in [[citetext:Reinhold2015]]).
+this range (\(\sim\)100Hz in [[citetext:Reinhold2015]]).
 
 This section concludes the comparison between numerical simulations of
 network dynamics and the Markovian formalism. We showed that, despite
@@ -943,7 +968,6 @@ some discrepancies, this analytical framework describes both the
 spontaneous activity and the response in the [0,100]Hz range of a
 sparsely connected recurrent network of distinct excitatory and
 inhibitory cells.
-
 
 ** Integrative properties of the network
 
@@ -1000,16 +1024,72 @@ response in absence of additional drive). This phenomena also
 naturally follows from the previously described non-linear
 relationship between population activity and mean membrane potential.
 
-
 ** Embedding the model in a ring model to describe spatial integration
 
-We now embed this local population model into a to
-investigate the emergence of spatio-temporal integration properties
+#+ATTR_LATEX: :width .8\linewidth
+#+NAME: fig:ring
+#+CAPTION: *A spatial model of the cortical sheet.* The balanced network units are embedded in a ring geometry. The lateral connectivity follows two Gaussian profile of extent \(l_{exc}\)=5mm and \(l_{inh}\)=1mm for the excitation and inhibition respectively.
+[[../figures/ring.png]]
 
-#+ATTR_LATEX: :float multicolumn :width \linewidth
+#+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:simple-stim
-#+CAPTION: *A model of the cortical sheet.*
+#+CAPTION: *Model response to a local stimulus.* An /early response line/ (see main text) indicates whether the signal exhibits propagation over space (vertical meaning no propagation), the line stops when the response is below 1% of the maximum signal over space. The yellow dotted line on the right of each plot represents to conduction velocity (300mm/s) for comparison. *(A)* Afferent stimulation: an input of the form Equation [[eq:ring-input]] with the parameters \(A\)=10Hz, \(\tau_1\)=50ms, \(\tau_2\)=150ms and \(l_{exc}\)=1.5mm. *(B)* Population response in terms of population firing rate (\(\sim\) multiunit signal). *(C)* Population response in terms of normalized membrane potential deflection  (\(\sim\) VSDi signal).
 [[../figures/simple_stim.png]]
+
+We now embed this local population dynamics description into a spatial
+model to investigate the emergence of spatio-temporal integrative
+properties.
+
+The ring model (see e.g. [[cite:Hansel1996]]) offers a simple framework to
+implement such interactions. The local balanced network units are
+interconnected to each other via two Gaussian connectivity profiles
+(see Figure [[fig:ring]] and Methods) according to anatomical connectivity
+estimates [[REFS?]]. Importantly, we integrate distance-dependent
+propagation delays due to the finite velocity of axonal conduction of
+action potentials (see Methods), we took here an axonal conduction
+velocity of 300mm/s.
+
+
+We stimulated this large-scale model with an external input mimicking
+thalamic stimulation. We took a separable spatio-temporal waveform as
+an input (see Equation [[eq:ring-input]]). The spatio-temporal parameters
+of the input (\(\tau_1\)=50ms, \(\tau_2\)=150ms, \(l_{exc}\)=1.5mm)
+have been manually calibrated to reproduce the properties of the
+response observed in /in vivo/ as a response to a single flash (see
+next section). In space, the profile was a Gaussian curve, in time, it
+was a piecewise double Gaussian function. Despite its various
+amplitude over space, it should be emphasized that this input does not
+propagate: e.g. its maximum is achieved at all position at the same
+time. To highlight this feature, we implemented a simple analysis of
+propagation: we normalize the responses with respect to their local
+amplitude and we look for a specific crossing of the normalized
+amplitude. To focus on early responses, we highlight the initial
+crossing of the fourth of the normalized amplitude over space, we call
+it the /early response line/ (drawn with a white dashed-line, see
+Figure [[fig:simple-stim]]). In Figure [[fig:simple-stim]]A, the horizontal
+/early response line/ indeed show that the input does not propagate,
+the fourth of the maximum of the normalized response is achieved
+everywhere at the same time.
+
+The response of the model in terms of population dynamics showed a
+marked propagation (see the V-shape of the /early response line/ in
+Figure [[fig:simple-stim]]B). This is naturally the result of the local
+connectivity profiles implemented in the model (see Figure [[fig:ring]]
+and Table [[table:params]]), the excitation has broad spatial extent, it
+can depolarizes neighboring locations and evoke spiking (both of
+excitatory and inhibitory populations). This propagated activity
+nonethless exhibits a very strong attenuation over space, this is due
+to the strong non-linear relationship between depolarizations and
+firing response (see previous sections). Confirming this picture, the
+normalized membrane potential responses indeed exhibits the same
+propagation profile but with a much weaker attenuation over
+space. Naturally, the propagation dynamics in the model is led by the
+conduction velocity, see its representation (yellow dotted line) in
+Figure [[fig:simple-stim]]B,C. A strong prediction of the model is
+therefore that the detectability of responses in multiunit recordings
+have a lower spatial extent than for VSDi responses (see the lower
+range of the /early response line/ that stops when the maximum local
+response is below 1% of the maximum response).
 
 
 ** Comparison with VSDi response in 
@@ -1019,24 +1099,36 @@ investigate the emergence of spatio-temporal integration properties
 #+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression: comparison between the model and VSDi recordings in an awake behaving monkey.* *(A)* The apparent motion protocol. *(B)* VSDi in the primary visual cortex in vivo. *(C)* COmparison between model and experiments.
 [[../figures/suppression.png]]
 
+We now have a model that exhibits the strong propgation effect
+observed in VSDi recordings during the presentation.
+
+VSDi allows for a real-time visualization of large neuronal population
+in V1 of fixating monkeys
+
+
+
+
 * Discussion
 \normalsize
 
-We first investigated whether the Markovian formalism proposed in
-[[citetext:ElBoustani2009]] is able to describe the temporal dynamics of
-artificial neural networks. Though this formalism was shown to be an
-relatively accurate description of the response simulated in numerical
-networks, we highlighted two example phenomena that was missed by our
-description. The relative complexity of the theoretical problem should
-be stressed, indeed no exact treatment of this situation could be
-achieved as this represents a really tough mathematical problem. 
+The present study has two main contributions. 
 
+In a first part, we investigated whether the Markovian formalism
+proposed in [[citetext:ElBoustani2009]] is able to describe the temporal
+dynamics of artificial neural networks. Though this formalism was
+shown to be an relatively accurate description of the response
+simulated in numerical networks, we highlighted two example phenomena
+that was missed by our description. The relative complexity of the
+theoretical problem should be stressed, indeed no exact treatment of
+this situation could be achieved as this represents a really tough
+mathematical problem.
 
-By taking advantage of this theoretical work performed at the
-mesoscopic level (\(\sim\) 10000 neurons) to analytically describe
-population dynamics in terms of few variables, we were able to design
-a tractable model of population dynamics in Layer II-III at the
-\(\sim\) 30 millimeter scale of the neocortical sheet.
+In a second part, by taking advantage of this theoretical work
+performed at the mesoscopic level (\(\sim\) 10000 neurons) to
+analytically describe population dynamics in terms of few variables,
+we were able to design a tractable model of population dynamics in
+Layer II-III at the \(\sim\) 30 millimeter scale of the neocortical
+sheet.
 
 We studied the properties of this model in the context of multi-input
 integration. In particular, we implemented a typical paradigm of
@@ -1073,38 +1165,36 @@ experimental data. Nonetheless, when keeping their value to estimated
 physiological range, the amplitude of the suppression was at least one
 order of magnitude lower than that observed in experimental recordings
 (not shown, but the slight suppression for the firing activity in
-Figure [[fig:varying-bg-in-ntwk]]B is the trace of this effect), thus
-suggesting that they weakly participate to this strong suppression
-effect.
+Figure [[fig:integrative-prop]]B(ii) is the trace of this effect), thus
+suggesting that they weakly participate to the very strong suppression
+effect observed in VSDi recordings.
 
-Note here that an important constraint to account for the observed
-experimental data was that the strong suppressive mechanism would be
-cortico-cortical. Depression at the thalamo-cortical synapses can
-contribute to the suppression of cortical responses [[ref]], but this semt
-unlikely to play here as the sensory stimuli are well separated in the
-visual space and are likely to also be well separated in the thalamic
-nucleus.
+An important remark is that the strong suppressive mechanism had to be
+cortico-cortical to account for the experimental
+observations. Depression at the thalamo-cortical synapses can
+contribute to the suppression of cortical responses (see
+[[citetext:Carandini2002]] for cross-orientation suppression), but this
+seems unlikely to play here as the sensory stimuli are well separated
+in the visual space and are likely to also be well separated in the
+thalamic nucleus, thus ruling out the hypothesis of synaptic
+depression at the thalamo-cortical synapse.
 
 We envision several future directions for the present model.
 
 First, the theoretical descriptions of the local cortical network
-could be improved, 
-
-
-For example the strong hyperpolarization of population activity after
-a transient rise (see Figure [[fig:mf-temp-pred]]B) was shown to be missed
-by the formalism under this version. Indeed, this version does not
-have a memory of the previous activity levels and thus can not account
-for the effect of the long-lasting spike-frequency adaptation
-mechanism that has been strongly activated by the activity evoked by
-the stimulus. This is easily solvable within the Markovian framework,
-one can introduce a new variable: the "population adaptation current",
-that can directly be derived from the equation of the AdExp model (not
-shown).
-
- The simplicity and high tractability of this model in its current
-form would allow several inclusion without running into the drawback
-of a high computational cost.
+could be improved. For example the strong hyperpolarization of
+population activity after a transient rise (see Figure
+[[fig:mf-temp-pred]]B) was shown to be missed by the formalism under this
+version. Indeed, this version does not have a memory of the previous
+activity levels and thus can not account for the effect of the
+long-lasting spike-frequency adaptation mechanism that has been
+strongly activated by the activity evoked by the stimulus. This is
+easily solvable within the Markovian framework, one can introduce a
+new variable: the "population adaptation current", that can directly
+be derived from the equation of the AdExp model (not shown).  The
+simplicity and high tractability of this model in its current form
+would allow several inclusion without running into the drawback of a
+high computational cost.
 
 Second, investigating other typical cortical phenomena. As an example,
 the response to a stimulus depends on the level of ongoing activity

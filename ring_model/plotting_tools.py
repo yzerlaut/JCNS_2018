@@ -46,10 +46,11 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     ax.annotate(str(bar_mm)+'mm', (0.,0.), xycoords='axes fraction') # bar
     if yzoom is None:
         yzoom = [0, array.shape[1]]
+    else:
+        yzoom = np.array(yzoom)*params['pixels_per_mm']
     if xzoom is None:
         xzoom = [t[0], t[-1]]
     # now in pixel coordinates
-    yzoom = np.array(yzoom)*params['pixels_per_mm']
     bar_mm *= params['pixels_per_mm']
     
     
@@ -67,8 +68,13 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
 
     if with_latency_analysis:
         # in pixel coordinates
-        TT, XX = find_latencies_over_space(t, np.linspace(0,1,array.shape[1])*array.shape[1],\
-                                           array, phase_criteria=-np.pi/2.+np.pi/4.)
+        # TT, XX = find_latencies_over_space(t, np.linspace(0,1,array.shape[1])*array.shape[1],\
+        #                                    array, phase_criteria=-np.pi/2.+np.pi/4.,\
+        #                                    signal_criteria=0.01)
+        TT, XX = find_latencies_over_space_simple(t,
+                        np.linspace(0,1,array.shape[1])*array.shape[1],\
+                        array, signal_criteria=5e-2,\
+                        amp_criteria=1./4., discard=20)
         ax.plot(TT, XX, 'w--', lw=3)
 
     ax.plot([xzoom[0],xzoom[0]], [yzoom[0], yzoom[0]+bar_mm], 'k-', lw=5)
