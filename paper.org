@@ -1,4 +1,4 @@
-#+TITLE: A markovian model for spatio-temporal population dynamics in neocortex
+#+TITLE: A Markovian model for spatio-temporal population dynamics in neocortex
 #+AUTHOR:  Collab.: S. Chemla^1 & F. Chavane^1 (/in vivo/ VSD imaging)
 #+DATE:  \textsc{Y. Zerlaut}^2 & \textsc{A. Destexhe}^2 
 #+INCLUDE: my_template.org
@@ -24,7 +24,7 @@
 
 \normalfont
 
-* Abstract
+* Abstract :noexport:
 \bfseries
 
 The focus of the present communication is to design a theoretical
@@ -663,7 +663,6 @@ e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
 \Big)
 \end{equation}
 
-
 * Results
 \normalsize
 
@@ -1049,33 +1048,28 @@ propagation delays due to the finite velocity of axonal conduction of
 action potentials (see Methods), we took here an axonal conduction
 velocity of 300mm/s.
 
-
 We stimulated this large-scale model with an external input mimicking
 thalamic stimulation. We took a separable spatio-temporal waveform as
-an input (see Equation [[eq:ring-input]]). The spatio-temporal parameters
-of the input (\(\tau_1\)=50ms, \(\tau_2\)=150ms, \(l_{exc}\)=1.5mm)
-have been manually calibrated to reproduce the properties of the
-response observed in /in vivo/ as a response to a single flash (see
-next section). In space, the profile was a Gaussian curve, in time, it
-was a piecewise double Gaussian function. Despite its various
-amplitude over space, it should be emphasized that this input does not
-propagate: e.g. its maximum is achieved at all position at the same
-time. To highlight this feature, we implemented a simple analysis of
-propagation: we normalize the responses with respect to their local
-amplitude and we look for a specific crossing of the normalized
-amplitude. To focus on early responses, we highlight the initial
-crossing of the fourth of the normalized amplitude over space, we call
-it the /early response line/ (drawn with a white dashed-line, see
-Figure [[fig:simple-stim]]). In Figure [[fig:simple-stim]]A, the horizontal
-/early response line/ indeed show that the input does not propagate,
-the fourth of the maximum of the normalized response is achieved
-everywhere at the same time.
+an input (see Equation [[eq:ring-input]]). In space, the profile was a
+Gaussian curve, in time, it was a piecewise double Gaussian
+function. Despite its various amplitude over space, it should be
+emphasized that this input does not propagate: e.g. its maximum is
+achieved at all position at the same time. To highlight this feature,
+we implemented a simple analysis of propagation: we normalize the
+responses with respect to their local amplitude and we look for a
+specific crossing of the normalized amplitude. To focus on early
+responses, we highlight the initial crossing of the fourth of the
+normalized amplitude over space, we call it the /early response line/
+(drawn with a white dashed-line, see Figure [[fig:simple-stim]]). In
+Figure [[fig:simple-stim]]A, the horizontal /early response line/ indeed
+show that the input does not propagate, the fourth of the maximum of
+the normalized response is achieved everywhere at the same time.
 
 The response of the model in terms of population dynamics showed a
 marked propagation (see the V-shape of the /early response line/ in
 Figure [[fig:simple-stim]]B). This is naturally the result of the local
 connectivity profiles implemented in the model (see Figure [[fig:ring]]
-and Table [[table:params]]), the excitation has broad spatial extent, it
+and Table [[table:params]]), the excitation has a broad spatial extent, it
 can depolarizes neighboring locations and evoke spiking (both of
 excitatory and inhibitory populations). This propagated activity
 nonethless exhibits a very strong attenuation over space, this is due
@@ -1091,22 +1085,96 @@ have a lower spatial extent than for VSDi responses (see the lower
 range of the /early response line/ that stops when the maximum local
 response is below 1% of the maximum response).
 
+The propagating wave in the model are thus very similar to those
+detected in primary visual cortex of awake monkey, either in
+spontaneous activity or following visual stimulation, as recently
+shown by a phase-based analysis applied at single-trial level
+[[cite:Muller2014]]. Note that, to highlight this qualitative similarity
+between model and /in vivo/ VSDi recordings, the spatio-temporal
+parameters of the input (\(\tau_1\)=50ms, \(\tau_2\)=150ms,
+\(l_{exc}\)=1.5mm) have been manually calibrated to reproduce the
+properties of the response observed as a response to a single Gaussian
+blob in the visual space of \(0.5^o\) spatial extent.
 
-** Comparison with VSDi response in 
+** Deintricating the cortical operation underlying the response to an apparent motion stimulus
 
 #+ATTR_LATEX: :float multicolumn :width .8\linewidth
 #+NAME: fig:suppression
-#+CAPTION: *Apparent motion protocol and the associated spatio-temporal profile of suppression: comparison between the model and VSDi recordings in an awake behaving monkey.* *(A)* The apparent motion protocol. *(B)* VSDi in the primary visual cortex in vivo. *(C)* COmparison between model and experiments.
+#+CAPTION: *Deintricating the cortical operation underlying the response to an apparent motion (AM) stimulus: comparison between the model and VSDi recordings in fixating monkeys.* *(A)* The apparent motion protocol. During a single trial, the monkey had to fixate on a central red dot for 1–2s. The animal’s gaze was constrained in a window of \(2^o \times 2^o\). Two Gaussian blob stimuli (each of \(0.5^o\) spatial extent) at two different position were successively presented during fixation. *(B)* VSDi allows for a real-time visualization of large neuronal population in primary visual cortex of fixating monkeys. *(C)* To deintricate the cortical computation, both in the theoretical model and in fixating monkey /in vivo/, we show the VSDi signal of different quantities: (i) the response to the first stimulus alone (ii) the response to thethe second stimulus alone, (iii) the linear prediction of the signal resulting from the two stimuli alone, (iv) the response to the two stimuli (AM stimulus) and (v) the spatio-temporal profile of the suppression signal (the linear prediction minus the observed response to the AM stimulation). The dashed magenta line in the model plot represents the conduction velocity. Note that the spatial scale in the model is higher than in the recordings (i.e. the model shows an enlarged region).
 [[../figures/suppression.png]]
 
-We now have a model that exhibits the strong propgation effect
-observed in VSDi recordings during the presentation.
 
-VSDi allows for a real-time visualization of large neuronal population
-in V1 of fixating monkeys
+The presence of travelling waves detected in the VSDi signal in
+response to simple stimuli [[cite:Muller2014]] raises the question of a
+putative physiological role during the integration of complex
+stimuli. Indeed, such transient depolarization of excitatory and
+inhibitory neurons carried by the horizontal fibre network of the
+superficial cortical layers might affect the processing of future
+stimuli at distant points in visual cortex.
 
+To investigate this possibility, a convenient paradigm is the apparent
+motion protocol: two individual stimuli are successivelly flashed at
+two neighboring visual locations (see Figure [[fig:suppression]]A). If the
+interval between the two stimuli and the distances in visual space are
+low enough, this give rise to the visual illusion of one moving object
+instead of two different flashed objects, hence the name: /apparent
+motion/ stimulus.
 
+Using voltage-sensitive dye imaging in the premary visual cortex of
+awake monkey (see Figure [[fig:suppression]]B), Chemla & Chavane
+(unpublished observations) showed that two visual stimuli in different
+positions in space and time evoke two distinct propagating waves,
+which can collide, see Figure [[fig:suppression]]C(iv). To understand the
+computation perfomed during this /collision/, they recorded the
+response to the two simple stimuli alone, see Figure
+[[fig:suppression]]C(i,ii), and then computed the linear prediction of the
+expected spatio-temporal profile in the absence of cortical
+operations, see Figure [[fig:suppression]]C(iii).
 
+Notably, they found that the interaction between the two waves always
+results in the propagation of a suppressive (sub-linear) wave at a
+speed compatible with horizontal propagation (0.1-0.6 m/s). The
+suppression affected the second stimulus first and then propagated
+toward the first stimulus location.
+
+We therefore tried to explain those observations in the light of our
+theoretical model. As previously mentionned, we calibrated the
+afferent input (mimicking thalamic input) to obtain a spatio-temporal
+responses similar to those observed /in vivo/ (i.e. the cortical
+distance between the two stimuli was estimated as 8.1mm for a 2^o
+separation in the visual space). We next investigated the prediction
+of the theoretical model in response to the apparent motion stimulus,
+see Figure [[fig:suppression]]C.
+
+Similarly to what was observed experimentally, we found that the
+normalized membrane potential response ( \( \sim \) VSDi signal) to the
+two successive inputs /collided/, see Figure [[fig:suppression]]C(iv), and
+resulted in a strongly dampened signal with respect to the linear
+prediction, see Figure [[fig:suppression]]C(v). This suppression signal
+was also found to propagate from the second stimulus location toward
+the first stimulus location. To investigate quantitatively the
+properties of this propagation, we implemented the same /early
+response line/ analysis than previously described (see previous
+section). We found that the propagation of the suppression was led by
+the conduction velocity (see comparison with the dotted magenta line
+in Figure [[fig:suppression]]C(v)). Importantly, it should be noted that
+in addition to this qualitative similarity, the quantitative
+prediction of the model seems to match those of the experimental
+recordings: the suppression peaks at \( \sim  50 \%\) of the response to
+a single stimulus both in the model and in the VSDi recordings (for
+the experimental recordings, response to first and second stimulus
+have a maximum of \(\Delta F /F \sim 12  \) \textperthousand, suppression
+peaks at \(\Delta F /F \sim 6 \) \textperthousand, in the model, the
+"VSDi-like" signal response to first and second stimulus have a
+maximum of \( \delta V /V_0 \sim 6 \% \), suppression peaks at \(\delta
+V /V_0 \sim 3 \% \)).
+
+We conclude that the the horizontal fibre network combined with the
+strongly sublinear relation between membrane potential deflection and
+activity in the local network (see Figure [[fig:integrative-prop]])
+appears as a putative sufficient explanation for the observation found
+in VSDi recordings during an apparent motion stimulus in fixating
+monkeys.
 
 * Discussion
 \normalsize
@@ -1128,12 +1196,10 @@ performed at the mesoscopic level (\(\sim\) 10000 neurons) to
 analytically describe population dynamics in terms of few variables,
 we were able to design a tractable model of population dynamics in
 Layer II-III at the \(\sim\) 30 millimeter scale of the neocortical
-sheet.
-
-We studied the properties of this model in the context of multi-input
-integration. In particular, we implemented a typical paradigm of
-visual processing: the apparent motion protocol. Similarly to what is
-observed /in vivo/ we found a strong suppression signal that
+sheet. We studied the properties of this model in the context of
+multi-input integration. In particular, we implemented a typical
+paradigm of visual processing: the apparent motion protocol. Similarly
+to what is observed /in vivo/ we found a strong suppression signal
 originating in the second stimulus that propagated toward the first
 stimulus.
 
@@ -1145,12 +1211,13 @@ step to demonstrate the relative accuracy of the markovian formalism
 (with the semi-analytical approach) in a situation including this
 increased complexity, but more importantly, this assymetry in the
 excitabilities was the mechanism that led to a very strong suppression
-in the response to multiple inputs. This feature produce an inhibitory
-control of the mean membrane potential fluctuations. When the external
-stimulation increases the local excitatory activity, inhibition is
-recruited via recurrent connections and because of its higher
-excitability this recruitment is stronger than for the excitatory
-population (see e.g. Figure [[fig:mf-temp-pred]]B).
+in the response to multiple inputs.  When the external stimulation
+increases the local excitatory activity, inhibition is recruited via
+recurrent connections and because of its higher excitability this
+recruitment is stronger than for the excitatory population (see
+e.g. Figure [[fig:mf-temp-pred]]B).This feature, combined with the
+interplay of driving forces, produced an inhibitory control of the mean
+membrane potential fluctuations.
 
 Other suppressive mechanisms were present in this model: conductance
 shunting of the external input due to background activity
@@ -1196,16 +1263,23 @@ simplicity and high tractability of this model in its current form
 would allow several inclusion without running into the drawback of a
 high computational cost.
 
-Second, investigating other typical cortical phenomena. As an example,
-the response to a stimulus depends on the level of ongoing activity
-[[cite:Arieli1996]] dependency on the level of ongoing activity. When the
-the ongoing activity is modulated by the level of afferent activity is
-this model sufficient to describe the spatio-temporal variability in
-evoked response ? etc...
+Finally, we would like to test the model ability to explain other
+typical cortical properties. In aprticular, similar propagation of
+suppressive interactions have already been shown but using bipartite
+stationary stimuli [[cite:Reynaud2012]], unveiling the cortical dynamics
+subtending the so-called surround suppression. What is the explanatory
+power of the model in the surround suppression framework ? As an
+additional example, the response to a stimulus depends on the level of
+ongoing activity [[cite:Arieli1996]] dependency on the level of ongoing
+activity. When the the ongoing activity is modulated by the level of
+afferent activity is this model sufficient to describe the
+spatio-temporal variability in evoked response ? Answering those
+questions will be the focus of future work.
 
 * References 
 \small
 
 \bibliography{biblio}
+
 
 
