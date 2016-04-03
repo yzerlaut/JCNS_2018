@@ -24,41 +24,59 @@
 
 \normalfont
 
-* Abstract :noexport:
+* Abstract
 \bfseries
 
-The focus of the present communication is to design a theoretical
-model of neocortical dynamics with the following properties: 1) it
-operates at the temporal and spatial scales scanned by optical imaging
-and 2) it has a correlate in terms of single-cell dynamics (in
-particular membrane potential dynamics), so that the model can
-directly generate predictions for the signal imaged by the
-voltage-sensitive dye imaging technique.
+While voltage sensitive dye imaging (VSDi) has been shown to be a
+desisive tool in the exploration of how neural population dynamics
+shape cortical function, to our knowledge, no theoretical model offers
+a detailed account of the link between neural dynamics and the source
+signal at the large spatial scale imaged by optical imaging (\(\sim\)
+100mm^2).
 
-In this communication, by comparing its prediction with numerical
-simulations of artificial neural networks, we investigate whether the
-markovian formalism proposed in [[citetext:ElBoustani2009]] allows to
-describe the population dynamics of a network of excitatory and
+In this communication, we take advantage of the extensive theoretical
+work performed at the mesoscopic scale (\(\sim\) 10000 neurons,
+0.25mm^2) to analytically describe population dynamics in terms of few
+variables (the so-called /mean-field/ approach to network dynamics) to
+build a large scale model of population dynamics but still with a
+correlate in terms of single-cell dynamics (in particular membrane
+potential dynamics) so that the model can directly generate
+predictions for the signal imaged by the VSDi technique.
+
+The first part establishes the validity and weaknesses of the
+mesoscopic description of network dynamics used to model the activity
+of a single cortical column. By comparing its prediction with
+numerical simulations of artificial neural networks, we investigate
+whether the markovian formalism proposed in [[citetext:ElBoustani2009]]
+allows to describe the dynamics of a network of excitatory and
 inhibitory neurons with different electrophysiological properties. In
 particular, we investigate whether this formalism generalizes to the
 description of network dynamics in the presence of time-dependent
-inputs. We find that, while missing a resonant behavior at
-\(\sim\)70Hz, the response to slow modulations (0-40Hz) provides a
-good approximation of the response of this complex numerical neural
-networks. We next analyze the integrative properties of the model: how
-does it responds to increasing stimuli strength or how is it modulated
-by an increase in external background activity. We found that, while
-the firing response scales linearly the response in terms of membrane
+inputs. 
+
+We next analyze the integrative properties of the model: how does it
+responds to increasing stimuli strength or how is it modulated by an
+increase in external background activity. We found that, while the
+firing response scales linearly the response in terms of membrane
 potential variations over the population exhibits a strong
-suppression. We then embed this local network description
-(\(\sim\)10000 neurons) in a ring geometry to describe the spatial
-integration across the neocortical sheet. We re-construct a typical
-experimental paradigm of visual processing: the apparent-motion
-protocol and we compare the model's response to optical imaging of
-spatio-temporal dynamics in the primary visual cortex of awake
-behaving monkey (Chemla & Chavane, unpublished results). We found a
-similar strong suppression as observed /in vivo/, our study therefore
-proposes a precise mechanistic understanding of this phenomena.
+suppression. We then embed this local network description in a ring
+geometry to describe the spatial integration across the neocortical
+sheet. We first show that this simple model accuratly predicts the
+emergence of propagating waves in response to simple stimuli
+[[cite:Muller2014]].
+
+Finally we re-construct a typical experimental paradigm of multi-input
+integration in visual processing: the apparent motion protocol. We
+compare the model's response to optical imaging of spatio-temporal
+dynamics in the primary visual cortex of fixating monkey (Chemla &
+Chavane, unpublished observations). The model exhibited a similar
+spatio-temporal pattern of suppression such as the one observed /in
+vivo/, our study therefore proposes that the the horizontal fibre
+network combined with the strongly sublinear relation between membrane
+potential deflection and activity in the local network appears as a
+putative sufficient explanation for the observation found in VSDi
+recordings during an apparent motion stimulus in fixating monkeys.
+
 
 \normalfont
 
@@ -142,12 +160,11 @@ The neuronal model used in this study is the adaptative exponential
 and fire (AdExp) model [[cite:Brette2005a]]. The equation for the membrane
 potential and the adaptation current therefore reads:
 
-#+NAME: eq:iAdExp
+# #+NAME: eq:iAdExp
 \begin{equation}
-\hspace{-.2cm}
   \left\{
   \begin{split}
-  & C_\mathrm{m}\,\frac{dV}{dt} = g_\mathrm{L} \,(E_\mathrm{L}-V) + I_{syn}(V,t) + k_a e^{\frac{V - V_{thre} }{k_a}}- I_w \\
+  & C_m\,\frac{dV}{dt} = g_{L} \,(E_{L}-V) + I_{syn}(V,t) + k_a e^{\frac{V - V_{thre} }{k_a}}- I_w \\
   & \tau_w \frac{d I_w}{dt} = - I_w + \sum_{t_s \in \{t_{spike}\}} b \, \, \delta (t-t_s)
   \end{split}
 \right.
@@ -369,7 +386,7 @@ The mean conductances will control the input conductance of the neuron
 \begin{equation}
 \begin{split}
 & \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
-& \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}\\
+& \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}
 \end{split}
 \end{equation}
 
@@ -390,7 +407,7 @@ We will now approximate the driving force \(E_s - V(t)\) of synaptic
 events by the level resulting from the mean conductance bombardment:
 \(E_s - \mu_V\). This will enable an analytical solution for the
 standard deviation \( \sigma_V\) and the autocorrelation time \(
-\sigma_V\) of the fluctuations/
+\sigma_V\) of the fluctuations.
 
 *** Power spectrum of the membrane potential fluctuations
 
@@ -401,9 +418,7 @@ from the sum of events \(PSP_{s}(t)\) at frequency \(K_{s} \, \nu_s\)
 can be obtained from shotnoise theory [[cite:Daley2007]]:
 
 \begin{equation}
-\begin{split}
- P_V(f)  = & \sum_{s \in \{e,i\}} K_s \, \nu_{s} \, \| \hat{\mathrm{PSP}_s}(f) \|^2
-\end{split}
+ P_V(f)  = \sum_{s \in \{e,i\}} K_s \, \nu_{s} \, \| \hat{\mathrm{PSP}_s}(f) \|^2
 \end{equation}
 
 where \(\hat{\mathrm{PSP}_s}(f)\) is the Fourier transform of the
@@ -417,8 +432,6 @@ After fixing the driving force to \(E_s - \mu_V\), the equation for a
 
 \begin{equation}
  \tau_m \frac{d \, \mathrm{PSP}_s }{dt} + \mathrm{PSP}_s = U_s \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_s}}
-\end{split}
-\right.
 \end{equation}
 
 where \( U_s = \frac{Q_s}{\mu_G} (E_s - \mu_V) \) and \(
@@ -1147,9 +1160,9 @@ of the theoretical model in response to the apparent motion stimulus,
 see Figure [[fig:suppression]]C.
 
 Similarly to what was observed experimentally, we found that the
-normalized membrane potential response ( \( \sim \) VSDi signal) to the
-two successive inputs /collided/, see Figure [[fig:suppression]]C(iv), and
-resulted in a strongly dampened signal with respect to the linear
+normalized membrane potential response ( \( \sim \) VSDi signal) to
+the two successive inputs /collided/, see Figure [[fig:suppression]]C(iv),
+and resulted in a strongly dampened signal with respect to the linear
 prediction, see Figure [[fig:suppression]]C(v). This suppression signal
 was also found to propagate from the second stimulus location toward
 the first stimulus location. To investigate quantitatively the
@@ -1160,14 +1173,15 @@ the conduction velocity (see comparison with the dotted magenta line
 in Figure [[fig:suppression]]C(v)). Importantly, it should be noted that
 in addition to this qualitative similarity, the quantitative
 prediction of the model seems to match those of the experimental
-recordings: the suppression peaks at \( \sim  50 \%\) of the response to
-a single stimulus both in the model and in the VSDi recordings (for
+recordings: the suppression peaks at \( \sim \) 50 \% of the response
+to a single stimulus both in the model and in the VSDi recordings (for
 the experimental recordings, response to first and second stimulus
-have a maximum of \(\Delta F /F \sim 12  \) \textperthousand, suppression
-peaks at \(\Delta F /F \sim 6 \) \textperthousand, in the model, the
-"VSDi-like" signal response to first and second stimulus have a
-maximum of \( \delta V /V_0 \sim 6 \% \), suppression peaks at \(\delta
-V /V_0 \sim 3 \% \)).
+have a maximum of \(\Delta F /F \sim 12 \) \textperthousand,
+suppression peaks at \(\Delta F /F \sim 6 \) \textperthousand, in the
+model, the "VSDi-like" signal response to first and second stimulus
+have a maximum of \( \delta V /V_0 \sim\) 6\%, suppression peaks at
+\(\delta V /V_0 \sim 3\)\%) .
+
 
 We conclude that the the horizontal fibre network combined with the
 strongly sublinear relation between membrane potential deflection and

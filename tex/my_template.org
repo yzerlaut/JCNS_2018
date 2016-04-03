@@ -6,7 +6,7 @@
 # \blfootnote{correspondance : <lastname>@unic.cnrs-gif.fr}
 
 #+LaTeX_HEADER: \def\shorttitle{A markovian model for spatio-temporal population dynamics in neocortex}
-#+LaTeX_HEADER: \def\shortauthor{Y. Zerlaut \& A. Destexhe} 
+#+LaTeX_HEADER: \def\shortauthor{Zerlaut, Destexhe, Chemla \& Chavane} 
 #+LaTeX_HEADER: \def\shortdate{\today} 
 
 # #+LaTeX_HEADER: \renewcommand{\includegraphics}[2][]{\fbox{#2}}
