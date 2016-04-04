@@ -1056,7 +1056,7 @@ The ring model (see e.g. [[cite:Hansel1996]]) offers a simple framework to
 implement such interactions. The local balanced network units are
 interconnected to each other via two Gaussian connectivity profiles
 (see Figure [[fig:ring]] and Methods) according to anatomical connectivity
-estimates [[REFS?]]. Importantly, we integrate distance-dependent
+estimates [[cite:Buzas2006]]. Importantly, we integrate distance-dependent
 propagation delays due to the finite velocity of axonal conduction of
 action potentials (see Methods), we took here an axonal conduction
 velocity of 300mm/s.
