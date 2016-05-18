@@ -1,7 +1,7 @@
 #+TITLE: A Markovian model for spatio-temporal population dynamics in neocortex
 #+AUTHOR:  Collab.: S. Chemla^1 & F. Chavane^1 (/in vivo/ VSD imaging)
 #+DATE:  \textsc{Y. Zerlaut}^2 & \textsc{A. Destexhe}^2 
-#+INCLUDE: my_template.org
+#+INCLUDE: jphysiol_template.org
 
 * Key points summary :noexport:
 \bfseries
