@@ -87,7 +87,7 @@ if __name__=='__main__':
     ## RECURRENT CONNECTIONS
     exc_exc, exc_inh, inh_exc, inh_inh = \
       build_up_recurrent_connections_for_2_pop([exc_neurons, inh_neurons], M) # only for 2 pop !
-    # CONNECTIONS = build_up_recurrent_connections([exc_neurons, inh_neurons], M) ## GENERAL ONE --> NOT WORKING !!
+
     
     # recording
     n_rec = 3 # number of neurons whose membrane pot is recorded (per population)
