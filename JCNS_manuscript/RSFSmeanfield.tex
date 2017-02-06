@@ -24,9 +24,9 @@
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
 \usepackage{geometry}
 \geometry{a4paper,total={210mm,297mm}, left=25mm, right=20mm, top=20mm, bottom=20mm, bindingoffset=0mm}
-\hypersetup{allcolors = gray}
-\renewcommand\thesection{}
-\renewcommand\thesubsection{}
+\hypersetup{allcolors = mycolor}
+%% \renewcommand\thesection{}
+%% \renewcommand\thesubsection{}
 \usepackage{setspace, caption}
 \doublespacing
 \captionsetup{font=doublespacing}% Double-spaced float captions
@@ -37,7 +37,7 @@
 \usepackage{biology_citations}
 \usepackage{color}
 
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mycolor}{rgb}{0.2,0.2,0.8}
 
 \renewcommand{\url}[1]{\underline{\textcolor{blue}{#1}}}
 
@@ -60,10 +60,6 @@
 \maketitle
 
 \linenumbers
-
-%% \remark{Remarks in red}
-%% \alain{Alain comments in blue}
-%% \yann{Yann comments in green}
 
 \section{Abstract}
 \label{sec-1}
@@ -107,27 +103,27 @@ neocortical processing
 subthreshold responses to sensory inputs are locally homogeneous in
 primary sensory areas, depolarizations tend to spread across spatially
 neighboring regions and responses to sensory stimuli are strongly
-affected by the level of ongoing activity. It also appears as great
-tools to unveil how the spatio-temporal dynamics in the neocortex
-shape canonical cortical operations such as normalization
+affected by the level of ongoing activity. It also appears as a great
+tool to unveil how the spatio-temporal dynamics in the neocortex shape
+canonical cortical operations such as normalization
 \cite{Reynaud2012}.
 
-On the other hand, the literature lacks, to the best of our
-knowledge, theoretical models that provides a detailed account of
-those phenomena with a clear relation between how this signal is
-generated and those physiological phenomena at that spatial scale
-(i.e. at the millimeters or centimeters scale). Detailed model of a
-neocortical column (i.e. \(\sim\)0.5mm$^{\text{2}}$ scale) have been recently
-proposed, see \citetext{Chemla2010} for the link with the VSDi signal or
-more generally \citetext{Markram2015}, but their computational cost
+On the other hand, the literature lacks, to the best of our knowledge,
+theoretical models that provides a detailed account of those phenomena
+with a clear relation between the biophysical source of the VSDi
+signal and network dynamics at that spatial scale (i.e. at the
+millimeters or centimeters scale). Detailed model of a neocortical
+column (i.e. \(\sim\)0.5mm$^{\text{2}}$ scale) have been recently
+proposed, see \citetext{Chemla2010} for the link with the VSDi signal
+or more generally \citetext{Markram2015}, but their computational cost
 impedes the generalization to higher spatial scale. The aim of the
-present communication is thus to design a theoretical model of
+present communication is therefore to design a theoretical model of
 neocortical dynamics with the following properties: 1) it should
-operate at the temporal and spatial scales of optical imaging and 2)
-it should have a correlate in terms of single-cell dynamics (in
-particular membrane potential dynamics), so that the model can
-directly generate predictions for the signal imaged by the VSDi
-technique \cite{Berger2007}.
+describe the temporal scale of optical imaging as well as easily
+extend to its spatial scale and 2) it should have a correlate in terms
+of single-cell dynamics (in particular membrane potential dynamics),
+so that the model can directly generate predictions for the signal
+imaged by the VSDi technique \cite{Berger2007}.
 
 More specifically, our study focuses on network dynamics in
 \emph{activated} cortical states, thus the desired model should
@@ -140,7 +136,7 @@ network dynamics in this regime. Via self-consistent approaches, those
 descriptions allow to capture the dynamical properties of population
 activity in recurrent networks
 \cite{Amit1997,Brunel1999,Brunel2000,Latham2000,ElBoustani2009}. The
-present model will thus condider randomly connected network of 10000
+present model will thus consider randomly connected network of 10000
 neurons as a unit to describe a cortical column and we will compare
 its behavior to network simulations.
 
@@ -149,12 +145,12 @@ its behavior to network simulations.
 \small
 
 We describe the equations and parameters used for the neuronal,
-synaptic and network modeling. We present our \emph{heuristic} treatment of
-the neuronal \emph{transfer functions}: the quantity that accounts for the
-cellular computation in \emph{mean-field} models of population
-activity. Then, we present the specific markovian model of population
-activity used in this study. Finally, we compare this model in detail
-to network simulations.
+synaptic and network modeling. We present our \emph{heuristic}
+treatment of the neuronal \emph{transfer functions}: the quantity that
+accounts for the cellular computation in \emph{mean-field} models of
+population activity. Then, we present the specific markovian model of
+population activity used in this study. Finally, we compare this
+analytical model to numerical simulations of network dynamics.
 
 
 \subsection{Single neuron models}
@@ -242,10 +238,12 @@ made of the sum of an excitatory and inhibitory currents (indexed by
 where \(\mathcal{H}\) is the Heaviside function.
 
 This synaptic model is referred to as the \emph{conductance-based
-exponential} synapse. The set of events \(\{t_e\}\) and \(\{t_i\}\)
+  exponential} synapse. The set of events \(\{t_e\}\) and \(\{t_i\}\)
 are the set of excitatory and inhibitory events arriving to the
-neuron. In numerical simulations of single neurons, it will be
-generated by stationary Poisson processes. In numerical simulations of
+neuron. In numerical simulations of single neurons (performed to
+determine the \textit{transfer function} \(\mathcal{F}\) of either
+excitatory or inhibitory neurons), it will be generated by stationary
+Poisson processes. On the other hand, in numerical simulations of
 network dynamics it will correspond to the set of spike times of the
 neurons connecting to the target neurons, both via recurrent and
 feedforward connectivity.
@@ -268,23 +266,23 @@ connected (internally and mutually) with a connectivity probability
 \(\epsilon\)=5\%.
 
 Because this network did not display self-sustained activity (see
-Figure \ref{fig:phase-space}, in contrast to \citetext{Vogels2005}), an
-excitatory population exerted an \emph{external drive} to bring the network
-out of the quiescent state. This population targeted both the
+Figure \ref{fig:phase-space}, in contrast to \citetext{Vogels2005}),
+an excitatory population exerted an \emph{external drive} to bring the
+network out of the quiescent state. This population targeted both the
 excitatory and inhibitory neurons. Note that the firing rate of this
 population was linearly increased to avoid a too strong initial
-synchronization (see Figure \ref{fig:ntwk-act}). Finally, an excitatory
-population of time varying firing rate could was added to evoke
-activity transients in the population dynamics. This last stimulation
-targeted only the excitatory population. The number of neurons in
-those two excitatory populations was taken as identical to the number
-of excitatory neurons (i.e. \((1-g)\,N_{tot}\)) and created synapses
-onto the recurrent network with the same probability
-\(\epsilon\). After temporal discretization, the firing rates of those
-afferent populations were converted into spikes by using the
-properties of a Poisson process (i.e. eliciting a spike at \(t\) with
-a probability \(\nu(t) \,dt \)). All simulations were performed with a
-time-step dt=0.1ms.
+synchronization (see Figure \ref{fig:ntwk-act}). Finally, when
+studying responses to external inputs, an excitatory population of
+time varying firing rate was added to evoke activity transients in the
+population dynamics. This last stimulation targeted only the
+excitatory population. The number of neurons in those two excitatory
+populations was taken as identical to the number of excitatory neurons
+(i.e. \((1-g)\,N_{tot}\)) and created synapses onto the recurrent
+network with the same probability \(\epsilon\). After temporal
+discretization, the firing rates of those afferent populations were
+converted into spikes by using the properties of a Poisson process
+(i.e. eliciting a spike at \(t\) with a probability \(\nu(t) \,dt
+\)). All simulations were performed with a time-step dt=0.1ms.
 
 \subsection{Estimating the transfer functions of single neurons}
 \label{sec-3-4}
@@ -772,16 +770,17 @@ configuration of spontaneous activity. There exists two qualitatively
 different types of spontaneous asynchronous activity
 \cite{Vogels2005,Kumar2008}: either the network is dominated by
 inhibition and the network needs an asynchronous external excitatory
-drive to exhibit spontaneous activity \cite{Amit1997,Brunel2000} or the
-network exhibits an asynchronous self-sustained activity state and
+drive to exhibit spontaneous activity \cite{Amit1997,Brunel2000} or
+the network exhibits an asynchronous self-sustained activity state and
 just needs an initial "kick" to exit from the quiescent state
 \cite{Vogels2005,Kumar2008,ElBoustani2009}. In the latter case, the
-network is globally dominated by excitation and strong \emph{shunting}
-conductance effects prevents the network from an excitatory runaway
-\cite{Kuhn2004,Kumar2008}. Those two behaviors are thus determined by
-the membrane, synaptic and connectivity parameters. We therefore
-investigate how the chosen network parameters in this study would
-determine the qualitative nature of the spontaneous activity state.
+network is globally dominated by excitation and a strong
+\emph{shunting conductance effects} prevents the network from an
+excitatory runaway \cite{Kuhn2004,Kumar2008}. Those two behaviors are
+thus determined by the membrane, synaptic and connectivity
+parameters. We therefore investigate how the chosen network parameters
+in this study would determine the qualitative nature of the
+spontaneous activity state.
 
 In the case of a single electrophysiological type (e.g. excitatory and
 inhibitory neurons taken as the same integrate-and-fire model), it was
@@ -921,7 +920,7 @@ More importantly, the main insight of this analysis is to show that
 the network can track very fast temporal variations in the input, even
 at time scales smaller than the integration time constant of the
 single neurons \cite{VanVreeswijk1996}.  Recurrent neural networks
-globally behave as low-pass filters (though see \cite{Ledoux2011} for a
+globally behave as low-pass filters (though see \citetext{Ledoux2011} for a
 detailed treatment of the appearance of resonances), but with a high
 cutoff frequency compared to the frequency content of thalamic input
 for classical artificial stimuli (e.g. in the visual system: drifting
@@ -948,39 +947,50 @@ network of distinct excitatory and inhibitory cells.
 \normalsize
 
 In the present study, we investigated whether the Markovian formalism
-proposed in \citetext{ElBoustani2009} is able to describe the temporal
-dynamics of artificial neural networks. Though this formalism was
-shown to be a relatively accurate description of the response
+proposed in \citetext{ElBoustani2009} was able to describe the
+temporal dynamics of artificial neural networks. Though this formalism
+was shown to be a relatively accurate description of the response
 simulated in numerical networks, we also showed the limits of this
 formalism. The relative complexity of the theoretical problem should
-be stressed, indeed no exact treatment of this situation could be
-achieved as this represents a really tough mathematical problem.
+be stressed: our model includes non-linear phenomena such as an
+voltage-dependent activation curve for spike emission or spike
+frequency. The proposed semi-analytical appraoch thus offers a
+convenient description for theoretical models where an exact
+analytical treatment would not be achievable. 
 
 Unlike previous studies
 \cite{Brunel2000,Vogels2005,Kumar2008,ElBoustani2009}, we considered
-networks of integrate-and-fire neurons with asymmetric
+networks of non-linear integrate-and-fire neurons with asymmetric
 electrophysiological properties between excitatory and inhibitory
 cells. This type of network is more realistic because it includes the
 adaptation properties of excitatory cells, and the fact that
 inhibitory cells are more excitable and fire at higher rates.  We
 could demonstrate the relative accuracy of the markovian formalism
 (with the semi-analytical approach) in a situation including this
-increased complexity.  The mean-field model obtained was able to
-predict the level of spontaneous activity of the network, as well
-as its response to external time-varying inputs.  
+increased complexity. The mean-field model obtained was able to
+predict the level of spontaneous activity of the network, as well as
+its response to external time-varying inputs.
 
-This theoretical description of the local cortical network could be
-improved. For example the strong hyperpolarization of population
-activity after a transient rise (see Figure \ref{fig:mf-temp-pred}B)
-was shown to be missed by the mean-field formalism. Indeed, this
-version does not have a memory of the previous activity levels and
-thus can not account for the effect of the long-lasting
-spike-frequency adaptation mechanism that has been strongly activated
-by the activity evoked by the stimulus. This is easily solvable within
-the Markovian framework, one can introduce a new variable: the
-"population adaptation current", that can directly be derived from the
-equation of the AdExp model.  This constitutes a possible extension of
-the present work.
+This versatile theoretical description of the local cortical network
+could be improved. For example the strong hyperpolarization of
+population activity after a transient rise (see Figure
+\ref{fig:mf-temp-pred}B) was shown to be missed by the mean-field
+formalism. Indeed, this version does not have a memory of the previous
+activity levels and thus can not account for the effect of the
+long-lasting spike-frequency adaptation mechanism that has been
+strongly activated by the activity evoked by the stimulus. One could
+design another version of the Markovian formalism to capture such
+adaptation-mediated effects. Instead of accounting for adaptation
+within the \emph{transfer function} (i.e. accounting only for its
+stationary effects), one can introduce a new variable with a
+dependency on time and activity: the "population adaptation current",
+that can directly be derived from the equation of the AdExp
+model. Investigating the accuracy of such theoretical descriptions
+should be the focus of future work. Finally, the natural extension of
+the proposed framework consists in embeding the local population
+description within a spatial model and directly test its predictions
+on VSDi recordings in mammalian neocortex, which is the focus of
+current investigations \cite{Destexhe2015}.
 
 \subsection*{Acknowledgments} 
 
