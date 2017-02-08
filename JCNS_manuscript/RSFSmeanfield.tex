@@ -1,4 +1,4 @@
-% AD, 2017-02-02: split into two papers
+% AD, 2017-02-06
 \documentclass[8pt, colorlinks, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -946,17 +946,20 @@ network of distinct excitatory and inhibitory cells.
 \label{sec-5}
 \normalsize
 
-In the present study, we investigated whether the Markovian formalism
-proposed in \citetext{ElBoustani2009} was able to describe the
-temporal dynamics of artificial neural networks. Though this formalism
-was shown to be a relatively accurate description of the response
-simulated in numerical networks, we also showed the limits of this
-formalism. The relative complexity of the theoretical problem should
-be stressed: our model includes non-linear phenomena such as an
-voltage-dependent activation curve for spike emission or spike
-frequency. The proposed semi-analytical appraoch thus offers a
-convenient description for theoretical models where an exact
-analytical treatment would not be achievable. 
+In the present study, we investigated \alain{a mean-field model of
+  networks with different electrophysiological properties, described
+  using the AdEx model with conductance-based synapses.  We found
+  that} the Markovian formalism proposed in \citetext{ElBoustani2009}
+was able to describe the \alain{steady-state and} temporal dynamics of
+\alain{such} networks. Though this formalism was shown to be a
+relatively accurate description of the response simulated in numerical
+networks, we also showed the limits of this formalism. The relative
+complexity of the theoretical problem should be stressed: our model
+includes non-linear phenomena such as an voltage-dependent activation
+curve for spike emission or spike frequency. The proposed
+semi-analytical appraoch thus offers a convenient description for
+theoretical models where an exact analytical treatment would not be
+achievable.
 
 Unlike previous studies
 \cite{Brunel2000,Vogels2005,Kumar2008,ElBoustani2009}, we considered
@@ -983,14 +986,22 @@ design another version of the Markovian formalism to capture such
 adaptation-mediated effects. Instead of accounting for adaptation
 within the \emph{transfer function} (i.e. accounting only for its
 stationary effects), one can introduce a new variable with a
-dependency on time and activity: the "population adaptation current",
-that can directly be derived from the equation of the AdExp
-model. Investigating the accuracy of such theoretical descriptions
-should be the focus of future work. Finally, the natural extension of
-the proposed framework consists in embeding the local population
-description within a spatial model and directly test its predictions
-on VSDi recordings in mammalian neocortex, which is the focus of
-current investigations \cite{Destexhe2015}.
+dependency on time and activity: a ``population adaptation current'',
+that can directly be derived from the equation of the AdExp model.
+Investigating the accuracy of such theoretical descriptions should be
+the focus of future work. 
+
+\alain{We conclude by proposing the present model as a good candidate
+  for modeling VSDi data.  Not only the present mean-field framework
+  gives access to the mean voltage and its time evolution, but it
+  could easily be extended to model VSDi signals.  The present model
+  represents a local population of cortical excitatory and inhibitory
+  neurons, and thus can be thought to represent a ``pixel'' of the
+  VSDi.  The full VSDi model could be obtained by embedding the
+  present local population description within a spatial model, and
+  yield 1-D or 2-D ensembles of such pixels, and thereby model VSDi
+  recordings in mammalian neocortex.  This is the focus of current
+  investigations \cite{Destexhe2015}.}
 
 \subsection*{Acknowledgments} 
 
