@@ -32,7 +32,6 @@ def generate_conductance_shotnoise(freq, t, N, Q, Tsyn, g0=0, seed=0):
     g0 is the starting value of the shotnoise
     """
     if freq==0:
-        # print "problem, 0 frequency !!! ---> freq=1e-9 !!"
         freq=1e-9
     upper_number_of_events = max([int(3*freq*t[-1]*N),1]) # at least 1 event
     np.random.seed(seed=seed)
@@ -168,23 +167,23 @@ def generate_transfer_function(params,\
                 # we divide the step by 2
                 Fe_eff[i][e] = (Fe_eff[i][e]-Fe_eff[i][e-1])/2.+Fe_eff[i][e-1]
                 if verbose:
-                    print "we rescale the fe vector [...]"
+                    print("we rescale the fe vector [...]")
                 # now we can re-enter the loop as the same e than entering..
             else: # we can run the rest
                 if verbose:
-                    print "== the excitation level :", e+1," over ",feSim.size
-                    print "== ---- the inhibition level :", i+1," over ",fiSim.size
+                    print("== the excitation level :", e+1," over ",feSim.size)
+                    print("== ---- the inhibition level :", i+1," over ",fiSim.size)
                 for seed in range(1,SEED):
                     params['seed'] = seed
                     vec[seed] = single_experiment(t,\
                             Fe_eff[i][e]*(1-params['gei'])*params['pconnec']*params['Ntot'],\
                             fiSim[i]*params['gei']*params['pconnec']*params['Ntot'], params, seed=seed)
                     if verbose:
-                        print "== ---- _____________ seed :",seed
+                        print("== ---- _____________ seed :",seed)
                 MEANfreq[i][e] = vec.mean()
                 SDfreq[i][e] = vec.std()
                 if verbose:
-                    print "== ---- ===> Fout :",MEANfreq[i][e]
+                    print("== ---- ===> Fout :",MEANfreq[i][e])
                 if e<feSim.size-1: # we set the next value to the next one...
                     Fe_eff[i][e+1] = Fe_eff[i][e]+dFexc
                 e = e+1 # and we progress in the fe loop
@@ -193,7 +192,7 @@ def generate_transfer_function(params,\
 
     # then we save the results
     np.save(filename, np.array([MEANfreq, SDfreq, Fe_eff, fiSim, params]))
-    print 'numerical TF data saved in :', filename
+    print('numerical TF data saved in :', filename)
 
 if __name__=='__main__':
 

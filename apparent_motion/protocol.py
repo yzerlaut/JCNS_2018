@@ -33,16 +33,16 @@ if __name__=='__main__':
     # we perform one experiment with the default and we store the figs
 
     if not args.no_sim:
-        print 'simulation [...]'
-        print '====================== FIRST STIM simulation [...]'
+        print('simulation [...]')
+        print('====================== FIRST STIM simulation [...]')
         t, X, Fe_aff1, Fe1, Fi1, muVn1 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, 'FIRST_STIM')
-        print '====================== SECOND STIM simulation [...]'
+        print('====================== SECOND STIM simulation [...]')
         t, X, Fe_aff2, Fe2, Fi2, muVn2 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, 'SECOND_STIM')
-        print '====================== APPARENT MOTION simulation [...]'
+        print('====================== APPARENT MOTION simulation [...]')
         t, X, Fe_aff3, Fe3, Fi3, muVn3 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, 'AM')
@@ -135,7 +135,6 @@ if __name__=='__main__':
                    xzoom=args.xzoom, yzoom=args.yzoom)
     FIGS.append(fig)
 
-    
     if args.SAVE:
         for i in range(1,len(FIGS)+1):
             exec("FIGS["+str(i-1)+"].savefig('fig"+str(i)+".png', dpi=300)")

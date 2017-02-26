@@ -149,7 +149,7 @@ def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
     #         options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
     plsq = minimize(Res, P, method='SLSQP',\
                     options={'ftol': 1e-8, 'disp': True, 'maxiter':40000})
-    print plsq
+    print(plsq)
 
     P = plsq.x
     
@@ -164,7 +164,7 @@ def fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
     plsq = minimize(Res, P, method='nelder-mead',\
             options={'xtol': xtol, 'disp': True, 'maxiter':maxiter})
 
-    print plsq
+    print(plsq)
     
     if with_square_terms:
         return plsq.x
@@ -182,12 +182,12 @@ def make_fit_from_data(DATA, with_square_terms=False):
     P = fitting_Vthre_then_Fout(Fout, Fe_eff, fiSim, params,\
                                 with_square_terms=with_square_terms)
                             
-    print '=================================================='
-    print 1e3*np.array(P), 'mV'
+    print('==================================================')
+    print(1e3*np.array(P), 'mV')
 
     # then we save it:
     filename = DATA.replace('.npy', '_fit.npy')
-    print 'coefficients saved in ', filename
+    print('coefficients saved in ', filename)
     np.save(filename, np.array(P))
 
     return P

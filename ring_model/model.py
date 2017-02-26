@@ -45,32 +45,32 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
     conduction_velocity=0e-3, in ms per pixel !!!
     """
     
-    print '----- loading parameters [...]'
+    print('----- loading parameters [...]')
     M = get_connectivity_and_synapses_matrix(NTWK, SI_units=True)
     ext_drive = M[0,0]['ext_drive']
     params = get_neuron_params(NRN2, SI_units=True)
     reformat_syn_parameters(params, M)
     afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
 
-    print '----- ## we look for the fixed point [...]'
+    print('----- ## we look for the fixed point [...]')
     fe0, fi0 = find_fixed_point_first_order(NRN1, NRN2, NTWK, exc_aff=ext_drive)
     muV0, _, _, _ = get_fluct_regime_vars(fe0+ext_drive, fi0, *pseq_params(params))
     
-    print '----- ## we load the transfer functions [...]'
+    print('----- ## we load the transfer functions [...]')
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)
 
-    print '----- ## ring initialisation [...]'
+    print('----- ## ring initialisation [...]')
     X, Xn_exc, Xn_inh, exc_connected_neighbors, exc_decay_connect, inh_connected_neighbors,\
         inh_decay_connect, conduction_velocity = ring.pseq_ring_params(RING)
     
-    print '----- ## stimulation initialisation [...]'
+    print('----- ## stimulation initialisation [...]')
     t, Fe_aff = stim.get_stimulation(X, STIM)
     Fi_aff = 0*Fe_aff # no afferent inhibition yet
     
-    print '----- ## model initialisation [...]'
+    print('----- ## model initialisation [...]')
     Fe, Fi, muVn = 0*Fe_aff+fe0, 0*Fe_aff+fi0, 0*Fe_aff+muV0
 
-    print '----- starting the temporal loop [...]'
+    print('----- starting the temporal loop [...]')
     dt = t[1]-t[0]
     
     # constructing the Euler method for the activity rate
@@ -121,7 +121,7 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
             Fe[i_t+1, i_x] = Fe[i_t, i_x] + dt/BIN*( TF1(fe+fe_pure_exc,fi) - Fe[i_t, i_x])
             Fi[i_t+1, i_x] = Fi[i_t, i_x] + dt/BIN*( TF2(fe,fi) - Fi[i_t, i_x])
 
-    print '----- temporal loop over !'
+    print('----- temporal loop over !')
 
     return t, X, Fe_aff, Fe, Fi, np.abs((muVn-muV0)/muV0)
 
