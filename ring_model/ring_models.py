@@ -31,7 +31,7 @@ def from_mm_to_discretized_model(params):
     params['inh_connected_neighbors'] = int(3.*params['inh_decay_connect']/params['mm_per_pixel'])
     params['conduction_velocity'] = params['conduction_velocity_mm_s']/params['mm_per_pixel']
 
-
+    
 def get_model_params(MODEL):
 
     ## we start with the passive parameters, by default
@@ -49,15 +49,17 @@ def get_model_params(MODEL):
         params['X_discretization']=100.
     else:
         params = None
-        print '==========> ||ring model not recognized|| <================'
+        print('==========> ||ring model not recognized|| <================')
 
     # now we discretize it 
     from_mm_to_discretized_model(params)
     
     return params
 
+
 def gaussian_connectivity(x, x0, dx):
     return 1./(np.sqrt(2.*np.pi)*(dx+1e-12))*np.exp(-(x-x0)**2/2./(1e-12+dx)**2)
+
 
 def pseq_ring_params(RING):
     params = get_model_params(RING)
@@ -80,15 +82,15 @@ if __name__=='__main__':
     if len(sys.argv)==1:
         for m in all_models:
             p = get_model_params(m)
-            print "=============================================="
-            print "===----", p['name'], "-----==========="
-            print "=============================================="
+            print("==============================================")
+            print("===----", p['name'], "-----===========")
+            print("==============================================")
             pprint.pprint(p)
     else:
         p = get_model_params(sys.argv[-1])
-        print "=============================================="
-        print "===----", p['name'], "-----==========="
-        print "=============================================="
+        print("==============================================")
+        print("===----", p['name'], "-----===========")
+        print("==============================================")
         pprint.pprint(p)
         import matplotlib.pylab as plt
         sys.path.append('../code')

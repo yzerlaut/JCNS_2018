@@ -21,6 +21,7 @@ if __name__=='__main__':
     parser.add_argument("--NRN2",help="Choose a cell model", default='FS-cell')
     parser.add_argument("--NTWK",help="Choose a network model", default='CONFIG1')
     parser.add_argument("--RING",help="Choose a ring model", default='RING1')
+    parser.add_argument("--STIM",help="Choose a stim modif", default='')
     parser.add_argument("--xzoom",help="zoom on the x axis", nargs=2, default=[0.,400.], type=float)
     parser.add_argument("--xzoom_suppression",help="zoom on the x axis", nargs=2, default=[50.,300.], type=float)
     parser.add_argument("--yzoom",help="zoom on the y axis", nargs=2, default=[8.,26.], type=float)
@@ -36,16 +37,16 @@ if __name__=='__main__':
         print('simulation [...]')
         print('====================== FIRST STIM simulation [...]')
         t, X, Fe_aff1, Fe1, Fi1, muVn1 = Euler_method_for_ring_model(\
-                                                                 args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'FIRST_STIM')
+                                                                     args.NRN1, args.NRN2,\
+                                                                     args.NTWK, args.RING, 'FIRST_STIM-'+args.STIM)
         print('====================== SECOND STIM simulation [...]')
         t, X, Fe_aff2, Fe2, Fi2, muVn2 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'SECOND_STIM')
+                                                                 args.NTWK, args.RING, 'SECOND_STIM-'+args.STIM)
         print('====================== APPARENT MOTION simulation [...]')
         t, X, Fe_aff3, Fe3, Fi3, muVn3 = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, 'AM')
+                                                                 args.NTWK, args.RING, 'AM-'+args.STIM)
         np.save(args.file, [args, t, X, Fe_aff1, Fe1, Fi1, muVn1,\
                             Fe_aff2, Fe2, Fi2, muVn2, Fe_aff3, Fe3, Fi3, muVn3])
         args2 = args
@@ -55,9 +56,11 @@ if __name__=='__main__':
 
     vsd_label = '%'
 
-    F1, F2, F3 = .8*Fe1+.2*Fi1, .8*Fe2+.2*Fi2, .8*Fe3+.2*Fi3
+    # F1, F2, F3 = .8*Fe1+.2*Fi1, .8*Fe2+.2*Fi2, .8*Fe3+.2*Fi3 # mix of exc and inh
+    F1, F2, F3 = Fe1, Fe2, Fe3 # only excitation
     
     suppression = muVn3-(muVn1+muVn2)
+    suppressionFR = F3-F3[:,0].mean()-(F2-F2[:,0].mean()+F1-F1[:,0].mean()) # Firing rate suppression
     
     zlim_vsd = [0, 1e2*np.max(np.abs(muVn1)+np.abs(muVn2))]
     
@@ -67,8 +70,17 @@ if __name__=='__main__':
     ax, fig = vsd_plot(t*1e3,\
                        1e2*suppression,\
                        zlim=[-1e2*np.abs(suppression).max(),1e2*np.abs(suppression).max()],
-                       title=r'suppression signal',\
+                       title=r'suppression (VSD)', cmap='diverging',\
                        zlabel=vsd_label, with_latency_analysis=True,\
+                       params=params,
+                       xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
+    FIGS.append(fig)
+    
+    ax, fig = vsd_plot(t*1e3,\
+                       suppressionFR,\
+                       zlim=[-np.abs(suppressionFR).max(), np.abs(suppressionFR).max()],
+                       title=r'suppression (Firing rate)', cmap='diverging',\
+                       zlabel='Hz', with_latency_analysis=False,\
                        params=params,
                        xzoom=args.xzoom_suppression, yzoom=args.yzoom_suppression)
     FIGS.append(fig)

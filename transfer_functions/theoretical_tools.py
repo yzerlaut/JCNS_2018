@@ -10,18 +10,18 @@ def pseq_params(params):
     Qi, Ti, Ei = params['Qi'], params['Ti'], params['Ei']
     Gl, Cm , El = params['Gl'], params['Cm'] , params['El']
     for key, dval in zip(['Ntot', 'pconnec', 'gei'], [1, 2., 0.5]):
-        if key in params.keys():
-            exec(key+' = params[key]')
-        else: # default value
-            exec(key+' = dval')
-    if 'P' in params.keys():
-        P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10 = params['P']
-    else: # no correction
-        P0 = -45e-3
-        for i in range(1,11):
-            exec('P'+str(i)+'= 0')
+        if not key in params.keys():
+            params[key] = dval
 
-    return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
+    if 'P' in params.keys():
+        P = params['P']
+    else: # no correction
+        P = [-45e-3]
+        for i in range(1,11):
+            P.append(0)
+
+    # return Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
+    return params['Qe'], params['Te'], params['Ee'], params['Qi'], params['Ti'], params['Ei'], params['Gl'], params['Cm'], params['El'], params['Ntot'], params['pconnec'], params['gei'], P[0], P[1], P[2], P[3], P[4], P[5], P[6], P[7], P[8], P[9], P[10]
 
 # @numba.jit()
 def get_fluct_regime_vars(Fe, Fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):
@@ -92,7 +92,6 @@ def TF_my_template(fe, fi, Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, ge
     Fout_th = erfc_func(muV, sV, TvN, Vthre, Gl, Cm)
     return Fout_th
 
-    
 # @numba.jit()
 def make_loop(t, nu, vm, nu_aff_exc, nu_aff_inh, BIN,\
               Qe, Te, Ee, Qi, Ti, Ei, Gl, Cm, El, Ntot, pconnec, gei, P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10):

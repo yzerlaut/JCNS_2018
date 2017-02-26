@@ -4,7 +4,7 @@ import matplotlib.pylab as plt
 
 import sys
 sys.path.append('../code/')
-from my_graph import set_plot
+from my_graph import set_plot, get_linear_colormap
 sys.path.append('../')
 from analysis.phase_latency import find_latencies_over_space
 
@@ -28,7 +28,7 @@ def find_latencies_over_space_simple(t, X, signal,\
 def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
                               xlabel='time (ms)', ylabel='cortical space', title='',
                               zlim=None, with_latency_analysis=False,
-                              bar_mm=5, cmap = mpl.cm.jet,
+                              bar_mm=5, cmap = 'sequential',
                               params={'pixels_per_mm':1.},
                               xzoom=None, yzoom=None):
     """
@@ -36,7 +36,12 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     at 8 different times
     it returns the figure
     """
-    
+
+    if cmap=='diverging':
+        cmap = mpl.cm.coolwarm
+    elif cmap=='sequential':
+        cmap = mpl.cm.Greys
+        
     # to have the same scale on all plots we normalize all the response with respect to the total mean and total max
     fig = plt.figure(figsize=(7,5))
     plt.suptitle(title, fontsize=22)

@@ -3,8 +3,8 @@ import sys
 sys.path.append('../')
 from single_cell_models.cell_library import get_neuron_params
 from synapses_and_connectivity.syn_and_connec_library import get_connectivity_and_synapses_matrix
-from theoretical_tools import pseq_params, TF_my_template
-from tf_simulation import reformat_syn_parameters
+from transfer_functions.theoretical_tools import pseq_params, TF_my_template
+from transfer_functions.tf_simulation import reformat_syn_parameters
 
 def load_transfer_functions(NRN1, NRN2, NTWK):
     """

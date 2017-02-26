@@ -19,7 +19,6 @@ am_params = {
     'delay':50e-3
 }
 
-
 def heaviside(x):
     return 0.5*(1+np.sign(x))
 
@@ -119,8 +118,8 @@ import pprint
 if __name__=='__main__':
     for m in all_models:
         p = get_stimulation(MODEL, return_print=True)                
-        print "=============================================="
-        print "===----", p['name'], "-----==========="
-        print "=============================================="
+        print("==============================================")
+        print("===----", p['name'], "-----===========")
+        print("==============================================")
         pprint.pprint(p)
 

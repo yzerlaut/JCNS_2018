@@ -151,9 +151,9 @@ def find_fixed_point(NRN1, NRN2, NTWK, Ne=8000, Ni=2000, exc_aff=0., verbose=Fal
         X = X + (t[1]-t[0])*build_up_differential_operator(TF1, TF2,Ne=Ne, Ni=Ni)(X, exc_aff=exc_aff)
         last_X = X
 
-    print 'Make sure that those two values are similar !!'
-    print X
-    print last_X
+    print('Make sure that those two values are similar !!')
+    print(X)
+    print(last_X)
     
     if verbose:
         print(X)

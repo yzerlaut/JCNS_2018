@@ -12,9 +12,9 @@ from transfer_functions.theoretical_tools import get_fluct_regime_vars, pseq_par
 from transfer_functions.tf_simulation import reformat_syn_parameters
 
 # RING NETWORK PARAMETERS
-import ring_models as ring
+import ring_model.ring_models as ring
 # STIM PARAMETERS
-import stimulations as stim
+import ring_model.stimulations as stim
 
 ########################################################################
 ##----------------------------------------------------------------------

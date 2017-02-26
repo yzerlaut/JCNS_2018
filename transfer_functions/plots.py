@@ -41,7 +41,7 @@ def make_exc_inh_fig(DATA, P=None):
         r = (float(levels[i])-levels.min())/(levels.max()-levels.min())
         ax.errorbar(feSim, SIMvector, yerr=SDvector,\
                     color=mymap(r,1),marker='D',ms=5, capsize=3, elinewidth=1, lw=0)
-        if params.has_key('P'):
+        if 'P' in params.keys():
             Fout_th = TF_my_template(feth, fi, *pseq_params(params))
             ax.plot(feth, Fout_th, color=mymap(r,1), lw=5, alpha=.5)
 
