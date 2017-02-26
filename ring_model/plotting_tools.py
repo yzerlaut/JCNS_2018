@@ -43,7 +43,7 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
         cmap = mpl.cm.Greys
         
     # to have the same scale on all plots we normalize all the response with respect to the total mean and total max
-    fig = plt.figure(figsize=(7,5))
+    fig = plt.figure(figsize=(5,3))
     plt.suptitle(title, fontsize=22)
     
     ax = plt.subplot2grid((1,8), (0,0), colspan=7)
