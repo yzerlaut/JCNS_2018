@@ -5,7 +5,7 @@
 # python theoretical_tools.py -f data/RS-cell_CONFIG1.npy --With_Square
 
 # for cluster run
-source ~/.profile
+bash ~/.bash_profile
 srun tf_simulation.py FS-cell CONFIG1 -s --SEED 4 --tstop 10
 sget data/FS-cell_CONFIG1.npy
 python theoretical_tools.py -f data/FS-cell_CONFIG1.npy --With_Square
