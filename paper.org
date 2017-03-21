@@ -1,28 +1,6 @@
-#+TITLE: A Markovian model for spatio-temporal population dynamics in neocortex
-#+AUTHOR:  Collab.: S. Chemla^1 & F. Chavane^1 (/in vivo/ VSD imaging)
-#+DATE:  \textsc{Y. Zerlaut}^2 & \textsc{A. Destexhe}^2 
-#+INCLUDE: jphysiol_template.org
-
-* Key points summary :noexport:
-\bfseries
-
-- We investigate whether the markovian formalism proposed in
-  [[citetext:ElBoustani2009]] allows to describe the population dynamics
-  of a network of excitatory and inhibitory neurons with different
-  electrophysiological properties.
-
-- Comparison with numerical simulations.
-
-- Investigating the integrative properties of the mean field model.
-
-- Implementation in a ring geometry to describe the spatial
-  integration across the neocortical sheet.
-
-- Comparison with optical imaging of spatio-temporal dynamics in the
-  primary visual cortex of awake behaving monkey (Chemla & Chavane,
-  unpublished results).
-
-\normalfont
+#+TITLE: A mean-field model for spatio-temporal integration in neocortex
+#+AUTHOR:  Zerlaut Y., Chemla S., Chavane F., Destexhe A.
+#+INCLUDE: my_template.org
 
 * Abstract
 \bfseries
@@ -31,28 +9,27 @@ While voltage sensitive dye imaging (VSDi) has been shown to be a
 decisive tool in the exploration of how neural population dynamics
 shape cortical function, to our knowledge, no theoretical model offers
 a detailed account of the link between neural dynamics and the source
-signal at the large spatial scale imaged by optical imaging (\(\sim\)
-100mm^2).
+signal at the spatial scale imaged by optical imaging (\(\sim\)
+100mm^2). In this communication, we take advantage of the extensive
+theoretical work performed at the mesoscopic scale (\(\sim\) 10000
+neurons, 0.25mm^2) to analytically describe population dynamics in
+terms of few variables (the so-called /mean-field/ approach to network
+dynamics) to build a large scale model with a correlate in terms of
+single-cell dynamics so that the model can directly generate
+predictions for the signal imaged by the VSDi technique. Our study
+proposes such a model and examine its predictive power by comparison
+with VSDi recordings in the primary visual cortex of fixating monkey.
 
-In this communication, we take advantage of the extensive theoretical
-work performed at the mesoscopic scale (\(\sim\) 10000 neurons,
-0.25mm^2) to analytically describe population dynamics in terms of few
-variables (the so-called /mean-field/ approach to network dynamics) to
-build a large scale model of population dynamics but still with a
-correlate in terms of single-cell dynamics (in particular membrane
-potential dynamics) so that the model can directly generate
-predictions for the signal imaged by the VSDi technique.
-
-The first part establishes the validity and weaknesses of the
-mesoscopic description of network dynamics used to model the activity
-of a single cortical column. By comparing its prediction with
-numerical simulations of artificial neural networks, we investigate
-whether the markovian formalism proposed in [[citetext:ElBoustani2009]]
-allows to describe the dynamics of a network of excitatory and
-inhibitory neurons with different electrophysiological properties. In
-particular, we investigate whether this formalism generalizes to the
-description of network dynamics in the presence of time-dependent
-inputs. 
+The first part of our study recapitulates the strengths and weaknesses
+of the mesoscopic description of network dynamics used to model the
+activity of a single cortical column. We campare the mean-field
+predictions with numerical simulations of artificial neural networks,
+we investigate whether the markovian formalism proposed in
+[[citetext:ElBoustani2009]] allows to describe the dynamics of a network
+of excitatory and inhibitory neurons with different
+electrophysiological properties. In particular, we investigate whether
+this formalism generalizes to the description of network dynamics in
+the presence of time-dependent inputs.
 
 We next analyze the integrative properties of the model: how does it
 responds to increasing stimuli strength or how is it modulated by an

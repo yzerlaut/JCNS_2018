@@ -48,7 +48,6 @@ def get_membrane_equation(neuron_params, synaptic_array,\
                                  refractory=str(neuron_params['Trefrac'])+'*ms',
                                  threshold='V>'+str(neuron_params['Vthre']+5.*neuron_params['delta_v'])+'*mV',
                                  reset='V='+str(neuron_params['Vreset'])+'*mV; w_adapt+='+str(neuron_params['b'])+'*pA')
-                                 
 
     print(eqs)
     if return_equations:
