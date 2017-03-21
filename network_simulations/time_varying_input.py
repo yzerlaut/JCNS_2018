@@ -37,7 +37,8 @@ def build_up_excitatory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,
                                                        SEED=(SEED+2)**3%100)
     input_inh = SpikeGeneratorGroup(inh_neurons.N, indices, times)
     fdfrwd_to_inh = Synapses(input_inh, inh_neurons, pre='Gei_post += w',\
-                             model='w:siemens', connect='i==j')
+                             model='w:siemens')
+    fdfrwd_to_inh.connect('i==j')
     fdfrwd_to_inh.w=P[0,1]['Q']*nS
     
     # feedforward input on EXC pop
@@ -46,7 +47,8 @@ def build_up_excitatory_feedforward_connections_for_2_pop(Pops, syn_conn_matrix,
                                                        SEED=(SEED+1)**2%100)
     input_exc = SpikeGeneratorGroup(exc_neurons.N, indices2, times2)
     fdfrwd_to_exc = Synapses(input_exc, exc_neurons, pre='Gee_post += w',\
-                             model='w:siemens', connect='i==j')
+                             model='w:siemens')
+    fdfrwd_to_exc.connect('i==j')
     fdfrwd_to_exc.w=P[0,0]['Q']*nS
 
     return input_exc, fdfrwd_to_exc, input_inh, fdfrwd_to_inh
@@ -64,7 +66,8 @@ def build_up_excitatory_feedforward_connections_for_exc_only(exc_neurons, syn_co
                                                        SEED=(SEED+4)**2%100)
     input_exc_aff = SpikeGeneratorGroup(exc_neurons.N, indices, times)
     fdfrwd_to_exc_aff = Synapses(input_exc_aff, exc_neurons, pre='Gee_post += w',\
-                             model='w:siemens', connect='i==j')
+                             model='w:siemens')
+    fdfrwd_to_exc_aff.connect('i==j')
     fdfrwd_to_exc_aff.w=P[0,0]['Q']*nS
 
     return input_exc_aff, fdfrwd_to_exc_aff
