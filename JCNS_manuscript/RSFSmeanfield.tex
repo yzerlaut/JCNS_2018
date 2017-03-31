@@ -1,4 +1,5 @@
-% AD, 2017-02-06
+% AD, 2017-03-24: begin corrections reviewers
+
 \documentclass[8pt, colorlinks, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -32,48 +33,65 @@
 \captionsetup{font=doublespacing}% Double-spaced float captions
 \renewcommand\ref{}
 \renewcommand{\refname}{\vspace{-.8cm}}
-% \usepackage{lineno}
+\usepackage{lineno}
 \usepackage[figuresonly, nolists]{endfloat}
 \usepackage{biology_citations}
 \usepackage{color}
 
-\definecolor{mycolor}{rgb}{0.2,0.2,0.8}
+\definecolor{mycolor}{rgb}{0,0,0.7}
+\definecolor{violet}{rgb}{1,0,1}
 
 \renewcommand{\url}[1]{\underline{\textcolor{blue}{#1}}}
 
 \newcommand{\yann}[1]{{\textcolor{green}{#1}}}
 \newcommand{\alain}[1]{{\textcolor{blue}{#1}}}
 \newcommand{\remark}[1]{{\textcolor{red}{#1}}}
+\newcommand{\corr}[1]{{\textcolor{violet}{#1}}}
 
 
 \bibliographystyle{biology_citations}
 
-\author{Yann Zerlaut \(^{1,2,*}\) and Alain Destexhe \(^{1,3}\)
-  \footnote{$^1$ Unit\'e de Neurosciences, Information et
-    Complexit\'e, Centre National de la Recherche Scientifique, 1
-    avenue de la terrasse 91198 Gif sur Yvette, France. $^2$ Neural
-    Coding Laboratory. Istituto Italiano di Tecnologia. Corso Bettini
-    31, 38068 Rovereto, Italy. $^3$ European Institute for Theoretical
-    Neuroscience. 74 Rue du Faubourg Saint-Antoine, 75012 Paris,
-    France. * Correspondance: yann.zerlaut@iit.it (Y.Z.),
-    destexhe@unic.cnrs-gif.fr (A.D.) \normalsize }}
+\author{Yann Zerlaut and Alain Destexhe}
 
 \date{\today}
 
-\title{A mean-field model for conductance-based networks of adaptive
-  exponential integrate-and-fire models}
+\title{A mean-field model for spatio-temporal integration in
+  early sensory cortices}
 
 \begin{document}
 
 \maketitle
 
-% \linenumbers
+\linenumbers
 
 \section{Abstract}
 \label{sec-1}
 \bfseries
 
-Voltage-sensitive dye imaging (VSDi) has revealed fundamental properties of neocortical processing at mesoscopic scales.  Since VSDi signals report the average membrane potential, it seems natural to use a mean-field formalism to model such signals.  Here, we investigate a mean-field model of networks of Adaptive Exponential (AdEx) integrate-and-fire neurons, with conductance-based synaptic interactions.  The AdEx model can capture the spiking response of different cell types, such as regular-spiking (RS) excitatory neurons and fast-spiking (FS) inhibitory neurons.  We use a Master Equation formalism, together with a semi-analytic approach to the transfer function of AdEx neurons.  We compare the predictions of this mean-field model to simulated networks of RS-FS cells, first at the level of the spontaneous activity of the network, which is well predicted by the mean-field model.  Second, we investigate the response of the network to time-varying external input, and show that the mean-field model accurately predicts the response time course of the population.  One notable exception was that the ``tail'' of the response at long times was not well predicted, because the mean-field does not include adaptation mechanisms.  We conclude that the Master Equation formalism can yield mean-field models that predict well the behavior of nonlinear networks with conductance-based interactions and various electrophysiolgical properties, and should be a good candidate to model VSDi signals where both excitatory and inhibitory neurons contribute.
+\corr{Voltage-sensitive dye imaging (VSDi) has revealed fundamental
+  properties of neocortical processing at macroscopic scales.  Since
+  VSDi signals report the average membrane potential over a mesoscopic
+  population, it seems natural to use a mean-field formalism to model
+  such signals. In this communication, we take advantage of the
+  extensive theoretical work performed at the mesoscopic scale
+  ($\sim$10000 neurons, 0.25mm$^2$) to analytically describe
+  population dynamics in terms of few variables (the so-called
+  mean-field theories of network dynamics) to build a large scale
+  model of neocortical integration with a correlate in terms of
+  single-cell dynamics so that the model can directly generate
+  predictions for the signal imaged by the VSDi technique. We first
+  present our mean-field description of networks of Adaptive
+  Exponential (AdEx) integrate-and-fire neurons, with
+  conductance-based synaptic interactions: we use a Master Equation
+  formalism, together with a semi-analytic approach to the transfer
+  function of AdEx neurons. Next, by comparison with numerical
+  simulations of network dynamics, we investigate whether the accuracy
+  of the theoretical description in terms of temporal dynamics is well
+  suited to the description of responses under the presentation of
+  receptive field stimuli in early sensory cortices. Finally, to model
+  VSDi, we consider a 1-dimensional ring model made of interconnected
+  mean-field units.  We show that this model can reproduce propagating
+  waves seen in VSDi of awake monkey visual cortex.}
 
 \normalfont
 
@@ -104,11 +122,11 @@ or more generally \citetext{Markram2015}, but their computational cost
 impedes the generalization to higher spatial scale. The aim of the
 present communication is therefore to design a theoretical model of
 neocortical dynamics with the following properties: 1) it should
-describe the temporal scale of optical imaging as well as easily
-extend to its spatial scale and 2) it should have a correlate in terms
-of single-cell dynamics (in particular membrane potential dynamics),
-so that the model can directly generate predictions for the signal
-imaged by the VSDi technique \cite{Berger2007}.
+describe both the temporal scale of optical imaging as well as its
+spatial scale and 2) it should have a correlate in terms of
+single-cell dynamics (in particular membrane potential dynamics), so
+that the model can directly generate predictions for the signal imaged
+by the VSDi technique \cite{Berger2007}.
 
 More specifically, our study focuses on network dynamics in
 \emph{activated} cortical states, thus the desired model should
@@ -120,10 +138,25 @@ model is to take advantage of the \emph{mean-field} descriptions of
 network dynamics in this regime. Via self-consistent approaches, those
 descriptions allow to capture the dynamical properties of population
 activity in recurrent networks
-\cite{Amit1997,Brunel1999,Brunel2000,Latham2000,ElBoustani2009}. The
-present model will thus consider randomly connected network of 10000
-neurons as a unit to describe a cortical column and we will compare
-its behavior to network simulations.
+\cite{Amit1997,Brunel1999,Brunel2000,Latham2000,ElBoustani2009}.  The
+present model thus relies on the following scheme: 1) we consider the
+randomly connected network of 10000 neurons as a unit to describe a
+cortical column (the mesosopic scale, 0.25mm$^2$) and 2) we embedded
+the analytical description of this cortical column model into a ring
+geometry with physiological local connectivity profiles to model
+spatio-temporal integration on the neocortical sheet (the macroscopic
+scale, 100mm$^2$). \corr{A prerequisite was therefore to establish
+  that the analytical description of the mesocopic model is
+  well-suited to describe network dynamics imaged at the temporal
+  scale of VSDi recordings. This is the focus of the first part of
+  this paper: by comparing analytical prediction of the model with
+  numerical simulations, we can precisely evaluate the accuracy and/or
+  weaknesses of the analytical description.  The second part of the
+  paper investigates the integrative properties of the model, i.e. the
+  relation between the network response and the properties of the
+  input. Finally we compare the model prediction with VSDi recordings
+  in V1 in awake monkey in response to a visual stimulus.}
+
 
 \section{Material and Methods}
 \label{sec-3}
@@ -137,79 +170,75 @@ population activity. Then, we present the specific markovian model of
 population activity used in this study. Finally, we compare this
 analytical model to numerical simulations of network dynamics.
 
-
 \subsection{Single neuron models}
 \label{sec-3-1}
 
 The neuronal model used in this study is the adaptative exponential
-and fire (AdExp) model \cite{Brette2005a}. The equation for the
-membrane potential and the adaptation current therefore reads:
+and fire (AdExp) model \cite{Brette2005a}. The equation for the membrane
+potential and the adaptation current therefore reads:
 
 \begin{equation}
-  \label{eq:iAdExp}
+\label{eq:iAdExp}
   \left\{
-    \begin{split}
-      & C_m\,\frac{dV}{dt} = g_{L} \,(E_{L}-V) + I_{syn}(V,t) + k_a e^{\frac{V - V_{thre} }{k_a}}- I_w \\
-      & \tau_w \frac{d I_w}{dt} = - I_w + \sum_{t_s \in \{t_{spike}\}}
-      b \, \, \delta (t-t_s)
-    \end{split}
-  \right.
+  \begin{split}
+  & C_m\,\frac{dV}{dt} = g_{L} \,(E_{L}-V) + I_{syn}(V,t) + k_a e^{\frac{V - V_{thre} }{k_a}}- I_w \\
+  & \tau_w \frac{d I_w}{dt} = - I_w + \sum_{t_s \in \{t_{spike}\}} b \, \, \delta (t-t_s)
+  \end{split}
+\right.
 \end{equation}
 
 where $I_{syn}(V, t)$ is the current emulating synaptic activity that
-will create the fluctuations, $I_w$ reproduces the I$_{\text{m}}$
-current \cite{McCormick1985}. The spiking mechanism is the following:
-when $V(t)$ reaches \(V_{thre}+5 \, k_a \), this triggers a spike
-t$_{\text{s}}$ $\in$ \{t$_{\text{spike}}$\}, this increases the
-adaptation variable $I_w$ by \(b\), the membrane potential is then
-clamped at \(E_L\) for a duration
-$\tau$$_{\text{refrac}}$=5ms. We consider two versions of this model:
-a regular spiking neuron for the excitatory cells and a fast spiking
-neuron for the inhibitory cells (see Figure \ref{fig:tf}). The
-parameters of those two models can be found on Table
-\ref{table:params}.
+will create the fluctuations, $I_w$ reproduces the I$_{\text{m}}$ current
+\cite{McCormick1985}. The spiking mechanism is the following: when
+$V(t)$ reaches \(V_{thre}+5 \, k_a \), this triggers a spike t$_{\text{s}}$ $\in$
+\{t$_{\text{spike}}$\}, this increases the adaptation variable $I_w$ by \(b\),
+the membrane potential is then clamped at \(E_L\) for a duration
+$\tau$$_{\text{refrac}}$=5ms. We consider two versions of this model: a regular
+spiking neuron for the excitatory cells and a fast spiking neuron for
+the inhibitory cells (see Figure \ref{fig:tf}). The parameters of those two
+models can be found on Table \ref{table:params}.
 
 \begin{table*}[tb!]
-  \caption{\label{table:params}\textbf{Model parameters}.}
-  \centering
-  \begin{tabular}{l|l|l|r|l}
-    \textbf{Parameters} & Parameter Name & Symbol & Value & Unit\\
-    \hline
-                        &  &  &  & \\
-    \textbf{cellular properties} &  &  &  & \\
-                        & leak conductance & \(g_L\) & 10 & nS\\
-                        & leak reversal potential & \(E_L\) & -65 & mV\\
-                        & membrane capacitance & \(C_m\) & 150 & pF\\
-                        & leak reversal potential & \(E_L\) & -65 & mV\\
-                        & AP threshold & \(V_{thre}\) & -50 & mV\\
-                        & refractory period & \(\tau_{refrac}\) & 5 & ms\\
-                        & adaptation time constant & \(\tau_w\) & 500 & ms\\
-    \textbf{excitatory cell} &  &  &  & \\
-                        & sodium sharpness & \(k_a\) & 2 & mV\\
-                        & adaptation current increment & \(b\) & 20 & pA\\
-                        & adaptation conductance & \(a\) & 4 & nS\\
-    \textbf{inhibitory cell} &  &  &  & \\
-                        & sodium sharpness & \(k_a\) & 0.5 & mV\\
-                        & adaptation current increment & \(b\) & 0 & pA\\
-                        & adaptation conductance & \(a\) & 0 & nS\\
-    \textbf{synaptic properties} &  &  &  & \\
-                        & excitatory reversal potential & \(E_e\) & 0 & mV\\
-                        & inhibitory reversal potential & \(E_i\) & -80 & mV\\
-                        & excitatory quantal conductance & \(Q_e\) & 1 & nS\\
-                        & inhibitory quantal conductance & \(Q_i\) & 5 & nS\\
-                        & excitatory decay & \(\tau_e\) & 5 & ms\\
-                        & inhibitory  decay & \(\tau_i\) & 5 & ms\\
-    \textbf{numerical network} &  &  &  & \\
-                        & cell number & \(N_{tot}\) & 10000 & \\
-                        & connectivity probability & \(\epsilon\) & 5\% & \\
-                        & fraction of inhibitory cells & g & 20\% & \\
-                        & external drive & \(\nu_e^{drive}\) & 4 & Hz\\
-    \textbf{ring model} &  &  &  & \\
-                        & total extent & \(L_{tot}\) & 40 & mm\\
-                        & excitatory connectivity extent & \(l_{exc}\) & 5 & mm\\
-                        & inhibitory connectivity extent & \(l_{inh}\) & 1 & mm\\
-                        & propagation delay & \(v_c\) & 300 & mm/s\\
-  \end{tabular}
+\caption{\label{table:params}\textbf{Model parameters}.}
+\centering
+\begin{tabular}{l|l|l|r|l}
+\textbf{Parameters} & Parameter Name & Symbol & Value & Unit\\
+\hline
+ &  &  &  & \\
+\textbf{cellular properties} &  &  &  & \\
+ & leak conductance & \(g_L\) & 10 & nS\\
+ & leak reversal potential & \(E_L\) & -65 & mV\\
+ & membrane capacitance & \(C_m\) & 150 & pF\\
+ & leak reversal potential & \(E_L\) & -65 & mV\\
+ & AP threshold & \(V_{thre}\) & -50 & mV\\
+ & refractory period & \(\tau_{refrec}\) & 5 & ms\\
+ & adaptation time constant & \(\tau_w\) & 500 & ms\\
+\textbf{excitatory cell} &  &  &  & \\
+ & sodium sharpness & \(k_a\) & 2 & mV\\
+ & adaptation current increment & \(b\) & 20 & pA\\
+ & adaptation conductance & \(a\) & 4 & nS\\
+\textbf{inhibitory cell} &  &  &  & \\
+ & sodium sharpness & \(k_a\) & 0.5 & mV\\
+ & adaptation current increment & \(b\) & 0 & pA\\
+ & adaptation conductance & \(a\) & 0 & nS\\
+\textbf{synaptic properties} &  &  &  & \\
+ & excitatory reversal potential & \(E_e\) & 0 & mV\\
+ & inhibitory reversal potential & \(E_i\) & -80 & mV\\
+ & excitatory quantal conductance & \(Q_e\) & 1 & nS\\
+ & inhibitory quantal conductance & \(Q_i\) & 5 & nS\\
+ & excitatory decay & \(\tau_e\) & 5 & ms\\
+ & inhibitory  decay & \(\tau_i\) & 5 & ms\\
+\textbf{numerical network} &  &  &  & \\
+ & cell number & \(N_{tot}\) & 10000 & \\
+ & connectivity probability & \(\epsilon\) & 5\% & \\
+ & fraction of inhibitory cells & g & 20\% & \\
+ & external drive & \(\nu_e^{drive}\) & 4 & Hz\\
+\textbf{ring model} &  &  &  & \\
+ & total extent & \(L_{tot}\) & 40 & mm\\
+ & excitatory connectivity extent & \(l_{exc}\) & 5 & mm\\
+ & inhibitory connectivity extent & \(l_{inh}\) & 1 & mm\\
+ & propagation delay & \(v_c\) & 300 & mm/s\\
+\end{tabular}
 \end{table*}
 
 \subsection{Synaptic model}
@@ -220,8 +249,8 @@ made of the sum of an excitatory and inhibitory currents (indexed by
 \(s \in \{e,i\}\) and having a reversal potential \(E_s\)):
 
 \begin{equation}
-  \label{eq:syn-current}
-  I_{syn}(V,t) = \sum_{s \in \{e,i\}} \sum_{t_s \in \{t_s\}} Q_s \, e^{-\frac{t}{\tau_s}} \, (E_{s}-V) \, \mathcal{H}(t-t_s)
+\label{eq:syn-current}
+ I_{syn}(V,t) = \sum_{s \in \{e,i\}} \sum_{t_s \in \{t_s\}} Q_s \, e^{-\frac{t}{\tau_s}} \, (E_{s}-V) \, \mathcal{H}(t-t_s)
 \end{equation}
 where \(\mathcal{H}\) is the Heaviside function.
 
@@ -240,26 +269,17 @@ feedforward connectivity.
 \label{sec-3-3}
 
 \begin{figure}[tb!]
-  \centering
-  \includegraphics[width=.5\linewidth]{./figures/architext-ntwk.png}
-  \caption{\label{ntwk-architect}\textbf{Schematic of the local
-      network architecture}. The network is made of
-    \(N_e=(1-g) \, N_{tot}\) excitatory and \(N_i=g \, N_{tot}\)
-    inhibitory neurons. All excitatory connections (afferent and
-    recurrent) onto a neuron corresponds to
-    \(K_e= \epsilon \, (1-g) \, N_{tot}\) synapses of weight
-    \(Q_e\). All inhibitory connections (afferent and recurrent) onto
-    a neuron corresponds to \(K_i= \epsilon \, g \, N_{tot}\) synapses
-    of weight \(Q_i\).}
+\centering
+\includegraphics[width=.5\linewidth]{./figures/architext-ntwk.png}
+\caption{\label{ntwk-architect}\textbf{Schematic of the local network architecture}. The network is made of \(N_e=(1-g) \, N_{tot}\) excitatory and \(N_i=g \, N_{tot}\) inhibitory neurons. All excitatory connections (afferent and recurrent) onto a neuron corresponds to \(K_e= \epsilon \, (1-g) \, N_{tot}\) synapses of weight \(Q_e\). All inhibitory connections (afferent and recurrent) onto a neuron corresponds to \(K_i= \epsilon \, g \, N_{tot}\) synapses of weight \(Q_i\)}
 \end{figure}
 
-All simulations of numerical network were performed with the
-\texttt{brian2} simulator \cite{Goodman2009}, see
-\url{http://brian2.readthedocs.org}. For all simulations, the network
-was composed of \(N_{tot}\)=10000 neurons, separated in two
-populations, one excitatory and one inhibitory with a ratio of g=20\%
-inhibitory cells. Those two populations we recurrently connected
-(internally and mutually) with a connectivity probability
+All simulations of numerical network were performed with the \texttt{brian2}
+simulator \cite{Goodman2009}, see \url{http://brian2.readthedocs.org}. For all
+simulations, the network was composed of \(N_{tot}\)=10000 neurons,
+separated in two populations, one excitatory and one inhibitory with a
+ratio of g=20\% inhibitory cells. Those two populations we recurrently
+connected (internally and mutually) with a connectivity probability
 \(\epsilon\)=5\%.
 
 Because this network did not display self-sustained activity (see
@@ -287,30 +307,29 @@ converted into spikes by using the properties of a Poisson process
 The transfer function \(\mathcal{F}\) of a single neuron is defined
 here as the function that maps the value of the stationary excitatory
 and inhibitory presynaptic release frequencies to the output
-stationary firing rate response, i.e.
-\(\nu_{out} = \mathcal{F}(\nu_e, \nu_i)\). Note the stationary
-hypothesis in the definition of the transfer function (see discussion
-in main text).
+stationary firing rate response, i.e. \(\nu_{out} = \mathcal{F}(\nu_e,
+\nu_i)\). Note the stationary hypothesis in the definition of the
+transfer function (see discussion in main text).
 
 Because an analytical solution of this function for the single neuron
 models considered in our study is a very challenging mathematical
 problem, we adopted a semi-analytical approach. We performed numerical
 simulations of single cell dynamics at various excitatory and
 inhibitory presynaptic frequencies (\(\nu_e\) and \(\nu_i\)
-respectively) (see the output in Figure \ref{fig:tf}) on which we
-fitted the coefficients of an analytical template to capture the
-single cell model's response.
+respectively) (see the output in Figure \ref{fig:tf}) on which we fitted the
+coefficients of an analytical template to capture the single cell
+model's response.
 
 The procedure relied on fitting a \emph{phenomenological threshold}
 \(V_{thre}^{eff}\) that accounts for the single neuron non-linearities
 (spiking and reset mechanism, adaptation mechanisms) on top of the
 subthreshold integration effects \cite{Zerlaut2016}. This
 phenomenological threshold is then plugged-in into the following
-formula (analogous to \citetext{Amit1997}) to become our firing
-response estimate:
+formula (analogous to \citetext{Amit1997}) to become our firing response
+estimate:
 
 \begin{equation}
-  \label{eq:template}
+\label{eq:template}
   \nu_{out} = \frac{1}{2\,\tau_V} \cdot 
   {Erfc}(\frac{V_{thre}^{eff}-\mu_V}{\sqrt{2} \, \sigma_V})
 \end{equation}
@@ -324,45 +343,42 @@ The phenomenological threshold was taken as a second order polynomial
 in the three dimensional space \( (\mu_V, \sigma_V, \tau_V) \):
 
 \begin{equation}
-  \label{eq:quadratic-threshold}
+\label{eq:quadratic-threshold}
   \begin{split}
-    V_{thre}^{eff} & (\mu_V, \sigma_V, \tau_V^N) = P_0 +
-    \sum_{x \in \{ \mu_V, \sigma_V, \tau_V^N\}} P_x \cdot \Big(  \frac{x - x^0}{\delta x^0} \Big) + \\
-    & \sum_{ x,y \in \{ \mu_V, \sigma_V, \tau_V^N\}^2} P_{xy} \cdot
-    \Big( \frac{x - x^0}{\delta x^0} \Big) \, \Big( \frac{y -
-      y^0}{\delta y^0} \Big)
-  \end{split}
+   V_{thre}^{eff} & (\mu_V, \sigma_V, \tau_V^N) = P_0 + 
+   \sum_{x \in \{ \mu_V, \sigma_V, \tau_V^N\}} P_x \cdot \Big(  \frac{x - x^0}{\delta x^0} \Big) + \\
+   & \sum_{ x,y \in \{ \mu_V, \sigma_V, \tau_V^N\}^2} P_{xy} \cdot
+   \Big( \frac{x - x^0}{\delta x^0}  \Big) \,  \Big( \frac{y - y^0}{\delta y^0} \Big)
+ \end{split}
 \end{equation}
 
-Where the normalization factors \(\mu_V^0\)=-60mV,
-\(\delta \mu_V^0\)=10mV, \(\sigma_V^0\)=4mV, \(\delta \sigma_V^0\) =
-6mV, \(\tau_V^{N0}\)=0.5 and \(\delta \tau_V^{N0}\)= 1 arbitrarily
-delimits the \emph{fluctuation-driven} regime (a mean value $x$ and an
-extent $\delta x$, \(\forall x \in \{\mu_V, \sigma_V, \tau_V^N\}\)).
-They render the fitting of the phenomenological threshold easier, as
-they insure that the coefficients take similar values. It is kept
-constant all along the study. The phenomenological threshold was taken
-as a second order polynomial and not as a linear threshold, for two
+Where the normalization factors \(\mu_V^0\)=-60mV, \(\delta
+\mu_V^0\)=10mV, \(\sigma_V^0\)=4mV, \(\delta \sigma_V^0\) = 6mV,
+\(\tau_V^{N0}\)=0.5 and \(\delta \tau_V^{N0}\)= 1 arbitrarily delimits
+the \emph{fluctuation-driven} regime (a mean value $x$ and an extent
+$\delta x$, \(\forall x \in \{\mu_V, \sigma_V, \tau_V^N\}\)).  They
+render the fitting of the phenomenological threshold easier, as they
+insure that the coefficients take similar values. It is kept constant
+all along the study. The phenomenological threshold was taken as a
+second order polynomial and not as a linear threshold, for two
 reasons: 1) unlike in an experimental study \cite{Zerlaut2016}, we are
 not limited by the number of sampling points, the number of fitted
 coefficients can thus be higher as the probability of overfitting
 becomes negligible 2) it gives more flexibility to the template,
 indeed the linear threshold was found a good approximation in the
-\emph{fluctuation-driven} regime, i.e. when the diffusion
-approximation holds, however, for low values of the presynaptic
-frequencies, we can be far from this approximation, the additional
-coefficients are used to capture the firing response in those domains.
-
+\emph{fluctuation-driven} regime, i.e. when the diffusion approximation
+holds, however, for low values of the presynaptic frequencies, we can
+be far from this approximation, the additional coefficients are used
+to capture the firing response in those domains.
 
 The fitting procedure was identical to \citetext{Zerlaut2016}, it
 consisted first in a linear regression in the phenomenological
-threshold space of Equation \ref{eq:quadratic-threshold}, followed by
-a non-linear optimization of Equation \ref{eq:template} on the firing
-rate response. Both fitting were performed with the \texttt{leastsq}
-method in the \texttt{optimize} package of \texttt{SciPy}.
+threshold space of Equation \ref{eq:quadratic-threshold}, followed by a
+non-linear optimization of Equation \ref{eq:template} on the firing rate
+response. Both fitting were performed with the \texttt{leastsq} method in the
+\texttt{optimize} package of \texttt{SciPy}.
 
-\subsection{Calculus of the subthreshold membrane potential
-  fluctuations}
+\subsection{Calculus of the subthreshold membrane potential fluctuations}
 \label{sec-3-5}
 
 Here, we detail the analytical calculus that translate the input to
@@ -376,18 +392,17 @@ courses.
 \label{sec-3-5-1}
 
 From Campbell's theorem \cite{Papoulis1991}, we first get the mean
-(\(\mu_{Ge}, \mu_{Gi}\)) and standard deviation
-(\(\sigma_{Ge}, \sigma_{Gi}\)) of the excitatory and inhibitory
-conductance fluctuations:
+(\(\mu_{Ge}, \mu_{Gi}\)) and standard deviation (\(\sigma_{Ge},
+\sigma_{Gi}\)) of the excitatory and inhibitory conductance
+fluctuations:
 
 \begin{equation}
-  \begin{split}
-    & \mu_{Ge}(\nu_e, \nu_i) = \nu_e \, K_e \, \tau_e \, Q_e \\
-    & \sigma_{Ge}(\nu_e, \nu_i) = \sqrt{\frac{\nu_e \, K_e \, \tau_e}{2}} \, Q_e \\
-    & \mu_{Gi}(\nu_e, \nu_i) = \nu_i \, K_i \, \tau_i \, Q_i \\
-    & \sigma_{Gi}(\nu_e, \nu_i) = \sqrt{\frac{\nu_i \, K_i \,
-        \tau_i}{2}} \, Q_i
-  \end{split}
+\begin{split}
+& \mu_{Ge}(\nu_e, \nu_i) = \nu_e \, K_e \, \tau_e \, Q_e \\
+& \sigma_{Ge}(\nu_e, \nu_i) = \sqrt{\frac{\nu_e \, K_e \, \tau_e}{2}} \, Q_e \\
+& \mu_{Gi}(\nu_e, \nu_i) = \nu_i \, K_i \, \tau_i \, Q_i \\
+& \sigma_{Gi}(\nu_e, \nu_i) = \sqrt{\frac{\nu_i \, K_i \, \tau_i}{2}} \, Q_i 
+\end{split}
 \end{equation}
 
 The mean conductances will control the input conductance of the neuron
@@ -395,10 +410,10 @@ The mean conductances will control the input conductance of the neuron
 \(\tau_m\):
 
 \begin{equation}
-  \begin{split}
-    & \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
-    & \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}
-  \end{split}
+\begin{split}
+& \mu_{G}(\nu_e, \nu_i) = \mu_{Ge} + \mu_{Gi} + g_L \\
+& \tau_m(\nu_e, \nu_i) = \frac{C_m}{\mu_{G}}
+\end{split}
 \end{equation}
 
 \subsubsection{Mean membrane potential}
@@ -407,19 +422,19 @@ The mean conductances will control the input conductance of the neuron
 Following \citetext{Kuhn2004}, the mean membrane potential is obtained
 by taking the stationary solution to static conductances given by the
 mean synaptic bombardment (for the passive version of Equation
-\ref{eq:iAdExp}, i.e. removing the adaptation and spiking
-mechanisms). We obtain:
+\ref{eq:iAdExp}, i.e. removing the adaptation and spiking mechanisms). We
+obtain:
 
 \begin{equation}
-  \label{eq:mu-v}
-  \mu_V(\nu_e, \nu_i) = \frac{\mu_{Ge} \, E_e + \mu_{Gi} \, E_i + g_L \, E_L}{\mu_{G}}
+\label{eq:mu-v}
+\mu_V(\nu_e, \nu_i) = \frac{\mu_{Ge} \, E_e + \mu_{Gi} \, E_i + g_L \, E_L}{\mu_{G}}
 \end{equation}
 
 We will now approximate the driving force \(E_s - V(t)\) of synaptic
 events by the level resulting from the mean conductance bombardment:
 \(E_s - \mu_V\). This will enable an analytical solution for the
-standard deviation \( \sigma_V\) and the autocorrelation time
-\( \sigma_V\) of the fluctuations.
+standard deviation \( \sigma_V\) and the autocorrelation time \(
+\sigma_V\) of the fluctuations.
 
 \subsubsection{Power spectrum of the membrane potential fluctuations}
 \label{sec-3-5-3}
@@ -431,53 +446,53 @@ from the sum of events \(PSP_{s}(t)\) at frequency \(K_{s} \, \nu_s\)
 can be obtained from shotnoise theory \cite{Daley2007}:
 
 \begin{equation}
-  P_V(f)  = \sum_{s \in \{e,i\}} K_s \, \nu_{s} \, \| \hat{\mathrm{PSP}_s}(f) \|^2
+ P_V(f)  = \sum_{s \in \{e,i\}} K_s \, \nu_{s} \, \| \hat{\mathrm{PSP}_s}(f) \|^2
 \end{equation}
 
 where \(\hat{\mathrm{PSP}_s}(f)\) is the Fourier transform of the
 time-varying function \(\mathrm{PSP}(t)\). Note that the relations
 presented in this paper rely on the following convention for the
-Fourier transform:
-\( \hat{F}(f) = \int_\mathbb{R} F(t) \, e^{- 2 i \pi f t} \, dt\).
+Fourier transform: \( \hat{F}(f) = \int_\mathbb{R} F(t) \, e^{- 2 i
+\pi f t} \, dt\).
 
 After fixing the driving force to \(E_s - \mu_V\), the equation for a
-post-synaptic membrane potential event \(s\) around \(\mu_V\) is
+ post-synaptic membrane potential event \(s\) around \(\mu_V\) is
 
 \begin{equation}
-  \tau_m \frac{d \, \mathrm{PSP}_s }{dt} + \mathrm{PSP}_s = U_s \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_s}}
+ \tau_m \frac{d \, \mathrm{PSP}_s }{dt} + \mathrm{PSP}_s = U_s \, \mathcal{H}(t) \, e^{\frac{-t}{\tau_s}}
 \end{equation}
 
-where \( U_s = \frac{Q_s}{\mu_G} (E_s - \mu_V) \) and
-\( \mathcal{H}(t) \) is the Heaviside function.
+where \( U_s = \frac{Q_s}{\mu_G} (E_s - \mu_V) \) and \(
+\mathcal{H}(t) \) is the Heaviside function.
 
 Its solution is:
 
 \begin{equation}
-  \mathrm{PSP}_s(t)  = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, \big( 
-  e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_s}} \big) \, \mathcal{H}(t)
+\mathrm{PSP}_s(t)  = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, \big( 
+e^{\frac{-t}{\tau_m}} - e^{\frac{-t}{\tau_s}} \big) \, \mathcal{H}(t)
 \end{equation}
 
 We take the Fourier transform:
 
 \begin{equation}
-  \hat{\mathrm{PSP}_s}(f) = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, 
-  \big(
-  \frac{\tau_{m}}{2 \, i  \,  \pi \, f \, \tau_{m} +1} 
-  - \frac{\tau_s}{2 \, i  \,  \pi \, f \, \tau_s +1} \big)
+\hat{\mathrm{PSP}_s}(f) = U_s \, \frac{\tau_s}{\tau_m - \tau_s} \, 
+\big(
+\frac{\tau_{m}}{2 \, i  \,  \pi \, f \, \tau_{m} +1} 
+- \frac{\tau_s}{2 \, i  \,  \pi \, f \, \tau_s +1} \big)
 \end{equation}
 
 We will need the value of the square modulus at \(f=0\):
 
 \begin{equation}
-  \label{eq:psp0}
-  \| \hat{\mathrm{PSP}}(0) \|^2 = (U_s \cdot \tau_s)^2
+\label{eq:psp0}
+\| \hat{\mathrm{PSP}}(0) \|^2 = (U_s \cdot \tau_s)^2
 \end{equation}
 
 As well as the integral of the square modulus:
 
 \begin{equation}
-  \label{eq:psp-int}
-  \int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) }
+\label{eq:psp-int}
+\int_\mathbb{R}  df \, \| \hat{\mathrm{PSP}}(f) \|^2 = \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) }
 \end{equation}
 
 \subsubsection{Standard deviation of the fluctuations}
@@ -486,15 +501,14 @@ As well as the integral of the square modulus:
 The standard deviation follows:
 
 \begin{equation}
-  (\sigma_V)^2  = \int_\mathbb{R}  df \, P_V(f)
+ (\sigma_V)^2  = \int_\mathbb{R}  df \, P_V(f)
 \end{equation}
 
-Using Equation \ref{eq:psp-int}, we find the final expression for
-\(\sigma_V\):
+Using Equation \ref{eq:psp-int}, we find the final expression for \(\sigma_V\):
 
 \begin{equation}
-  \label{eq:sigma-v}
-  \sigma_V(\nu_e, \nu_i)  = \sqrt{ \sum_s K_s \, \nu_s \, \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) } }
+\label{eq:sigma-v}
+ \sigma_V(\nu_e, \nu_i)  = \sqrt{ \sum_s K_s \, \nu_s \, \frac{(U_s \cdot \tau_s)^2}{2 \, (\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) } }
 \end{equation}
 
 \subsubsection{Autocorrelation-time of the fluctuations}
@@ -506,29 +520,29 @@ We defined the global autocorrelation time as \cite{Zerlaut2016}:
   \tau_V = \frac{1}{2} \, \big( \frac{\int_\mathbb{R} P_V(f) \, d f}{ P_V(0) } \big)^{-1}
 \end{equation}
 
-Using Equations \ref{eq:psp-int} and \ref{eq:psp0}, we find the final
-expression for \(\tau_V\):
+Using Equations \ref{eq:psp-int} and \ref{eq:psp0}, we find the final expression
+for \(\tau_V\):
 
 \begin{equation}
-  \label{eq:tau-v}
+\label{eq:tau-v}
   \tau_V(\nu_e, \nu_i) = \Big( \frac{
-    \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2\big) 
+  \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2\big) 
   }{
-    \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) \big)
+  \sum_s \big( K_s \, \nu_s \, (U_s \cdot \tau_s)^2 /(\tau_\mathrm{m}^\mathrm{eff} + \tau_s ) \big)
   } \Big)
 \end{equation}
 
-Therefore the set of Equations \ref{eq:mu-v}, \ref{eq:sigma-v} and
-\ref{eq:tau-v} translate the presynaptic frequencies into membrane
-fluctuations properties \(\mu_V, \sigma_V, \tau_V\).
+Therefore the set of Equations \ref{eq:mu-v}, \ref{eq:sigma-v} and \ref{eq:tau-v}
+translate the presynaptic frequencies into membrane fluctuations
+properties \(\mu_V, \sigma_V, \tau_V\).
 
 The previous methodological section allowed to translate the
 fluctuations properties \(\mu_V, \sigma_V, \tau_V\) into a spiking
 probability thanks to a minimization procedure. The combination of the
 present analytical calculus and the previous fitting procedure (on
 numerical simulations data) constitute our semi-analytical approach to
-determine the transfer function of a single cell model:
-\( \nu_{out} = \mathcal{F}(\nu_e, \nu_i)\).
+determine the transfer function of a single cell model: \( \nu_{out} =
+\mathcal{F}(\nu_e, \nu_i)\).
 
 \subsection{Master equation for local population dynamics}
 \label{sec-3-6}
@@ -539,8 +553,8 @@ connected random networks \cite{Amit1997,Brunel2000,Renart2004}.
 
 Because we will investigate relatively slow dynamics
 (\(\tau\)>25-50ms) (and because of the stationary formulation of our
-transfer function), we will use the Markovian description developed in
-\citetext{ElBoustani2009}, it describes network activity at a time
+transfer function), we will use the Markovian description developed
+in \citetext{ElBoustani2009}, it describes network activity at a time
 scale \(T\), for which the network dynamics should be Markovian. The
 choice of the time-scale \(T\) is quite crucial in this formalism, it
 should be large enough so that activity can be considered as
@@ -549,7 +563,7 @@ period, that would introduce memory effects) and small enough so that
 each neuron can fire statistically only once per time interval
 \(T\). Following \citetext{ElBoustani2009}, we will arbitrarily take
 \(T\)=5ms all along the study as it offers a good compromise between
-those two constraints.
+those two constraints. 
 
 
 The formalism describes the first and second moments of the population
@@ -566,33 +580,31 @@ and inhibitory population activities. The set of differential
 equations followed by those quantities reads \cite{ElBoustani2009}:
 
 \begin{equation}
-  \label{eq:master-equation}
-  \left\{
-    \begin{split}
-      T \, \frac{\partial \nu_\mu}{\partial t} = & (\mathcal{F}_\mu -
-      \nu_\mu ) + \frac{1}{2} \, c_{\lambda \eta} \,
-      \frac{\partial^2 \mathcal{F}_\mu}{\partial \nu_\lambda \partial \nu_\eta} \\
-      T \, \frac{\partial c_{\lambda \eta} }{\partial t} = &
-      A_{\lambda \eta} +
-      (\mathcal{F}_\lambda - \nu_\lambda ) \, (\mathcal{F}_\eta - \nu_\eta ) + \\
-      & c_{\lambda \mu} \frac{\partial \mathcal{F}_\mu}{\partial
-        \nu_\lambda} + c_{\mu \eta} \frac{\partial
-        \mathcal{F}_\mu}{\partial \nu_\eta} - 2 c_{\lambda \eta}
-    \end{split}
-  \right.
+\label{eq:master-equation}
+\left\{
+\begin{split}
+T \, \frac{\partial \nu_\mu}{\partial t} = & (\mathcal{F}_\mu - \nu_\mu )
+   + \frac{1}{2} \, c_{\lambda \eta} \, 
+\frac{\partial^2 \mathcal{F}_\mu}{\partial \nu_\lambda \partial \nu_\eta} \\
+T \, \frac{\partial c_{\lambda \eta} }{\partial t}  =  & A_{\lambda \eta} +
+(\mathcal{F}_\lambda - \nu_\lambda ) \, (\mathcal{F}_\eta - \nu_\eta ) + \\
+ & c_{\lambda \mu} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\lambda} +
+ c_{\mu \eta} \frac{\partial \mathcal{F}_\mu}{\partial \nu_\eta} 
+ - 2  c_{\lambda \eta}
+\end{split}
+\right.
 \end{equation}
 
 with:
 \begin{equation}
-  A_{\lambda \eta} =  
-  \left\{
-    \begin{split}
-      \frac{\mathcal{F}_\lambda \, (1/T -
-        \mathcal{F}_\lambda)}{N_\lambda}
-      \qquad & \textrm{if  } \lambda=\eta \\
-      0 \qquad & \textrm{otherwise}
-    \end{split}
-  \right.
+A_{\lambda \eta} =  
+\left\{
+\begin{split}
+\frac{\mathcal{F}_\lambda \, (1/T - \mathcal{F}_\lambda)}{N_\lambda} 
+\qquad & \textrm{if  } \lambda=\eta \\
+0 \qquad & \textrm{otherwise}
+\end{split}
+\right.
 \end{equation}
 
 Note that, for the concision of the expressions, we used Einstein's
@@ -609,8 +621,8 @@ We will also use the reduction to first order of this system (for the
 phase-space analysis, see Results). This yields:
 
 \begin{equation}
-  \label{eq:master-eq-1st-order}
-  T \, \frac{\partial \nu_\mu}{\partial t} = \mathcal{F}_\mu - \nu_\mu \\
+\label{eq:master-eq-1st-order}
+T \, \frac{\partial \nu_\mu}{\partial t} = \mathcal{F}_\mu - \nu_\mu \\
 \end{equation}
 
 \subsection{Afferent stimulation}
@@ -620,16 +632,69 @@ In some simulations, an afferent input was present and was represented
 by the following piecewise double Gaussian waveform:
 
 \begin{equation}
-  \label{eq:input}
-  \nu_e^{aff}(t) = A \, \Big(
-  e^{-(\frac{t-t_0}{\sqrt{2} \tau_1})^2} \mathcal{H}(t_0-t)+
-  e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
-  \Big)
+\label{eq:input}
+\nu_e^{aff}(t) = A \, \Big(
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_1})^2} \mathcal{H}(t_0-t)+
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
+\Big)
 \end{equation}
 
 In this afferent input, we can independently control: 1) the maximum
 amplitude \(A\) of the stimulation, its rising time constant
 \(\tau_1\) and its decay time constant \(\tau_2\).
+
+\subsection{Ring model}
+\label{sec-3-7}
+
+To model VSDi experiments, we embed the mean-field model of population
+dynamics in a ring geometry to model spatio-temporal integration on
+the neocortical sheet. The ring geometry corresponds to a one
+dimensional spatial description with an invariance by translation,
+i.e. for all quantities \(f\), \(f(x)=f(x+L)\)(also termed one
+dimensional periodic boundary conditions), where \(L\) is the length
+of the ring model. For simplicity, we consider here only the first
+moments of the second-order description: i.e. the means of the
+excitatory and inhibitory population activities: \(\nu_e(t)\) and
+\(\nu_i(t)\) respectively.
+
+We use a Gaussian connectivity profile (see
+Fig.~\ref{fig:simple-stim}) to define the connectivity across cortical
+columns (i.e. local networks described in the previous section):
+
+\begin{equation}
+\mathcal{N}_e(x) = \frac{1}{\sqrt{2 \pi} l_{exc}} e^{-(\frac{x}{\sqrt{2} l_{exc}})^2} \quad ; \quad 
+\mathcal{N}_i(x) = \frac{1}{\sqrt{2 \pi} l_{inh}} e^{-(\frac{x}{\sqrt{2} l_{inh}})^2}
+\end{equation}
+\corr{where \(l_{exc}\) and \(l_{inh}\) are the excitatory and inhibitory
+extent of the connectivity profiles respectively.}
+
+\corr{We also introduce the effect of a finite axonal conduction speed
+\(v_c\), this will introduce delays for the propagation of activity
+across cortical columns: for a network at a distance \(x\), the
+afferent activity will arrive delayed by \(x/v_c\).}
+
+\corr{Finally, the equations that govern the activity in space and time are
+given by:}
+
+\begin{equation}
+\left\{
+\begin{split}
+\nu_e^{input}(x,t) = &\nu_e^{drive}  + 
+\int_\mathbb{R} dy \, \mathcal{N}_e(x-y) \, \nu_e(y, t-\|y-x\|/v_c) \\
+\nu_i^{input}(x,t) = & \int_\mathbb{R} dy \, \mathcal{N}_i(x-y) \, \nu_i(y, t-\|y-x\|/v_c) \\
+T \frac{\partial \nu_e(x,t)}{\partial t} = & -  \nu_e(x,t) + \\
+& \mathcal{F}_e(\nu_e^{aff}(x,t)+\nu_e^{input}(x,t), \nu_i^{input}(x,t) ) \\
+T \frac{\partial \nu_i(x,t)}{\partial t} = & -  \nu_i(x,t) + \mathcal{F}_i(\nu_e^{input}(x,t), \nu_i^{input}(x,t) )
+\end{split}
+\right.
+\end{equation}
+\corr{where \(\nu_e^{drive}\) is the external drive and \(\nu_e^{aff}(x,t)\)
+is the afferent (thalamic) stimulation.}
+
+\corr{The local correlate in terms of mean membrane potential \(\mu_V(x,t)\)
+is given by Equation \ref{eq:mu-v}.}
+
+
 
 
 \section{Results}
@@ -642,8 +707,11 @@ start by describing the semi-analytical workflow that enables the
 derivation of the cellular transfer function: the core of this
 population model. Next, we investigate whether the analytical
 description accurately describe population dynamics by comparing its
-prediction to numerical simulations. Finally, we investigate the
-response of the network model subject to an external input.
+prediction to numerical simulations. We also investigate the response
+of the network model subject to an external input. Finally, we embed
+the cortical column model into a ring model and we compare its
+predictions to propagating waves as found in VSDi recordings in the
+visual cortex of awake monkey.
 
 \subsection{Modeling a single cortical column}
 \label{sec-4-1}
@@ -651,43 +719,30 @@ response of the network model subject to an external input.
 \begin{figure*}
 \centering
 \includegraphics[width=.7\linewidth]{./figures/tf.png}
-\caption{\label{fig:tf}\textbf{Single cell models of the excitatory
-    and inhibitory populations (left and right respectively).} Top:
-  response to a current step of 200pA lasting 300ms. Bottom:
-  \emph{transfer function} of the single cell, i.e. output firing rate
-  as a function of the excitatory (x-axis) and inhibitory
-  (color-coded) presynaptic release frequencies. Note that the range
-  of the excitatory and frequencies assumes numbers of synapses
-  (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition
-  respectively).  \textbf{(A)} Excitatory cells. Note the presence of
-  spike-frequency adaptation and subthreshold adaptation. \textbf{(B)}
-  Inhibitory cells. Note the very narrow spike initiation dynamics
-  (\(k_a\)=0.5mV). Also, note the steepest relation to excitation
-  (with respect to the excitatory cell) at various inhibitory levels
-  as a result of the increased excitability of the inhibitory cell.}
+\caption{\label{fig:tf}\textbf{Single cell models of the excitatory and inhibitory populations.} Top: response to a current step of 200pA lasting 300ms. Bottom: \emph{transfer function} of the single cell, i.e. output firing rate as a function of the excitatory (x-axis) and inhibitory (color-coded) presynaptic release frequencies. Note that the range of the excitatory and frequencies assumes numbers of synapses (\(K_e\)=40 and \(K_i\)=10 for the excitation and inhibition respectively).  \textbf{(A)} Excitatory cells. Note the presence of spike-frequency adaptation and subthreshold adaptation. \textbf{(B)} Inhibitory cells. Note the very narrow spike initiation dynamics (\(k_a\)=0.5mV). Also, note the steepest relation to excitation (with respect to the excitatory cell) at various inhibitory levels as a result of the increased excitability as a result of the increased excitability of the inhibitory cell (with respect to the excitatory cell).}
 \end{figure*}
 
 Because optical imaging presumably sample most of its signals from
 superficial layers, we model here the layer II/III network: it is
 characterized by a strong recurrent connectivity and an important
 cellular diversity, in particular one finds many types of interneurons
-\cite{Markram2004,Ascoli2008a}. We adopt here a very simplistic
-description of this network, it is made of two neuronal population:
-one excitatory and one inhibitory comprising 8000 and 2000 neurons
-respectively. All neurons within the two population synaptically
-interconnect randomly to each other with a connectivity probability of
-5\%. The excitatory and inhibitory cells have the same passive
-properties. We nonetheless include an asymmetry between the excitatory
-and inhibitory populations: because the inhibitory population includes
-Fast-Spiking cells that can exhibit very high firing frequencies
-\cite{Markram2004}, we set its spiking mechanism sharper (more precisely
-its sodium activation activation curve is steeper, see Methods) than
-that of excitatory cells, additionally we add a strong spike-frequency
-adaptation current in excitatory cells that is absent in inhibitory
-cells. Those two effects render the inhibitory neurons more excitable
-(see the different responses to the same current step in Figure
-\ref{fig:tf}). All parameters of the cortical column can be found in Table
-\ref{table:params}.
+\cite{Markram2004,Ascoli2008a}. We adopt here a simplistic description
+of this network, it is made of two neuronal population: one excitatory
+and one inhibitory comprising 8000 and 2000 neurons respectively. All
+neurons within the two population synaptically interconnect randomly
+to each other with a connectivity probability of 5\%. The excitatory
+and inhibitory cells have the same passive properties. We nonetheless
+include an asymmetry between the excitatory and inhibitory
+populations: because the inhibitory population includes Fast-Spiking
+cells that can exhibit very high firing frequencies
+\cite{Markram2004}, we set its spiking mechanism sharper (more
+precisely its sodium activation activation curve is steeper, see
+Methods) than that of excitatory cells, additionally we add a strong
+spike-frequency adaptation current in excitatory cells that is absent
+in inhibitory cells. Those two effects render the inhibitory neurons
+more excitable (see the different responses to the same current step
+in Figure \ref{fig:tf}). All parameters of the cortical column can be
+found in Table \ref{table:params}.
 
 \subsection{A Markovian model to describe population dynamics}
 \label{sec-4-2}
@@ -710,13 +765,14 @@ transfer functions (see next section), we will therefore incorporate
 this description into the formalism.
 
 Nonetheless, the study of \citetext{ElBoustani2009} only investigated
-the ability of the formalism to self-consistently describe 1) the
-stationary point of the network activity and 2) in a situation where
-the neuronal models models had an analytic estimate for the transfer
-function (current-based integrate-and-fire model). Investigating
-whether this description generalizes to transient dynamics and
-transfer functions estimated with a semi-analytical approach is
-investigated in the next sections.
+the ability of the formalism to describe 1) the stationary point of
+the network activity and 2) in a situation where the neuronal models
+models had an analytic estimate for the transfer function
+(current-based integrate-and-fire model). As a prerequisite,
+investigating whether this description generalizes to transient
+dynamics and transfer functions estimated with a semi-analytical
+approach is investigated in the next sections.
+
 \subsection{Transfer functions of excitatory and inhibitory cells}
 \label{sec-4-3}
 
@@ -754,21 +810,104 @@ to the measured firing response. This procedure resulted in the
 analytical estimates shown in Figure \ref{fig:tf} and compared with the
 results of numerical simulations.
 
-\subsection{Spontaneous activity in the cortical column}
-\label{sec-4-4}
+%%%%%%%%%% MAYBE USELESS
+% \subsection{Spontaneous activity in the cortical column}
+% \label{sec-4-4}
 
-\begin{figure*}
-\centering
-\includegraphics[width=.7\linewidth]{./figures/finding_fixed_point.png}
-\caption{\label{fig:phase-space}\textbf{Using the analytical description to look for a stable configuration of spontaneous network activity.} Phase space of the dynamical system resulting from the first order of the markovian description, shown for two levels of external excitatory drive \(\nu_e^{drive}\). The lines represents trajectories resulting from different initial conditions. The vector field correspond to the time-evolution operator (the arrows represent the direction in the two-dimensional space and the color codes for the norm of the vector). \textbf{(A)} Phase space in the absence of an external drive \(\nu_e^{drive}\)=0Hz, the stable fixed point of the dynamics correspond to the quiescent network state \(\nu_e=\nu_i\)=0Hz. \textbf{(A)} Phase space with an external drive \(\nu_e^{drive}\)=4Hz, the stable fixed point of the dynamics correspond now corresponds to an active state with asymmetric activity levels: \(\nu_e\)=1.6Hz and \(\nu_i\)=8.9Hz (round marker).}
-\end{figure*}
+% \begin{figure*}
+% \centering
+% \includegraphics[width=.7\linewidth]{./figures/finding_fixed_point.png}
+% \caption{\label{fig:phase-space}\textbf{Using the analytical description to look for a stable configuration of spontaneous network activity.} Phase space of the dynamical system resulting from the first order of the markovian description, shown for two levels of external excitatory drive \(\nu_e^{drive}\). The lines represents trajectories resulting from different initial conditions. The vector field correspond to the time-evolution operator (the arrows represent the direction in the two-dimensional space and the color codes for the norm of the vector). \textbf{(A)} Phase space in the absence of an external drive \(\nu_e^{drive}\)=0Hz, the stable fixed point of the dynamics correspond to the quiescent network state \(\nu_e=\nu_i\)=0Hz. \textbf{(A)} Phase space with an external drive \(\nu_e^{drive}\)=4Hz, the stable fixed point of the dynamics correspond now corresponds to an active state with asymmetric activity levels: \(\nu_e\)=1.6Hz and \(\nu_i\)=8.9Hz (round marker).}
+% \end{figure*}
+
+% The combination of the transfer function and the markovian formalism
+% (Equation \ref{eq:master-equation} in the Methods) yields our analytical
+% description of the layer II-III population dynamics in a single
+% cortical column.
+
+% We first use this analytical description to look for a physiological
+% configuration of spontaneous activity. There exists two qualitatively
+% different types of spontaneous asynchronous activity
+% \cite{Vogels2005,Kumar2008}: either the network is dominated by
+% inhibition and the network needs an asynchronous external excitatory
+% drive to exhibit spontaneous activity \cite{Amit1997,Brunel2000} or
+% the network exhibits an asynchronous self-sustained activity state and
+% just needs an initial "kick" to exit from the quiescent state
+% \cite{Vogels2005,Kumar2008,ElBoustani2009}. In the latter case, the
+% network is globally dominated by excitation and a strong
+% \emph{shunting conductance effects} prevents the network from an
+% excitatory runaway \cite{Kuhn2004,Kumar2008}. Those two behaviors are
+% thus determined by the membrane, synaptic and connectivity
+% parameters. We therefore investigate how the chosen network parameters
+% in this study would determine the qualitative nature of the
+% spontaneous activity state.
+
+% In the case of a single electrophysiological type (e.g. excitatory and
+% inhibitory neurons taken as the same integrate-and-fire model), it was
+% shown that a simple \emph{mean-field} analysis allow to predict in which
+% situation the network parameters corresponds
+% \cite{Brunel2000,Kumar2008}, here we generalized this approach to the
+% two populations considered in this study and we investigate the
+% behavior of our network model given the parameters of Table
+% \ref{table:params}. To this purpose, we simplified the dynamical system
+% describing population activity (Equation \ref{eq:master-equation}) to its
+% first order so that we get a two dimensional system describing the
+% population spiking activity \(\nu_e(t)\) and \(\nu_i(t)\). We then
+% plotted the vector field of the time evolution operator in the phase
+% space of the dynamical system direction and launched some trajectories
+% with different initial conditions (see Figure \ref{fig:phase-space}). The
+% result of this analysis is that, in absence of external input
+% (\(\nu_e^{drive}\)=0Hz), the only fixed point of the system is the
+% quiescent state (see Figure \ref{fig:phase-space}A). This prediction of the
+% mean-field analysis was indeed confirmed by numerical simulations,
+% whatever the initial external "kick", the activity rapidly decayed
+% (T<50ms) to the quiescent state.
+
+% We conclude that, given the parameters of Table \ref{table:params}, our
+% network model does not have the ability to self-sustain activity and
+% will need an external excitatory drive to exhibit spontaneous activity
+% (note that this is also consistently with recent \emph{in vivo}
+% observations in mice visual cortex, see
+% \citetext{Reinhold2015}). Indeed, when raising the external drive, a
+% non-quiescent fixed point appears (see Figure \ref{fig:phase-space}B for
+% \(\nu_e^{drive}\)=4Hz). Numerical simulations confirmed the existence
+% of such a fixed point at those levels of activity (see Figure
+% \ref{fig:ntwk-act}).
+
+% The particularity of this stationary fixed-point is its asymmetry in
+% terms of population activity, it corresponds to \(\nu_e\)=1.6Hz and
+% \(\nu_i\)=8.9Hz (i.e. corresponding to a factor 5-6 between the their
+% respective firing rates). The origin of this asymmetry is very
+% naturally the asymmetry in electrophysiological properties as the
+% excitatory and inhibitory neurons sample statistically the same
+% recurrent and external input. This phenomena has been observed in
+% extracellular recordings in human cortex \cite{Peyrache2012}, cells
+% categorized as Fast-Spiking (such as our inhibitory cells) were shown
+% to fire 6-7 times more than cells categorized as Regular-Spiking (such
+% as our excitatory cells), an asymmetry in excitabilities thus
+% naturally provides a putative explanation for this phenomena (rather
+% than specific circuitry).
 
 \begin{figure}[tb!]
 \centering
 \includegraphics[width=.4\linewidth]{./figures/nwtk_activity.png}
-\caption{\label{fig:ntwk-act}\textbf{Numerical simulations of the dynamics of a recurrent network of 10000 neurons (see parameters in Table \ref{table:params})}. Note that all plots have the same x-axis: time. \textbf{(A)} Sample of the spiking activity of 500 neurons (green, 400 excitatory and red, 100 inhibitory). \textbf{(B)} Population activity (i.e. spiking activity sampled in 5ms time bins across the population) of the excitatory (green) and inhibitory (red) sub-populations. We also show the applied external drive (\(\nu_e^{drive}(t)\), black line), note the slow linear increase to reach \(\nu_e^{drive}\)=4Hz and try to reduce the initial synchronization that would result from an abrupt onset. \textbf{(C)} Membrane potential (top) and conductances (bottom, excitatory in green and inhibitory in red) time courses of three randomly chosen inhibitory neurons. \textbf{(D)} Membrane potential and conductances time courses of three randomly chosen excitatory neurons.}
+\caption{\label{fig:ntwk-act}\textbf{Numerical simulations of the
+    dynamics of a recurrent network of 10000 neurons (see parameters
+    in Table \ref{table:params})}. Note that all plots have the same
+  x-axis: time. \textbf{(A)} Sample of the spiking activity of 500
+  neurons (green, 400 excitatory and red, 100
+  inhibitory). \textbf{(B)} Population activity (i.e. spiking activity
+  sampled in 5ms time bins across the population) of the excitatory
+  (green) and inhibitory (red) sub-populations. We also show the
+  applied external drive (\(\nu_e^{drive}(t)\), black line), note the
+  slow linear increase to reach \(\nu_e^{drive}\)=4Hz and try to
+  reduce the initial synchronization that would result from an abrupt
+  onset. \textbf{(C)} Membrane potential (top) and conductances
+  (bottom, excitatory in green and inhibitory in red) time courses of
+  three randomly chosen inhibitory neurons. \textbf{(D)} Membrane
+  potential and conductances time courses of three randomly chosen
+  excitatory neurons.}
 \end{figure}
-
 
 \begin{figure}[tb!]
 \centering
@@ -779,112 +918,38 @@ results of numerical simulations.
   predictions of the population activities (filled curve) compared to
   those observed in numerical simulations (empty bars). \textbf{(B)}
   Mean of the membrane potential and conductances time
-  courses. Evaluated over 3 cells sampled over t=2s for the numerical
-  simulations (empty bars, the errorbars represent the standard
-  deviation over cells). \textbf{(C)} Standard deviation of membrane
-  potential and conductances time courses. Note that the absence of
-  visible errorbar means that the variability in excitatory
-  conductances is smaller than the linewidth.}
+  courses. Evaluated over 3 cells for the numerical simulations (empty
+  bars, mean and standard deviation). \textbf{(C)} Standard deviation
+  of membrane potential and conductances time courses.}
 \end{figure}
 
-The combination of the transfer function and the markovian formalism
-(Equation \ref{eq:master-equation} in the Methods) yields our analytical
-description of the layer II-III population dynamics in a single
-cortical column.
-
-We first use this analytical description to look for a physiological
-configuration of spontaneous activity. There exists two qualitatively
-different types of spontaneous asynchronous activity
-\cite{Vogels2005,Kumar2008}: either the network is dominated by
-inhibition and the network needs an asynchronous external excitatory
-drive to exhibit spontaneous activity \cite{Amit1997,Brunel2000} or
-the network exhibits an asynchronous self-sustained activity state and
-just needs an initial "kick" to exit from the quiescent state
-\cite{Vogels2005,Kumar2008,ElBoustani2009}. In the latter case, the
-network is globally dominated by excitation and a strong
-\emph{shunting conductance effects} prevents the network from an
-excitatory runaway \cite{Kuhn2004,Kumar2008}. Those two behaviors are
-thus determined by the membrane, synaptic and connectivity
-parameters. We therefore investigate how the chosen network parameters
-in this study would determine the qualitative nature of the
-spontaneous activity state.
-
-In the case of a single electrophysiological type (e.g. excitatory and
-inhibitory neurons taken as the same integrate-and-fire model), it was
-shown that a simple \emph{mean-field} analysis allow to predict in which
-situation the network parameters corresponds
-\cite{Brunel2000,Kumar2008}, here we generalized this approach to the
-two populations considered in this study and we investigate the
-behavior of our network model given the parameters of Table
-\ref{table:params}. To this purpose, we simplified the dynamical system
-describing population activity (Equation \ref{eq:master-equation}) to its
-first order so that we get a two dimensional system describing the
-population spiking activity \(\nu_e(t)\) and \(\nu_i(t)\). We then
-plotted the vector field of the time evolution operator in the phase
-space of the dynamical system direction and launched some trajectories
-with different initial conditions (see Figure \ref{fig:phase-space}). The
-result of this analysis is that, in absence of external input
-(\(\nu_e^{drive}\)=0Hz), the only fixed point of the system is the
-quiescent state (see Figure \ref{fig:phase-space}A). This prediction of the
-mean-field analysis was indeed confirmed by numerical simulations,
-whatever the initial external "kick", the activity rapidly decayed
-(T<50ms) to the quiescent state.
-
-We conclude that, given the parameters of Table \ref{table:params}, our
-network model does not have the ability to self-sustain activity and
-will need an external excitatory drive to exhibit spontaneous activity
-(note that this is also consistently with recent \emph{in vivo}
-observations in mice visual cortex, see
-\citetext{Reinhold2015}). Indeed, when raising the external drive, a
-non-quiescent fixed point appears (see Figure \ref{fig:phase-space}B for
-\(\nu_e^{drive}\)=4Hz). Numerical simulations confirmed the existence
-of such a fixed point at those levels of activity (see Figure
-\ref{fig:ntwk-act}).
-
-The particularity of this stationary fixed-point is its asymmetry in
-terms of population activity, it corresponds to \(\nu_e\)=1.6Hz and
-\(\nu_i\)=8.9Hz (i.e. corresponding to a factor 5-6 between the their
-respective firing rates). The origin of this asymmetry is very
-naturally the asymmetry in electrophysiological properties as the
-excitatory and inhibitory neurons sample statistically the same
-recurrent and external input. This phenomena has been observed in
-extracellular recordings in human cortex \cite{Peyrache2012}, cells
-categorized as Fast-Spiking (such as our inhibitory cells) were shown
-to fire 6-7 times more than cells categorized as Regular-Spiking (such
-as our excitatory cells), an asymmetry in excitabilities thus
-naturally provides a putative explanation for this phenomena (rather
-than specific circuitry).
 
 \subsection{Accuracy of the description of the spontaneous activity state}
 \label{sec-4-5}
 
-We compare more closely the numerical simulation (Figure
-\ref{fig:ntwk-act}) to the prediction of the Markovian description.
-
-First, we see that there is a transient period of \(\sim\) 400ms
-resulting from the onset of the external drive (see Figure
-\ref{fig:ntwk-act}B-D), we will therefore evaluate stationary properties
-after discarding the first 500ms of the simulation.
-
-After this initial transient, the population activities (\(\nu_e\) and
-\(\nu_i\)) fluctuates around the stationary levels (see Figure
-\ref{fig:ntwk-act}). The Markovian description predicts this phenomena as it
-contains the impact of finite size effects (the network comprises
-10000 neurons). In Figure \ref{fig:mf-stat-pred}A, we can see that the
-distributions of the excitatory and inhibitory population activities
-are rather well predicted by the formalism (it slightly overestimates
-the means of the population activities).
+We now compare the numerical simulation (Figure \ref{fig:ntwk-act}) to
+the prediction of the Markovian description for the stationary
+behavior of the network. First, we see that there is a transient
+period of \(\sim\) 400ms resulting from the onset of the external
+drive (see Figure \ref{fig:ntwk-act}B-D), we will therefore evaluate
+stationary properties after discarding the first 500ms of the
+simulation. After this initial transient, the population activities
+(\(\nu_e\) and \(\nu_i\)) fluctuates around the stationary levels (see
+Figure \ref{fig:ntwk-act}). The Markovian description predicts this
+phenomena as it contains the impact of finite size effects (the
+network comprises 10000 neurons). In Figure \ref{fig:mf-stat-pred}A,
+we can see that the distributions of the excitatory and inhibitory
+population activities are rather well predicted by the formalism (it
+slightly overestimates the means of the population activities).
 
 We also investigated whether the average neuronal and synaptic
 quantities were well predicted by the Markovian formalism. Indeed, we
 found a very good match for all quantities (see Figure
 \ref{fig:mf-stat-pred}B,C, mean and variance of membrane potential and
 synaptic conductances). Only the standard deviation of the membrane
-potential fluctuations was underestimated (Figure
-\ref{fig:mf-stat-pred}C), presumably because of residual synchrony in
-the dynamics whereas the Markovian formalism assumes a purely
-asynchronous regime (e.g. see Figure \ref{fig:mf-stat-pred} for the
-synchronous oscillatory patterns underestimated by the description).
+potential fluctuations was underestimated (Figure \ref{fig:mf-stat-pred}C),
+presumably because of residual synchrony in the dynamics whereas the
+Markovian formalism assumes a purely asynchronous regime.
 
 \subsection{Description of the response to time-varying input}
 \label{sec-4-6}
@@ -914,107 +979,290 @@ time-varying input. Here again, we set the input and examine the
 response after 500ms of initial simulation to discard transient
 effects.
 
-We choose an afferent input of relatively low frequency content
+We first choose an afferent input of relatively low frequency content
 (\(\sim\) [5-20]Hz, \( \tau_1 \)=60ms and \( \tau_2 \)=100ms in
-Equation \ref{eq:input}) as those inputs typically corresponds to
-afferent stimuli evoking responses observed \emph{in vivo} in VSDi
-recordings in sensory cortices \cite{Reynaud2012,Destexhe2015}. The
-afferent input waveform, formulated in terms of firing rate, was
-translated into individual afferent spikes targeting the excitatory
-population. The response of the network to this input is shown in
-Figure \ref{fig:mf-temp-pred} in comparison with the prediction of the
-Markovian formalism. The excitatory population activity raises and
-immediately entrains a raise of the inhibitory population. The
-analytical description captures well the order of magnitude of the
-deflection, it only slightly underestimates the peak value (Figure
-\ref{fig:mf-temp-pred}B). But the numerical simulations also show a
-marked hyperpolarization after the stimulation, the return to the
-baseline level happens only \(\sim\) 200-300 ms after the end of the
-stimulus, and not immediately as predicted by the Markovian
-framework. Here this strong hyperpolarization is the result of the
-strong spike-frequency adaptation current that remains as a
-consequence of the high activity evoked by the stimulus. In the
-Markovian framework there is no memory of the previous activity and
-therefore this phenomena can not be accounted for. This typically
-illustrates a limitation of the analytical description provided
-here. Note that this is not a fundamental limitation of the Markovian
-formalism, it is a limitation of this version of the formalism, that
-contains only variables related to the instantaneous activity (see
-Discussion).
+Equation \ref{eq:input}). The afferent input waveform, formulated in
+terms of firing rate, was translated into individual afferent spikes
+targeting the excitatory population. The response of the network to
+this input is shown in Figure \ref{fig:mf-temp-pred} in comparison
+with the prediction of the Markovian formalism. The excitatory
+population activity raises and immediately entrains an increase of the
+inhibitory population activity. The analytical description captures
+well the order of magnitude of the deflection, it only slightly
+underestimates the peak value (Figure \ref{fig:mf-temp-pred}B). But
+the numerical simulations also show a marked hyperpolarization after
+the stimulation, the return to the baseline level happens only
+\(\sim\) 200-300 ms after the end of the stimulus, and not immediately
+as predicted by the Markovian framework. Here this strong
+hyperpolarization is the result of the strong spike-frequency
+adaptation current that remains as a consequence of the high activity
+evoked by the stimulus. In the Markovian there is no memory of the
+previous activity and therefore this phenomena can not be accounted
+for. This typically illustrates a limitation of the analytical
+description provided here. Note that this is not a fundamental
+limitation of the Markovian formalism, it is a limitation of this
+version of the formalism, that contains only variables related to the
+instantaneous activity (see Discussion).
 
 \begin{figure}[tb!]
 \centering
-\includegraphics[width=.8\linewidth]{./figures/freq_dep_of_network.png}
-\caption{\label{fig:mf-freq-dep}\textbf{Limitations of the Markovian
-    description in the frequency domain.} Response of the network
-  (numerical simulation and analytical description) to sinusoidal
-  stimulation of the form
-  \(\nu_e^{aff} = 5\mathrm{Hz} \, \big(1-\cos(2 \pi f
-  (t-t_0))\big)/2\). The stimulation was set on at \(t_0\)=500ms. The
-  response was fitted by a function of the form
-  \(\nu(t) = A \, \big(1-\cos(2 \pi f (t-t_0) -
-  \phi)\big)/2\). \textbf{(A)} Amplitude of the sinusoidal response
-  (\(A\) in the fitted response) for various frequencies. \textbf{(B)}
-  Phase shift of the sinusoidal response (\(\phi\) in the fitted
-  response) for various frequencies.}
+\includegraphics[width=.7\linewidth]{./figures/freq_dep_of_network.png}
+\caption{\label{fig:mf-freq-dep}\textbf{Limitations of the Markovian description in the frequency domain.} Response of the network (numerical simulation and analytical description) to sinusoidal stimulation of the form \(\nu_e^{aff} = 5\mathrm{Hz} \, \big(1-\cos(2 \pi f (t-t_0))\big)/2\). The stimulation was set on at \(t_0\)=500ms. The response was fitted by a function of the form  \(\nu(t) = A \, \big(1-\cos(2 \pi f (t-t_0) - \phi)\big)/2\). \textbf{(A)} Amplitude of the sinusoidal response (\(A\) in the fitted response) for various frequencies. \textbf{(B)} Phase shift of the sinusoidal response (\(\phi\) in the fitted response) for various frequencies.}
 \end{figure}
 
 To study more precisely the temporal validity of the formalism, we
 modulated the network activity by sinusoidal input and compared the
-response predicted by the analytical description.
-
-The numerical simulations showed a marked resonance at
-\(\sim\)50Hz. Given the relatively high strength (compared to the
-external input) of the excitatory-inhibitory loop, the network is
-close to a bifurcation toward oscillations that are typically in the
-gamma range \cite{Brunel2003}. A sinusoidal input therefore amplifies
-those frequencies \cite{Ledoux2011}. Because the individual excitatory
-and inhibitory post-synaptic currents approximately match each other,
-the theoretical study of \citetext{Brunel2003} would predict
-oscillations at 50-60Hz (the bifurcation would be achieved by reducing
-\(\tau_e\)), thus compatible with the present observation.
-
-More importantly, the main insight of this analysis is to show that
-the network can track very fast temporal variations in the input, even
-at time scales smaller than the integration time constant of the
-single neurons \cite{VanVreeswijk1996}.  Recurrent neural networks
-globally behave as low-pass filters (though see \citetext{Ledoux2011} for a
-detailed treatment of the appearance of resonances), but with a high
-cutoff frequency compared to the frequency content of thalamic input
-for classical artificial stimuli (e.g. in the visual system: drifting
+response predicted by the analytical desription. The numerical
+simulations showed a marked resonance at \(\sim\)50Hz. Given the
+relatively high strength (compared to the external input) of the
+excitatory-inhibitory loop, the network is close to a bifurcation
+toward oscillations that are typically in the gamma range
+\cite{Brunel2003}. A sinusoidal input therefore amplifies those
+frequencies \cite{Ledoux2011}. Because the individual excitatory and
+inhibitory post-synaptic currents approximately match each other, the
+theoretical study of \citetext{Brunel2003} would predict oscillations
+at 50-60Hz (the bifurcation would be achieved by reducing \(\tau_e\)),
+thus compatible with the present observation. An important insight of
+this analysis is to show that the network can track very fast temporal
+variations in the input, even at time scales smaller than the
+integration time constant of the single neurons
+\cite{VanVreeswijk1996}.  Recurrent neural networks globally behave as
+low-pass filters (though see \citetext{Ledoux2011} for a detailed
+treatment of the appearance of resonances), but with a high cutoff
+frequency compared to the frequency content of thalamic input for
+classical artificial stimuli (e.g. in the visual system: drifting
 gratings, supra-10ms flashes, etc\ldots{}).
 
 Leaving apart the failure of capturing the network resonance (that is
 linked to this special configuration of synaptic parameters), we
-conclude that in the frequency range f $\in$ [0-$\sim$100] Hz the
-description of the formalism gives a relatively accurate description
-of the network response in the sense that it accurately predicts that
-there should not be a frequency filtering within this range. Again,
-\emph{in vivo} experiments in awake mice suggested that V1 cortical
-networks had a cut-off frequency above this range (\(\sim\)100Hz in
-\citetext{Reinhold2015}).
+conclude that in the frequency range that will be used in the
+following (f<50-100Hz) the description of the formalism gives a
+relatively accurate description of the network response in the sense
+that it accurately predicts that there should not be a frequency
+filtering within this range. Again, \emph{in vivo} experiments in awake
+mice suggested that V1 cortical networks had a cut-off frequency above
+this range (\(\sim\)100Hz in \citetext{Reinhold2015}).
 
 Thus, by comparing numerical simulations of network dynamics and the
 Markovian formalism, we showed that, despite some discrepancies, this
 analytical framework describes both the spontaneous activity and the
 response in the [0,100]Hz range of a sparsely connected recurrent
-network of distinct excitatory and inhibitory cells.
+network of distinct excitatory and inhibitory cells. \corr{We conclude
+  that, given the frequency content of visually evoked network
+  responses in V1 \ref{Muller2014}, those limitations would seem to
+  poorly affect the description of such phenomena.}
+
+\subsection{Integrative properties of the network}
+\label{sec-4-7}
+
+\begin{figure}[tb!]
+\centering
+\includegraphics[width=.8\linewidth]{./figures/integrative_properties.png}
+
+\caption{\label{fig:integrative-prop}\corr{\textbf{Integrative
+      properties of the network model.} For all stimuli the waveform
+    (Equation \ref{eq:input}) keeps the temporal characteristics: \(
+    \tau_1 \)=60ms and \( \tau_2 \)=100ms. For both \textbf{A} and
+    \textbf{B}: (i) Time courses of the stimulus, the network response
+    and the normalized membrane potential (see main text) (ii) Maximum
+    of the population rate responses as a function of the amplitude.
+    (iii) Maximum of the normalized membrane potential deflection as a
+    function of the amplitude. \textbf{(A)} Stimulus-response
+    relationship. We increase the amplitude of the stimulus from 0 to
+    15Hz. In (iii), we show the linear prediction (dashed line) for
+    comparison. \textbf{(B)} Modulation of the response to a stimulus
+    by various levels of background activity (external drive varied
+    from 0 to 15Hz).}}
+
+\end{figure}
+
+\corr{Because the the computational cost of the mean-field model is
+  negligible, we can now perform a detailed analysis of the network
+  model. We first investigate the \emph{integrative properties} of the
+  network, i.e. the relation between the network response and the
+  stimulus properties. We analyzed two quantities in the network
+  response: 1) the population activity \(\nu(t) = (1-g) \nu_e(t) + g
+  \nu_i(t) \), i.e. the firing rates weighted by the fraction of
+  neurons in each population, this is the kind of signals sampled by
+  multi-unit recordings, and 2) the normalized membrane potential over
+  the population \(\delta V(t)/V_0 = (1-g) \,
+  (V_m^{exc}(t)-V_{m,}^{stat})/V_{m}^{stat} + g
+  (V_m^{inh}(t)-V_{m,}^{stat})/V_{m}^{stat} \) where \( V_m^{exc}(t)
+  \) and \( V_m^{inh}(t) \) are the time courses of the excitatory and
+  inhibitory membrane potential respectively and \(V_{m}^{stat}\) is
+  the stationary membrane potenial value before stimulus onset. This
+  quantity provides a first approximation of the signal recorded by
+  voltage-sensitive dye imaging \cite{Berger2007}, see
+  \citetext{Chemla2010} for a more detailed treatment of the relation
+  between neural activity and VSDi signals in a cortical column.}
+
+\corr{Figure~\ref{fig:integrative-prop}A represents the relation
+  between stimulus intensity and network response.  On top of the
+  external drive, we added a time-varying stimulus with various
+  amplitudes (see Fig.~\ref{fig:integrative-prop}A(i)). We found that
+  the population activity scales linearly with the strength on the
+  input. Therefore despite the highly nonlinear dynamics of single
+  neurons (see Fig.~\ref{fig:tf}), the network exhibits a linear
+  response, as found previously \cite{VanVreeswijk1996}. On the other
+  hand, the normalized membrane potential deflection (the ``vsd-like
+  signal''in Fig.~\ref{fig:integrative-prop}A(i,iii)) behaves
+  non-linearly, it exhibits a strong sublinear behavior (see the
+  distance to the linear prediction, dashed line in
+  Fig.~\ref{fig:integrative-prop}A(iii)).  This behavior follows from
+  the non-linear relation that associate the mean membrane potential
+  to the excitatory and inhibitory activities (Eq.~\ref{eq:mu-v}): the
+  mean membrane potential is not a linear combination of the
+  excitatory and inhibitory contribution it is strongly \emph{shunted}
+  by the total activity.}
+
+Another important integrative property is how a given input will be
+modulated by changes in local ongoing activity (that could either come
+from local spontaneous fluctuations or from afferent activity).  The
+response in terms of population activity was found to be unaffected by
+the level of background activity, again, in accordance with the
+characteristics of a linear system. On the other hand the membrane
+potential response exhibited a strong suppression (up to 60\% of the
+response in absence of additional drive). This phenomena also
+naturally follows from the previously described non-linear
+relationship between population activity and mean membrane potential.
+
+
+\subsection{One-dimensional ring model to model VSD imaging}
+\label{sec-4-8}
+
+\begin{figure}[tb!]
+\centering
+\includegraphics[width=.6\linewidth]{./figures/ring.png}
+
+\caption{\label{fig:ring}\corr{\textbf{A spatial model of the cortical
+      sheet.} The balanced network units are embedded in a ring
+    geometry. The lateral connectivity follows two Gaussian profile of
+    extent \(l_{exc}\)=5mm and \(l_{inh}\)=1mm for the excitation and
+    inhibition respectively.}}
+
+\end{figure}
+
+\begin{figure*}
+\centering
+\includegraphics[width=\linewidth]{./figures/simple_stim.png}
+
+\caption{\label{fig:simple-stim}\corr{Model response to a local
+    stimulus. An \emph{early response line} (see main text) indicates
+    whether the signal exhibits propagation over space (vertical
+    meaning no propagation), the line stops when the response is below
+    1\% of the maximum signal over space. The yellow dotted line on
+    the right of each plot represents to conduction velocity (300mm/s)
+    for comparison. \textbf{(A)} Afferent stimulation: an input of the
+    form Equation \ref{eq:ring-input} with the parameters \(A\)=10Hz,
+    \(\tau_1\)=50ms, \(\tau_2\)=150ms and
+    \(l_{exc}\)=1.5mm. \textbf{(B)} Population response in terms of
+    population firing rate (\(\sim\) multiunit signal).  \textbf{(C)}
+    Population response in terms of normalized membrane potential
+    deflection (\(\sim\) VSDi signal).}}
+
+\end{figure*}
+
+We now embed this local population dynamics description into a spatial
+model to investigate the emergence of spatio-temporal patterns of
+activity.
+
+The ring model (see e.g. \cite{Hansel1996}) offers a simple framework
+to implement such interactions. The local balanced network units are
+interconnected to each other via two Gaussian connectivity profiles
+(see Fig.~\ref{fig:ring} and Methods) according to anatomical
+connectivity estimates \cite{Buzas2006}. Importantly, we integrate
+distance-dependent propagation delays due to the finite velocity of
+axonal conduction of action potentials (see Methods), we took here an
+axonal conduction velocity of 300mm/s.
+
+We stimulated this large-scale model with an external input mimicking
+thalamic stimulation. We took a separable spatio-temporal waveform as
+an input (see Eq.~\ref{eq:ring-input}). In space, the profile was a
+Gaussian curve, in time, it was a piecewise double Gaussian
+function. Despite its various amplitude over space, it should be
+emphasized that this input does not propagate: e.g. its maximum is
+achieved at all position at the same time. To highlight this feature,
+we implemented a simple analysis of propagation: we normalize the
+responses with respect to their local amplitude and we look for a
+specific crossing of the normalized amplitude. To focus on early
+responses, we highlight the initial crossing of the fourth of the
+normalized amplitude over space, we call it the \emph{early response
+  line} (drawn with a white dashed-line, see
+Fig.~\ref{fig:simple-stim}). In Fig.~\ref{fig:simple-stim}A, the
+horizontal \emph{early response line} indeed shows that the input does
+not propagate, the fourth of the maximum of the normalized response is
+achieved everywhere at the same time.
+
+The response of the model in terms of population dynamics showed a
+marked propagation (see the V-shape of the \emph{early response line}
+in Fig.~\ref{fig:simple-stim}B). This is naturally the result of the
+local connectivity profiles implemented in the model (see
+Fig.~\ref{fig:ring} and Table~\ref{table:params}), the excitation has
+a broad spatial extent, it can depolarizes neighboring locations and
+evoke spiking (both of excitatory and inhibitory populations). This
+propagated activity nonetheless exhibits a very strong attenuation
+over space, this is due to the strong non-linear relationship between
+depolarizations and firing response (see previous
+sections). Confirming this picture, the normalized membrane potential
+responses indeed exhibits the same propagation profile but with a much
+weaker attenuation over space.  Naturally, the propagation dynamics in
+the model is led by the conduction velocity, see its representation
+(yellow dotted line) in Fig.~\ref{fig:simple-stim}B,C. A strong
+prediction of the model is therefore that the detectability of
+responses in multiunit recordings have a lower spatial extent than for
+VSDi responses (see the lower range of the \emph{early response line}
+that stops when the maximum local response is below 1\% of the maximum
+response).
+
+\begin{figure}[tb!]
+\centering
+\includegraphics[width=\linewidth]{./figures/prop-wave.png}
+
+\caption{\label{fig:waves}\corr{\textbf{Comparison of propagating
+      waves between the model and voltage-sensitive dye experiments in
+      awake monkey.} \textbf{(A)} Scheme of the experimental setup.
+    \remark{[Fredo please update...]} \textbf{(B)} Propagating wave in
+    VSDi recordings following presentation of a visual stimulus.
+    \remark{[Fredo please update...]}  \textbf{(C)} Propagating wave
+    in the ring model.  \remark{[Yann please update...]} Note that in
+    the model, the propagation was symmetric in both directions.
+    \remark{[Yann: il faudrait ajouter des lignes pointillees dans les
+      2 graphes pour bien montrer l'onde de propagation.]}  }}
+
+\end{figure}
+
+Figure~\ref{fig:waves} compares visually-evoked propagating waves
+between the model and VSDi experimnents in the primary visual cortex
+of awake monkey.  A recent phase-based analysis applied at
+single-trial level \cite{Muller2014} showed that such propagating
+waves appear either in spontaneous activity or following visual
+stimulation.  Using a 1-dim space-time representation applied
+similarly in the data (Fig.~\ref{fig:waves}B) and in the model
+(Fig.~\ref{fig:waves}C) shows that the ring model can reproduce the
+qualitative features of the propagating wave.  To highlight this
+qualitative similarity between model and \emph{in vivo} VSDi
+recordings, the spatio-temporal parameters of the input
+(\(\tau_1\)=50ms, \(\tau_2\)=150ms, \(l_{exc}\)=1.5mm) have been
+manually calibrated to reproduce the properties of the response
+observed as a response to a single Gaussian blob in the visual space
+of \(0.5^o\) spatial extent.
+
 
 \section{Discussion}
 \label{sec-5}
 \normalsize
 
-In the present study, we investigated a mean-field model of networks
-with different electrophysiological properties, described using the
-AdEx model with conductance-based synapses.  We found that the
+In the present study, we investigated {a mean-field model of networks
+  with different electrophysiological properties, described using the
+  AdEx model with conductance-based synapses.  We found that} the
 Markovian formalism proposed in \citetext{ElBoustani2009} was able to
-describe the steady-state and temporal dynamics of such
+describe the {steady-state and} temporal dynamics of {such}
 networks. Though this formalism was shown to be a relatively accurate
 description of the response simulated in numerical networks, we also
 showed the limits of this formalism. The relative complexity of the
 theoretical problem should be stressed: our model includes non-linear
 phenomena such as an voltage-dependent activation curve for spike
-emission or spike frequency. The proposed semi-analytical appraoch
+emission or spike frequency. The proposed semi-analytical approach
 thus offers a convenient description for theoretical models where an
 exact analytical treatment would not be achievable.
 
@@ -1046,18 +1294,23 @@ stationary effects), one can introduce a new variable with a
 dependency on time and activity: a ``population adaptation current'',
 that can directly be derived from the equation of the AdExp model.
 Investigating the accuracy of such theoretical descriptions should be
-the focus of future work.
+the focus of future work. 
 
-We conclude by proposing the present model as a good candidate for
-modeling VSDi data.  Not only the present mean-field framework gives
-access to the mean voltage and its time evolution, but it could easily
+We further showed that the present mean-field approach can be used to
+model VSDi data.  Not only the present mean-field framework gives
+access to the mean voltage and its time evolution, but it can easily
 be extended to model VSDi signals.  The present model represents a
 local population of cortical excitatory and inhibitory neurons, and
 thus can be thought to represent a ``pixel'' of the VSDi.  The full
-VSDi model could be obtained by embedding the present local population
-description within a spatial model, and yield 1-D or 2-D ensembles of
-such pixels, and thereby model VSDi recordings in mammalian neocortex.
-This is the focus of current investigations \cite{Destexhe2015}.
+VSDi model was obtained by embedding the present local population
+description within a spatial model, under the form of a ring-like
+arrangement of RS-FS mean-field ``units'' (see
+Fig.~\ref{fig:simple-stim}).  In this simple model, a localized input
+led to propagating-wave activity, very similar to experiments (see
+Fig.~\ref{fig:waves}).  This demonstrates that the present mean-field
+approach can be used to model VSDi experiments.  We are currently
+investigating this model to investigate more complex spatiotemporal
+patterns as found in VSDi recordings.
 
 \subsection*{Acknowledgments} 
 
