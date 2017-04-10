@@ -184,8 +184,9 @@ synaptic and network modeling. We present our \emph{heuristic}
 treatment of the neuronal \emph{transfer functions}: the quantity that
 accounts for the cellular computation in \emph{mean-field} models of
 population activity. Then, we present the specific markovian model of
-population activity used in this study. Finally, we compare this
-analytical model to numerical simulations of network dynamics.
+population activity used in this study \corr{and we construct a
+  spatio-temporal model of neocortical integration by embedding this
+  description into a one-dimensional ring model}.
 
 \subsection{Single neuron models}
 \label{sec-3-1}
@@ -1066,7 +1067,7 @@ analytical framework describes both the spontaneous activity and the
 response in the [0,100]Hz range of a sparsely connected recurrent
 network of distinct excitatory and inhibitory cells. \corr{We conclude
   that, given the frequency content of visually evoked network
-  responses in V1 \ref{Muller2014}, those limitations would seem to
+  responses in V1 \cite{Muller2014}, those limitations would seem to
   poorly affect the description of such phenomena.}
 
 \subsection{\corr{Integrative properties of the network}}
@@ -1206,12 +1207,24 @@ network of distinct excitatory and inhibitory cells. \corr{We conclude
 
 \corr{We stimulated this large-scale model with an external input
   mimicking thalamic stimulation. We took a separable spatio-temporal
-  waveform as an input (see Eq.~\ref{eq:ring-input}). In space, the
-  profile was a Gaussian curve, in time, it was a piecewise double
-  Gaussian function. Despite its various amplitude over space, it
-  should be emphasized that this input does not propagate: e.g. its
-  maximum is achieved at all position at the same time. To highlight
-  this feature, we implemented a simple analysis of propagation: we
+  waveform as an input. In space, the profile was a Gaussian curve of
+  extent \(l_{stim}\) , in time, it was a piecewise double Gaussian
+  function. This corresponds to the following input:}
+
+
+\begin{equation}
+\label{eq:ring-input}
+\nu_e^{aff}(x,t)) = A \, e^{-(\frac{x-x_0}{\sqrt{2} l_{stim}})^2}
+\, \Big(
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_1})^2} \mathcal{H}(t_0-t)+
+e^{-(\frac{t-t_0}{\sqrt{2} \tau_2})^2} \mathcal{H}(t-t_0)
+\Big)
+\end{equation}
+
+\corr{Despite its various amplitude over space, it should be
+  emphasized that this input does not propagate: e.g. its maximum is
+  achieved at all position at the same time. To highlight this
+  feature, we implemented a simple analysis of propagation: we
   normalize the responses with respect to their local amplitude and we
   look for a specific crossing of the normalized amplitude. To focus
   on early responses, we highlight the initial crossing of the fourth
