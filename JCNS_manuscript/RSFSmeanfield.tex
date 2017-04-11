@@ -303,24 +303,24 @@ ratio of g=20\% inhibitory cells. Those two populations we recurrently
 connected (internally and mutually) with a connectivity probability
 \(\epsilon\)=5\%.
 
-Because this network did not display self-sustained activity (see
-Figure \ref{fig:phase-space}, in contrast to \citetext{Vogels2005}),
-an excitatory population exerted an \emph{external drive} to bring the
-network out of the quiescent state. This population targeted both the
-excitatory and inhibitory neurons. Note that the firing rate of this
-population was linearly increased to avoid a too strong initial
-synchronization (see Figure \ref{fig:ntwk-act}). Finally, when
-studying responses to external inputs, an excitatory population of
-time varying firing rate was added to evoke activity transients in the
-population dynamics. This last stimulation targeted only the
-excitatory population. The number of neurons in those two excitatory
-populations was taken as identical to the number of excitatory neurons
-(i.e. \((1-g)\,N_{tot}\)) and created synapses onto the recurrent
-network with the same probability \(\epsilon\). After temporal
-discretization, the firing rates of those afferent populations were
-converted into spikes by using the properties of a Poisson process
-(i.e. eliciting a spike at \(t\) with a probability \(\nu(t) \,dt
-\)). All simulations were performed with a time-step dt=0.1ms.
+Because this network did not display self-sustained activity (in
+contrast to \citetext{Vogels2005}), an excitatory population exerted
+an \emph{external drive} to bring the network out of the quiescent
+state. This population targeted both the excitatory and inhibitory
+neurons. Note that the firing rate of this population was linearly
+increased to avoid a too strong initial synchronization (see Figure
+\ref{fig:ntwk-act}). Finally, when studying responses to external
+inputs, an excitatory population of time varying firing rate was added
+to evoke activity transients in the population dynamics. This last
+stimulation targeted only the excitatory population. The number of
+neurons in those two excitatory populations was taken as identical to
+the number of excitatory neurons (i.e. \((1-g)\,N_{tot}\)) and created
+synapses onto the recurrent network with the same probability
+\(\epsilon\). After temporal discretization, the firing rates of those
+afferent populations were converted into spikes by using the
+properties of a Poisson process (i.e. eliciting a spike at \(t\) with
+a probability \(\nu(t) \,dt \)). All simulations were performed with a
+time-step dt=0.1ms.
 
 \subsection{Estimating the transfer functions of single neurons}
 \label{sec-3-4}
