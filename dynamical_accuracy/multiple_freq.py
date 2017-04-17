@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-N = 20
+N = 30
 freqs = np.logspace(-1, np.log(350)/np.log(10), N)
 seeds = np.arange(3)
 amp = 5.
