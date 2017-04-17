@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-N = 30
+N = 2
 freqs = np.logspace(0, np.log(500)/np.log(10), N)
 seeds = np.arange(len(freqs))
 tstop = 2000.

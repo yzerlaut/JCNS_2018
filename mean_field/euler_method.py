@@ -1,4 +1,7 @@
-from master_equation import *
+import sys, pathlib
+sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
+
+from mean_field.master_equation import *
 from synapses_and_connectivity.syn_and_connec_library import get_connectivity_and_synapses_matrix
 from single_cell_models.cell_library import get_neuron_params
 from transfer_functions.theoretical_tools import get_fluct_regime_vars, pseq_params

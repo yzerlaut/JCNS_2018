@@ -1,11 +1,11 @@
 from __future__ import print_function
 
+import sys, pathlib
+sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 from brian2 import *
-from time_varying_input import *
 import numpy as np
 
-import sys
-sys.path.append('../')
+from network_simulations.time_varying_input import *
 from single_cell_models.cell_library import get_neuron_params
 from single_cell_models.cell_construct import get_membrane_equation
 from synapses_and_connectivity.syn_and_connec_library import get_connectivity_and_synapses_matrix

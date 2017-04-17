@@ -38,18 +38,20 @@ for i in range(len(freqs)):
     
 fig1, ax1 = plt.subplots(figsize=(5,3.5))
 plt.subplots_adjust(bottom=.25, left=.25)
-plt.semilogx(freqs[:-3], modulus[:-3], 'k-', lw=3, alpha=.5)
-plt.semilogx(freqs[:-2], exp_modulus[:-2], 'kD')
+# plt.semilogx(freqs[:-3], modulus[:-3], 'k-', lw=3, alpha=.5)
+# plt.semilogx(freqs[:-2], exp_modulus[:-2], 'kD')
+plt.semilogx(freqs, modulus, 'k-', lw=3, alpha=.5)
+plt.semilogx(freqs, exp_modulus, 'kD')
 set_plot(plt.gca(), xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
          ylabel='amplitude (Hz)')
 fig2, ax2 = plt.subplots(figsize=(5,3.5))
 plt.subplots_adjust(bottom=.25, left=.25)
-plt.semilogx(freqs[:-3], phase_shift[:-3], 'k-', lw=3, alpha=.5)
-plt.semilogx(freqs[:-2], exp_phase_shift[:-2], 'kD')
+plt.semilogx(freqs, phase_shift, 'k-', lw=3, alpha=.5)
+plt.semilogx(freqs, exp_phase_shift, 'kD')
 set_plot(plt.gca(), yticks=[0, np.pi, 2.*np.pi], yticks_labels=['0', '$\pi$', '2$\pi$'],\
          xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
          ylabel='phase shift (Rd)', xlabel='freq. (Hz)')
 
 from my_graph import put_list_of_figs_to_svg_fig
 plt.show()
-put_list_of_figs_to_svg_fig([fig1, fig2])
+put_list_of_figs_to_svg_fig([fig1, fig2], visualize=False)
