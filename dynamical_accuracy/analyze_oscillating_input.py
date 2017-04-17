@@ -43,11 +43,11 @@ for i in range(len(freqs)):
 
     phase_shift[i] = (-coeffs[1]+np.pi)%(2.*np.pi)-np.pi
     modulus[i] = np.abs(coeffs[2])
-    
+
 fig1, ax1 = plt.subplots(figsize=(5,3.5))
 plt.subplots_adjust(bottom=.25, left=.25)
-plt.plot(freqs, modulus, 'k-', lw=3, alpha=.5)
-plt.errorbar(freqs, exp_modulus, color='k', marker='D', yerr=Vexp_modulus, ms=3, lw=0)
+plt.plot(freqs[:-1], modulus[:-1], 'k-', lw=3, alpha=.5)
+plt.errorbar(freqs, exp_modulus, yerr=Vexp_modulus, color='k', mfc='none', marker='D', ms=3)
 ax1.set_xscale('log')
 set_plot(ax1, xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
          ylabel='amplitude (Hz)')
