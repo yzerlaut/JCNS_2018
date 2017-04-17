@@ -1,9 +1,9 @@
 import os
 import numpy as np
 
-N = 2
+N = 10
 freqs = np.logspace(-1, np.log(350)/np.log(10), N)
-seeds = np.arange(4)
+seeds = np.arange(3)
 tstop = 2000.
 amp = 5.
 t0 = 500.
