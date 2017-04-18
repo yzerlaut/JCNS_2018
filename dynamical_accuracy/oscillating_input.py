@@ -53,11 +53,14 @@ def run_simulation_with_input(args, BIN=5):
 def find_modulus_and_phase_shift(t_array, f_array, t0, freq, amp0=1., base_amp0=3.,\
                                  full_output=False):
 
+    if len(f_array)>len(t_array):
+        f_array = f_array[1:]
+
     t, F = t_array[t_array>t0], f_array[t_array>t0]
     def to_minimize(X):
         [base_amp, phase, amp]  = X
         return np.mean((F-base_amp-sinewave(t, t0, freq, amp, phase=phase))**2)
-    res = minimize(to_minimize, [amp0, np.pi/2., base_amp0], method='Nelder-Mead')
+    res = minimize(to_minimize, [amp0, np.pi/4., base_amp0], method='Nelder-Mead')
     
     if full_output:
         new_f = res.x[0] + np.array([0 if tt<t0 else sinewave(tt, t0, freq, res.x[2], phase=res.x[1])\
