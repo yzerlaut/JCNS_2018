@@ -10,7 +10,7 @@ t0 = 500.
 if __name__=='__main__':
     for freq in freqs:
         ts = max([2*t0, t0+1e3*5/freq])
-        baseline_cmd = 'python oscillating_input.py -S --amp '+str(amp)+' --tstop '+str(ts)+' --dt 0.05'
+        baseline_cmd = 'python oscillating_input.py -S --amp '+str(amp)+' --tstop '+str(ts)+' --DT 0.05'
         for seed in seeds:
             filename = 'data/varying_freq_'+str(freq)+'_seed_'+str(seed)+'.npy'
             os.system(baseline_cmd+' --freq '+str(freq)+' --SEED '+str(seed)+' --file '+filename)
