@@ -8,15 +8,21 @@ from scipy.optimize import minimize
 
 if len(sys.argv)>1:
     
-    modulus, phase_shift, exp_modulus,\
+    freqs, modulus, phase_shift, exp_modulus,\
             exp_phase_shift, Vexp_modulus, Vexp_phase_shift = np.load(sys.argv[-1])
+    
+    ## STORED DATA FOR LOW FREQS
+    freqsLF = np.logspace(-2, np.log(300)/np.log(10), 10)
     modulusLF, phase_shiftLF, exp_modulusLF,\
             exp_phase_shiftLF, Vexp_modulusLF, Vexp_phase_shiftLF = np.load('low_freqs.npy')
-
+    
     fig1, ax1 = plt.subplots(figsize=(3,2))
     plt.subplots_adjust(bottom=.25, left=.25)
+    ax11 = plt.axes([.4,.4,.15,.2])
+    
     fig2, ax2 = plt.subplots(figsize=(3,2))
     plt.subplots_adjust(bottom=.25, left=.25)
+    # ax22 = plt.axes([.2,.2,.3,.3])
 
     ax1.errorbar(freqs, exp_modulus, yerr=Vexp_modulus, color='k', fmt='.')
     ax1.plot(freqs[:-1], modulus[:-1], 'k-', lw=3, alpha=.5)
@@ -25,6 +31,14 @@ if len(sys.argv)>1:
     set_plot(ax1, xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
              ylabel='amplitude (Hz)', yticks=[1,3,10,30], yticks_labels=['1', '3', '10', '30'])
 
+    ax11.errorbar(freqsLF[:5], exp_modulusLF[:5], yerr=Vexp_modulusLF[:5], color='k', fmt='.-', ms=3, lw=1)
+    ax11.plot(freqsLF[:5], modulusLF[:5], 'k-', lw=2, alpha=.5)
+    ax11.set_xscale('log')
+    ax11.set_yscale('log')
+    ax11.plot([0.1, 0.1], [5, 30], 'w.', ms=0.001)
+    set_plot(ax11, xticks=[0.01, 1], xticks_labels=['0.01', '1'],\
+             yticks=[3,10,30], yticks_labels=['3', '10', '30'])
+    
     ax2.errorbar(freqs, exp_phase_shift, color='k', yerr=Vexp_phase_shift, fmt='.')
     ax2.plot(freqs, phase_shift, 'k-', lw=3, alpha=.5)
     ax2.set_xscale('log')
@@ -78,6 +92,6 @@ else: # means analysis
 
 
     # saving data
-    np.save('analyzed_data.npy', [modulus, phase_shift, exp_modulus,
+    np.save('analyzed_data.npy', [freqs, modulus, phase_shift, exp_modulus,
                                   exp_phase_shift, Vexp_modulus, Vexp_phase_shift])
     
