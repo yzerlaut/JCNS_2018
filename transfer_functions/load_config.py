@@ -47,5 +47,10 @@ if __name__=='__main__':
     NRN1, NRN2, NTWK = 'RS-cell', 'FS-cell', 'CONFIG1'
     P1 = np.load('../transfer_functions/data/'+NRN1+'_'+NTWK+'_fit.npy')
     P2 = np.load('../transfer_functions/data/'+NRN2+'_'+NTWK+'_fit.npy')
-    print(P1)
-    
+    # print('%0.2e' % 1e3*P1[0])
+    for P in [P1, P2]:
+        S = str(round(1e3*P[0], 1))
+        for p in P[1:]:
+            s = '%0.1e' % p
+            S+=' & '+s.replace('e-0', 'e-')+''
+        print(S)
