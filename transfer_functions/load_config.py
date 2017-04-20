@@ -42,3 +42,10 @@ def load_transfer_functions(NRN1, NRN2, NTWK):
         print('=======================================================')
         
     return TF1, TF2
+
+if __name__=='__main__':
+    NRN1, NRN2, NTWK = 'RS-cell', 'FS-cell', 'CONFIG1'
+    P1 = np.load('../transfer_functions/data/'+NRN1+'_'+NTWK+'_fit.npy')
+    P2 = np.load('../transfer_functions/data/'+NRN2+'_'+NTWK+'_fit.npy')
+    print(P1)
+    

@@ -1,8 +1,8 @@
 import os
 import numpy as np
 
-N = 10
-freqs = np.logspace(-2, np.log(300)/np.log(10), N)
+N = 20
+freqs = np.logspace(0, np.log(300)/np.log(10), N)
 seeds = np.arange(3)
 amp = 4.5
 t0 = 500.
