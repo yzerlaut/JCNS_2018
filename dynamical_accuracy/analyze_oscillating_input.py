@@ -16,20 +16,22 @@ if len(sys.argv)>1:
     modulusLF, phase_shiftLF, exp_modulusLF,\
             exp_phase_shiftLF, Vexp_modulusLF, Vexp_phase_shiftLF = np.load('low_freqs.npy')
     
-    fig1, ax1 = plt.subplots(figsize=(3,2))
+    fig1, ax1 = plt.subplots(figsize=(3,2.4))
     plt.subplots_adjust(bottom=.25, left=.25)
     ax11 = plt.axes([.4,.4,.15,.2])
     
     fig2, ax2 = plt.subplots(figsize=(3,2))
     plt.subplots_adjust(bottom=.25, left=.25)
-    # ax22 = plt.axes([.2,.2,.3,.3])
+    # ax22 = plt.axes([.4,.4,.15,.2])
+    
 
-    ax1.errorbar(freqs, exp_modulus, yerr=Vexp_modulus, color='k', fmt='.')
+    ax1.errorbar(freqs[:-1], exp_modulus[:-1], yerr=Vexp_modulus[:-1], color='k', fmt='.')
     ax1.plot(freqs[:-1], modulus[:-1], 'k-', lw=3, alpha=.5)
     ax1.set_xscale('log')
     ax1.set_yscale('log')
     set_plot(ax1, xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
-             ylabel='amplitude (Hz)', yticks=[1,3,10,30], yticks_labels=['1', '3', '10', '30'])
+             ylabel='amplitude (Hz)',
+             yticks=[1,3,10,30], yticks_labels=['1', '3', '10', '30'])
 
     ax11.errorbar(freqsLF[:5], exp_modulusLF[:5], yerr=Vexp_modulusLF[:5], color='k', fmt='.-', ms=3, lw=1)
     ax11.plot(freqsLF[:5], modulusLF[:5], 'k-', lw=2, alpha=.5)
@@ -39,16 +41,27 @@ if len(sys.argv)>1:
     set_plot(ax11, xticks=[0.01, 1], xticks_labels=['0.01', '1'],\
              yticks=[3,10,30], yticks_labels=['3', '10', '30'])
     
-    ax2.errorbar(freqs, exp_phase_shift, color='k', yerr=Vexp_phase_shift, fmt='.')
-    ax2.plot(freqs, phase_shift, 'k-', lw=3, alpha=.5)
+    ax2.errorbar(freqs[:-1], exp_phase_shift[:-1], color='k', yerr=Vexp_phase_shift[:-1],
+                 fmt='.')
+    ax2.plot(freqs[:-1], phase_shift[:-1], 'k-', lw=3, alpha=.5)
     ax2.set_xscale('log')
     set_plot(ax2, yticks=[0, np.pi/2., np.pi], yticks_labels=['0', '$\pi$/2', '$\pi$'],\
              xticks=[1, 10, 100], xticks_labels=['1', '10', '100'],\
              ylabel='phase shift (Rd)', xlabel='freq. (Hz)')
 
+    # ax22.errorbar(freqsLF[:5], exp_phase_shiftLF[:5], yerr=Vexp_phase_shiftLF[:5],\
+    #               color='k', fmt='.-', ms=3, lw=1)
+    # ax22.plot(freqsLF[:5], phase_shiftLF[:5], 'k-', lw=2, alpha=.5)
+    # ax22.set_xscale('log')
+    # ax22.set_yscale('log')
+    # ax22.plot([0.1, 0.1], [-.5, 3], 'w.', ms=0.001)
+    # set_plot(ax22, yticks=[0, np.pi/2.], yticks_labels=['0', '$\pi$/2'],\
+    #          xticks=[0.01, 1], xticks_labels=['0.01', '1'],\
+    #          ylabel='phase shift (Rd)', xlabel='freq. (Hz)')
+    
     plt.show()
-    # from my_graph import put_list_of_figs_to_svg_fig
-    # put_list_of_figs_to_svg_fig([fig1, fig2], visualize=False)
+    from my_graph import put_list_of_figs_to_svg_fig
+    put_list_of_figs_to_svg_fig([fig1, fig2], visualize=False)
     
 else: # means analysis
 
@@ -64,11 +77,13 @@ else: # means analysis
             args, t, rate_input, fe, fi = np.load(filename)
 
             ## fitting the response
-            _, f_fitted, coeffs = find_modulus_and_phase_shift(1e-3*t, .8*fe+.2*fi,\
+            aa, f_fitted, coeffs = find_modulus_and_phase_shift(1e-3*t, .8*fe+.2*fi,\
                                                                1e-3*args.t0, args.freq,\
                                                                full_output=True)
+            print(aa)
             mod.append(np.abs(coeffs[2]))
-            phase.append((-coeffs[1]+np.pi/2.)%(2.*np.pi)-np.pi/2.)
+            # phase.append((-coeffs[1]+np.pi/2.)%(2.*np.pi)-np.pi/2.)
+            phase.append((-coeffs[1]+np.pi/4.)%(2.*np.pi)-np.pi/4.)
 
         exp_modulus[i] = np.array(mod).mean()
         exp_phase_shift[i] = np.array(phase).mean()
@@ -85,7 +100,8 @@ else: # means analysis
 
         _, f_fitted, coeffs = find_modulus_and_phase_shift(t_th, .8*fe_th+.2*fi_th,\
                                                            1e-3*args.t0, args.freq,\
-                                                           full_output=True, base_amp0=30./args.freq)
+                                                           full_output=True,
+                                                           base_amp0=30./args.freq)
 
         phase_shift[i] = (-coeffs[1]+np.pi)%(2.*np.pi)-np.pi
         modulus[i] = np.abs(coeffs[2])

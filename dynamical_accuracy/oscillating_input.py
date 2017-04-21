@@ -60,7 +60,8 @@ def find_modulus_and_phase_shift(t_array, f_array, t0, freq, amp0=1., base_amp0=
     def to_minimize(X):
         [base_amp, phase, amp]  = X
         return np.mean((F-base_amp-sinewave(t, t0, freq, amp, phase=phase))**2)
-    res = minimize(to_minimize, [amp0, np.pi/4., base_amp0], method='Nelder-Mead')
+    res = minimize(to_minimize, [amp0, np.pi, base_amp0], method='Nelder-Mead')
+    print(res)
     
     if full_output:
         new_f = res.x[0] + np.array([0 if tt<t0 else sinewave(tt, t0, freq, res.x[2], phase=res.x[1])\
