@@ -40,7 +40,8 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     if cmap=='diverging':
         cmap = mpl.cm.coolwarm
     elif cmap=='sequential':
-        cmap = mpl.cm.Greys
+        # cmap = mpl.cm.Greys
+        cmap = mpl.cm.viridis
         
     # to have the same scale on all plots we normalize all the response with respect to the total mean and total max
     fig = plt.figure(figsize=(5,3))

@@ -30,7 +30,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     
     if not args.no_sim:
-        print 'simulation [...]'
+        print('simulation [...]')
         t, X, Fe_aff, Fe, Fi, muVn = Euler_method_for_ring_model(\
                                                                  args.NRN1, args.NRN2,\
                                                                  args.NTWK, args.RING, args.STIM)
@@ -57,5 +57,6 @@ if __name__=='__main__':
         put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
         for i in range(1,4):
             exec("fig"+str(i)+".savefig('fig"+str(i)+".png', dpi=300)")
+            # exec("fig"+str(i)+".savefig('fig"+str(i)+".svg')")
     else:
         plt.show()
