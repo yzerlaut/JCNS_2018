@@ -8,7 +8,7 @@ default_params = {\
                   'sX':1.5, # extension of the stimulus (gaussian in space)
                   'dt':5e-4,
                   'BIN':5e-3, # for markovian formalism
-                  'tstop':600e-3,
+                  'tstop':400e-3,
                   'tstart':150e-3,
                   'amp':15.,
                   'Tau1':50e-3,

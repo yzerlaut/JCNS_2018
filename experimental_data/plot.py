@@ -19,7 +19,7 @@ Nsmooth = 2
 smoothing = np.ones((Nsmooth, Nsmooth))/Nsmooth**2
 smooth_data = convolve2d(data, smoothing, mode='same')
 
-cond = (time>-10) & (time<250)
+cond = (time>-10) & (time<300)
 c = ax.contourf(time[cond], space, smooth_data[:,cond], cmap=cm.viridis)
 plt.colorbar(c, label='VSD signal ($\perthousand$)', ticks=-.3+.3*np.arange(5))
 

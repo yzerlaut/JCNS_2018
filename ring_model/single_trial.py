@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pylab as plt
 import sys
-sys.path.append('../code/')
-from my_graph import put_list_of_figs_to_svg_fig
+import sys
+sys.path.append('../../')
+from graphs.my_graph import set_plot
+from graphs.plot_export import put_list_of_figs_to_svg_fig
 
 from model import Euler_method_for_ring_model
 from ring_model.ring_models import pixels_per_mm
-
 
 from plotting_tools import space_time_vsd_style_plot
 
@@ -56,7 +57,7 @@ if __name__=='__main__':
     if args.SAVE:
         put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
         for i in range(1,4):
-            exec("fig"+str(i)+".savefig('fig"+str(i)+".png', dpi=300)")
-            # exec("fig"+str(i)+".savefig('fig"+str(i)+".svg')")
+            # exec("fig"+str(i)+".savefig('fig"+str(i)+".png', dpi=300)")
+            exec("fig"+str(i)+".savefig('fig"+str(i)+".svg')")
     else:
         plt.show()
