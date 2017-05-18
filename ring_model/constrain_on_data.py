@@ -126,10 +126,12 @@ def minimization_procedure(args, N=2):
                                                                  args.NTWK, args.RING, params)
         difference, factors = compare_data_and_model(t, X, Fe_aff, Fe, Fi, muVn, with_plot=False)    
         return difference
+
+    Tstart, dX1, dX2, sX, Tau1, Tau2 = 150e-3, -1., 1. , 1.5, 50e-3, 150e-3
     
-    res = minimize(to_minimize, [3, 6, 2, .9])
-    
-    return t, X, Fe_aff, Fe, Fi, muVn
+    res = minimize(to_minimize, [Tstart, dX1, dX2, sX, Tau1, Tau2])
+    Tstart, dX1, dX2, sX, Tau1, Tau2 = res.x 
+    return Tstart, dX1, dX2, sX, Tau1, Tau2, factors
 
 
 if __name__=='__main__':

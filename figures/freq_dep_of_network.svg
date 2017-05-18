@@ -13,7 +13,7 @@
    height="7.6045113cm"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="fig.svg">
+   sodipodi:docname="freq_dep_of_network.svg">
   <metadata
      id="metadata1202">
     <rdf:RDF>
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -104,19 +104,12 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.63429566"
-     inkscape:cx="195.22234"
+     inkscape:cx="2.0947376"
      inkscape:cy="192.17899"
      inkscape:window-x="0"
-     inkscape:window-y="23"
+     inkscape:window-y="46"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />
-  <rect
-     style="opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-     id="rect7827"
-     width="52.395149"
-     height="228.53206"
-     x="102.18118"
-     y="9.7284555" />
   <g
      transform="translate(5.7352461,-8.1081908)"
      style="stroke-linecap:butt;stroke-linejoin:round"
