@@ -44,7 +44,14 @@ def find_latencies_over_space_simple(t, X, signal,\
 
 tt, xx = find_latencies_over_space_simple(time, space, smooth_data[:,cond])
 
-plt.plot(tt+100, xx, 'wo', lw=0, ms=2)
+# plt.plot(tt+100, xx, 'wo', lw=0, ms=2)
+
+for intervals in [[0,2.3], [2.5,5.7], [5.9,8.5]]:
+    cond = (xx>intervals[0]) & (xx<intervals[1]) & (tt<20)
+    pol = np.polyfit(xx[cond], tt[cond]+100, 1)
+    xxx = np.linspace(xx[cond][0], xx[cond][-1])
+    plt.plot(np.polyval(pol, xxx), xxx, 'w--', lw=2)
+
 
 set_plot(ax, ['bottom'], yticks=[], xlabel='time (ms)')
 fig.savefig('/Users/yzerlaut/Desktop/3.svg')
