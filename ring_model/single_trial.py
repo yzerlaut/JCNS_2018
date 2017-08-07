@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
 import sys
-import sys
 sys.path.append('../../')
 from graphs.my_graph import set_plot
 from graphs.plot_export import put_list_of_figs_to_svg_fig
@@ -27,14 +26,35 @@ if __name__=='__main__':
     parser.add_argument("-s", "--SAVE",help="save the figures as SVG", action="store_true")
     parser.add_argument("--no_sim", help="plot only", action="store_true")
     parser.add_argument("-f", "--file",help="filename for saving", default='data/example_data.npy')
+    parser.add_argument("--X_discretization", type=int, default=30) # PUT 100 for HD
+    parser.add_argument("--X_extent", type=float, default=36.)
+    parser.add_argument("--exc_connect_extent", type=float, default=5.)
+    parser.add_argument("--inh_connect_extent", type=float, default=1.)
+    parser.add_argument("--conduction_velocity_mm_s", type=float, default=300.)
+    parser.add_argument("--sX", type=float, default=1.5)
+    parser.add_argument("--amp", type=float, default=15.)
+    parser.add_argument("--Tau1", type=float, default=50e-3)
+    parser.add_argument("--Tau2", type=float, default=150e-3)
     
     args = parser.parse_args()
     
     if not args.no_sim:
         print('simulation [...]')
-        t, X, Fe_aff, Fe, Fi, muVn = Euler_method_for_ring_model(\
-                                                                 args.NRN1, args.NRN2,\
-                                                                 args.NTWK, args.RING, args.STIM)
+        t,\
+            X, Fe_aff, Fe, Fi, muVn =\
+            Euler_method_for_ring_model(\
+                                        args.NRN1, args.NRN2,\
+                                        args.NTWK, args.RING, args.STIM,\
+                                        custom_ring_params={\
+                                                            'X_discretization':args.X_discretization,
+                                                            'X_extent':args.X_extent,
+                                                            'exc_connect_extent':args.exc_connect_extent,
+                                                            'inh_connect_extent':args.inh_connect_extent,
+                                                 'conduction_velocity_mm_s':args.conduction_velocity_mm_s},
+                                        custom_stim_params={\
+                                                            'sX':args.sX, 'amp':args.amp,
+                                                            'Tau1':args.Tau1, 'Tau2':args.Tau2},
+            )
         np.save(args.file, [args, t, X, Fe_aff, Fe, Fi, muVn])
         args2 = args
     else:

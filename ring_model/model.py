@@ -22,7 +22,8 @@ import ring_model.stimulations as stim
 ##----------------------------------------------------------------------
 ########################################################################
 
-def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
+def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3,\
+                                custom_ring_params={}, custom_stim_params={}):
     """
     Given two afferent rate input excitatory and inhibitory respectively
     this function computes the prediction of a first order rate model
@@ -61,10 +62,10 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3):
 
     print('----- ## ring initialisation [...]')
     X, Xn_exc, Xn_inh, exc_connected_neighbors, exc_decay_connect, inh_connected_neighbors,\
-        inh_decay_connect, conduction_velocity = ring.pseq_ring_params(RING)
+        inh_decay_connect, conduction_velocity = ring.pseq_ring_params(RING, custom=custom_ring_params)
     
     print('----- ## stimulation initialisation [...]')
-    t, Fe_aff = stim.get_stimulation(X, STIM)
+    t, Fe_aff = stim.get_stimulation(X, STIM, custom=custom_stim_params)
     Fi_aff = 0*Fe_aff # no afferent inhibition yet
     
     print('----- ## model initialisation [...]')

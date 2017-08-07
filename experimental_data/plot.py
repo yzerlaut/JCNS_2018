@@ -44,7 +44,7 @@ def find_latencies_over_space_simple(t, X, signal,\
 
 tt, xx = find_latencies_over_space_simple(time, space, smooth_data[:,cond])
 
-# plt.plot(tt+100, xx, 'wo', lw=0, ms=2)
+plt.plot(tt+100, xx, 'o', lw=0, ms=1, color='k')
 
 for intervals in [[0,2.3], [2.5,5.7], [5.9,8.5]]:
     cond = (xx>intervals[0]) & (xx<intervals[1]) & (tt<20)

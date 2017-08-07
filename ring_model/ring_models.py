@@ -12,10 +12,14 @@ default_params = {\
 }
 
 def pixels_per_mm(MODEL):
+    """
+    """
     params = get_model_params(MODEL)
     return params['X_discretization']/params['X_extent']
     
 def mm_per_pixel(MODEL):
+    """
+    """
     params = get_model_params(MODEL)
     return params['X_extent']/params['X_discretization']
 
@@ -32,12 +36,18 @@ def from_mm_to_discretized_model(params):
     params['conduction_velocity'] = params['conduction_velocity_mm_s']/params['mm_per_pixel']
 
     
-def get_model_params(MODEL):
+def get_model_params(MODEL, custom={}):
+    """
+    we start with the passive parameters, by default
+    they will be overwritten by some specific models
+    (e.g. Adexp-Rs, Wang-Buszaki) and not by others (IAF, EIF)
+    """
 
-    ## we start with the passive parameters, by default
-    ## they will be overwritten by some specific models
-    ## (e.g. Adexp-Rs, Wang-Buszaki) and not by others (IAF, EIF)
     params = default_params
+    
+    # overiding default params by custom params
+    for key, val in custom.items():
+        params[key] = val
 
     # """ ======== INTEGRATE AND FIRE ============ """
     if MODEL=='RING1':
@@ -61,8 +71,9 @@ def gaussian_connectivity(x, x0, dx):
     return 1./(np.sqrt(2.*np.pi)*(dx+1e-12))*np.exp(-(x-x0)**2/2./(1e-12+dx)**2)
 
 
-def pseq_ring_params(RING):
-    params = get_model_params(RING)
+def pseq_ring_params(RING, custom={}):
+    """ """
+    params = get_model_params(RING, custom=custom)
     exc_connected_neighbors=params['exc_connected_neighbors']
     exc_decay_connect=params['exc_decay_connect']
     inh_connected_neighbors=params['inh_connected_neighbors']

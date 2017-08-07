@@ -6,8 +6,8 @@ import numpy as np
 
 default_params = {\
                   'sX':1.5, # extension of the stimulus (gaussian in space)
-                  'X1':-1, # extension of the stimulus (gaussian in space)
-                  'X2':1., # extension of the stimulus (gaussian in space)
+                  'X1':-1, # center of first stim
+                  'X2':1., # center of second stim
                   'dt':5e-4,
                   'BIN':5e-3, # for markovian formalism
                   'tstop':400e-3,
@@ -40,8 +40,21 @@ def quadruple_gaussian(t, X, t0, T1, T2, X1, X2, sX, amplitude):
     return amplitude*space_dep*temp_dep
 
                       
-def get_stimulation(X, MODEL, return_print=False):
+def get_stimulation(X, MODEL, return_print=False, custom={}):
 
+    BASE = MODEL.split('-')[0]
+    if len(MODEL.split('-'))==2:
+        ARG1, ARG2 = MODEL.split('-')[1], ''
+    elif len(MODEL.split('-'))==3:
+        ARG1, ARG2 = MODEL.split('-')[1], MODEL.split('-')[2]
+    else:
+        ARG1, ARG2 = '', ''
+        
+    params = default_params
+    for key, val in custom.items():
+        params[key] = val
+
+        
     if type(MODEL)==dict:
         print('Stimulation not taken from library, manually set')
         params = MODEL
@@ -54,15 +67,6 @@ def get_stimulation(X, MODEL, return_print=False):
                                       X0+params['dX1'], X0+params['dX2'],
                                       params['sX'], params['amp'])
     else:
-        params = default_params
-
-        BASE = MODEL.split('-')[0]
-        if len(MODEL.split('-'))==2:
-            ARG1, ARG2 = MODEL.split('-')[1], ''
-        elif len(MODEL.split('-'))==3:
-            ARG1, ARG2 = MODEL.split('-')[1], MODEL.split('-')[2]
-        else:
-            ARG1, ARG2 = '', ''
 
         if BASE=='CENTER':
             X0 = X[int(len(X)/2.)]

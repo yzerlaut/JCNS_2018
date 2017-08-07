@@ -9,12 +9,15 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="21cm"
-   height="29.7cm"
+   width="210mm"
+   height="297mm"
    viewbox="0 0 21cm 29.7cm"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="mean_field_stat_pred.svg">
+   sodipodi:docname="mean_field_stat_pred.svg"
+   inkscape:export-filename="/Users/yzerlaut/work/mean_field_for_multi_input_integration/figures/mean_field_stat_pred.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <metadata
      id="metadata1377">
     <rdf:RDF>
@@ -23,7 +26,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -120,166 +123,202 @@
       </clipPath>
     </defs>
     <clipPath
-       id="pc3e3df6836">
+       id="pc3e3df6836"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect235" />
+         id="rect235"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7342">
+       id="clipPath7342"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7344" />
+         id="rect7344"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7346">
+       id="clipPath7346"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7348" />
+         id="rect7348"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7350">
+       id="clipPath7350"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7352" />
+         id="rect7352"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7354">
+       id="clipPath7354"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7356" />
+         id="rect7356"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7358">
+       id="clipPath7358"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7360" />
+         id="rect7360"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7362">
+       id="clipPath7362"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7364" />
+         id="rect7364"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7366">
+       id="clipPath7366"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7368" />
+         id="rect7368"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7370">
+       id="clipPath7370"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7372" />
+         id="rect7372"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7374">
+       id="clipPath7374"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7376" />
+         id="rect7376"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7378">
+       id="clipPath7378"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7380" />
+         id="rect7380"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7382">
+       id="clipPath7382"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7384" />
+         id="rect7384"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7386">
+       id="clipPath7386"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7388" />
+         id="rect7388"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7390">
+       id="clipPath7390"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7392" />
+         id="rect7392"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7394">
+       id="clipPath7394"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7396" />
+         id="rect7396"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7398">
+       id="clipPath7398"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7400" />
+         id="rect7400"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7402">
+       id="clipPath7402"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7404" />
+         id="rect7404"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7406">
+       id="clipPath7406"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="129.375"
          width="273.7728"
          x="43.7472"
          y="20.700001"
-         id="rect7408" />
+         id="rect7408"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
        id="pdfeb44492b-8"
@@ -612,598 +651,730 @@
          style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="peb91dc8309">
+       id="peb91dc8309"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect5743" />
+         id="rect5743"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11467">
+       id="clipPath11467"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11469" />
+         id="rect11469"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11471">
+       id="clipPath11471"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11473" />
+         id="rect11473"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11475">
+       id="clipPath11475"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11477" />
+         id="rect11477"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11479">
+       id="clipPath11479"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11481" />
+         id="rect11481"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11483">
+       id="clipPath11483"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11485" />
+         id="rect11485"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11487">
+       id="clipPath11487"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11489" />
+         id="rect11489"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11491">
+       id="clipPath11491"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11493" />
+         id="rect11493"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11495">
+       id="clipPath11495"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11497" />
+         id="rect11497"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11499">
+       id="clipPath11499"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11501" />
+         id="rect11501"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11503">
+       id="clipPath11503"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11505" />
+         id="rect11505"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11507">
+       id="clipPath11507"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11509" />
+         id="rect11509"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11511">
+       id="clipPath11511"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11513" />
+         id="rect11513"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11515">
+       id="clipPath11515"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11517" />
+         id="rect11517"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11519">
+       id="clipPath11519"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11521" />
+         id="rect11521"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11523">
+       id="clipPath11523"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11525" />
+         id="rect11525"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11527">
+       id="clipPath11527"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11529" />
+         id="rect11529"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath11531">
+       id="clipPath11531"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="126.6012"
          width="305.20081"
          x="48.769199"
          y="22.77"
-         id="rect11533" />
+         id="rect11533"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="pe40536ea7a">
+       id="pe40536ea7a"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect241" />
+         id="rect241"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7133">
+       id="clipPath7133"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7135" />
+         id="rect7135"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7137">
+       id="clipPath7137"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7139" />
+         id="rect7139"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7141">
+       id="clipPath7141"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7143" />
+         id="rect7143"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7145">
+       id="clipPath7145"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7147" />
+         id="rect7147"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7149">
+       id="clipPath7149"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7151" />
+         id="rect7151"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7153">
+       id="clipPath7153"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7155" />
+         id="rect7155"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7157">
+       id="clipPath7157"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7159" />
+         id="rect7159"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7161">
+       id="clipPath7161"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7163" />
+         id="rect7163"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7165">
+       id="clipPath7165"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7167" />
+         id="rect7167"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7169">
+       id="clipPath7169"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7171" />
+         id="rect7171"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7173">
+       id="clipPath7173"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7175" />
+         id="rect7175"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7177">
+       id="clipPath7177"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7179" />
+         id="rect7179"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7181">
+       id="clipPath7181"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7183" />
+         id="rect7183"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7185">
+       id="clipPath7185"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7187" />
+         id="rect7187"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7189">
+       id="clipPath7189"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7191" />
+         id="rect7191"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7193">
+       id="clipPath7193"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7195" />
+         id="rect7195"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7197">
+       id="clipPath7197"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="172.8"
          width="223.2"
          x="36"
          y="21.6"
-         id="rect7199" />
+         id="rect7199"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="pdfeb44492b-7">
+       id="pdfeb44492b-7"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect800" />
+         id="rect800"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7203">
+       id="clipPath7203"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7205" />
+         id="rect7205"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7207">
+       id="clipPath7207"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7209" />
+         id="rect7209"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7211">
+       id="clipPath7211"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7213" />
+         id="rect7213"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7215">
+       id="clipPath7215"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7217" />
+         id="rect7217"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="pe0ff25fcb7-6">
+       id="pe0ff25fcb7-6"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect803" />
+         id="rect803"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7221">
+       id="clipPath7221"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7223" />
+         id="rect7223"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7225">
+       id="clipPath7225"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7227" />
+         id="rect7227"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7229">
+       id="clipPath7229"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7231" />
+         id="rect7231"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7233">
+       id="clipPath7233"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7235" />
+         id="rect7235"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="p38a591a752-1">
+       id="p38a591a752-1"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect797" />
+         id="rect797"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7239">
+       id="clipPath7239"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7241" />
+         id="rect7241"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7243">
+       id="clipPath7243"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7245" />
+         id="rect7245"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7247">
+       id="clipPath7247"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7249" />
+         id="rect7249"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7251">
+       id="clipPath7251"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7253" />
+         id="rect7253"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7255">
+       id="clipPath7255"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7257" />
+         id="rect7257"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7259">
+       id="clipPath7259"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7261" />
+         id="rect7261"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7263">
+       id="clipPath7263"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7265" />
+         id="rect7265"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7267">
+       id="clipPath7267"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7269" />
+         id="rect7269"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7271">
+       id="clipPath7271"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="27"
          y="14.4"
-         id="rect7273" />
+         id="rect7273"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7275">
+       id="clipPath7275"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7277" />
+         id="rect7277"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7279">
+       id="clipPath7279"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7281" />
+         id="rect7281"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7283">
+       id="clipPath7283"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7285" />
+         id="rect7285"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7287">
+       id="clipPath7287"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7289" />
+         id="rect7289"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7291">
+       id="clipPath7291"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="86.082352"
          y="14.4"
-         id="rect7293" />
+         id="rect7293"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7295">
+       id="clipPath7295"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7297" />
+         id="rect7297"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7299">
+       id="clipPath7299"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7301" />
+         id="rect7301"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7303">
+       id="clipPath7303"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7305" />
+         id="rect7305"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7307">
+       id="clipPath7307"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7309" />
+         id="rect7309"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <clipPath
-       id="clipPath7311">
+       id="clipPath7311"
+       style="stroke-linecap:butt;stroke-linejoin:round">
       <rect
          height="115.2"
          width="49.235294"
          x="145.1647"
          y="14.4"
-         id="rect7313" />
+         id="rect7313"
+         style="stroke-linecap:butt;stroke-linejoin:round" />
     </clipPath>
     <defs
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -1303,39 +1474,44 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1057"
+     inkscape:window-height="1031"
      id="namedview1373"
      showgrid="false"
-     inkscape:zoom="0.89702952"
-     inkscape:cx="324.12057"
-     inkscape:cy="578.89312"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:zoom="0.31714783"
+     inkscape:cx="-497.19075"
+     inkscape:cy="389.99014"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="mm" />
   <g
      id="matplotlib.axis_5"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="translate(371.03037,172.38484)" />
+     transform="translate(242.13708,361.28781)" />
   <g
      id="g865"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="translate(-83.264146,208.39795)" />
+     transform="translate(-212.15744,397.30092)" />
   <g
      id="g1057"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="translate(-83.264146,208.39795)" />
+     transform="translate(-212.15744,397.30092)" />
   <g
      id="g1224"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="translate(147.7007,184.74967)" />
+     transform="translate(18.807406,373.65264)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g993"
-     transform="matrix(1.1366394,0,0,1.1366394,236.90027,463.87187)">
+     transform="matrix(1.0851002,0,0,1.0851002,251.30544,450.17626)">
     <!-- $V_m$ -->
     <defs
        id="defs995">
@@ -1367,30 +1543,30 @@
     </g>
   </g>
   <text
-     style="font-weight:bold;font-size:27.32543373px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1079"
-     y="262.41"
-     x="128.57307"
+     y="257.84933"
+     x="147.89018"
      font-weight="bold"
      font-size="14">A</text>
   <text
-     style="font-weight:bold;font-size:27.32543373px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1081"
-     y="517.92822"
-     x="140.1461"
+     y="501.78152"
+     x="158.93845"
      font-weight="bold"
      font-size="14">B</text>
   <text
-     style="font-weight:bold;font-size:27.32543373px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1083"
-     y="705.44629"
-     x="141.2202"
+     y="680.79688"
+     x="159.96384"
      font-weight="bold"
      font-size="14">C</text>
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="axes_1"
-     transform="matrix(1.25,0,0,1.25,131.75857,232.13243)">
+     transform="matrix(1.1933207,0,0,1.1933207,150.93123,228.94469)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="patch_2">
@@ -2179,7 +2355,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="text_15"
-     transform="matrix(0.80621572,0,0,0.80621572,333.161,230.85642)">
+     transform="matrix(0.76965911,0,0,0.76965911,343.20137,227.72653)">
     <!-- num. sim. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2233,7 +2409,7 @@
     </g>
   </g>
   <g
-     transform="matrix(0.19349177,0,0,-0.19349177,385.47028,302.97392)"
+     transform="matrix(0.18471818,0,0,-0.18471818,393.13877,296.57398)"
      id="g754"
      style="stroke-linecap:butt;stroke-linejoin:round">
     <path
@@ -2293,7 +2469,7 @@
        style="stroke-linecap:butt;stroke-linejoin:round" />
   </g>
   <g
-     transform="matrix(0.19349177,0,0,-0.19349177,400.29985,321.48953)"
+     transform="matrix(0.18471818,0,0,-0.18471818,407.29592,314.25002)"
      id="g778"
      style="stroke-linecap:butt;stroke-linejoin:round">
     <path
@@ -2330,7 +2506,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1137"
-     transform="matrix(0.80621572,0,0,0.80621572,264.9607,234.46995)">
+     transform="matrix(0.76965911,0,0,0.76965911,278.09351,231.17621)">
     <path
        inkscape:connector-curvature="0"
        id="path1139"
@@ -2340,7 +2516,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1158"
-     transform="matrix(0.80621572,0,0,0.80621572,264.9607,234.46995)">
+     transform="matrix(0.76965911,0,0,0.76965911,278.09351,231.17621)">
     <path
        inkscape:connector-curvature="0"
        id="path1160"
@@ -2350,7 +2526,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1162"
-     transform="matrix(0.80621572,0,0,0.80621572,213.99662,181.06773)">
+     transform="matrix(0.76965911,0,0,0.76965911,229.44032,180.19544)">
     <!-- exc. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2381,7 +2557,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1314"
-     transform="matrix(0.80621572,0,0,0.80621572,272.58695,234.46994)">
+     transform="matrix(0.76965911,0,0,0.76965911,285.37396,231.1762)">
     <path
        inkscape:connector-curvature="0"
        id="path1316"
@@ -2391,7 +2567,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1335"
-     transform="matrix(0.80621572,0,0,0.80621572,272.58695,234.46994)">
+     transform="matrix(0.76965911,0,0,0.76965911,285.37396,231.1762)">
     <path
        inkscape:connector-curvature="0"
        id="path1337"
@@ -2401,7 +2577,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1339"
-     transform="matrix(0.80621572,0,0,0.80621572,221.06548,181.50269)">
+     transform="matrix(0.76965911,0,0,0.76965911,236.18865,180.61067)">
     <!-- inh. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2432,19 +2608,19 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g303"
-     transform="translate(-752.78942,401.67992)" />
+     transform="translate(-881.68271,590.58289)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="matplotlib.axis_3"
-     transform="translate(-752.78942,401.67992)" />
+     transform="translate(-881.68271,590.58289)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="matplotlib.axis_5-0"
-     transform="translate(-752.78942,401.67992)" />
+     transform="translate(-881.68271,590.58289)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g257"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0 0,-115.2 -49.2353,0 0,115.2"
@@ -2454,7 +2630,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g261"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2465,7 +2641,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g265"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2476,7 +2652,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_1"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2487,7 +2663,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g272"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <defs
        id="defs274">
       <path
@@ -2513,7 +2689,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g281"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pdfeb44492b-7)"
@@ -2531,7 +2707,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g287"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,14.4 49.2353,0"
@@ -2541,7 +2717,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g295"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0"
@@ -2551,7 +2727,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g299"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="M 22,129.6 22,24.8727"
@@ -2561,7 +2737,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g305"
-     transform="matrix(1.1845367,0,0,1.1845367,218.08257,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="ytick_1">
@@ -2866,7 +3042,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g429"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0 0,-115.2 -49.2356,0 0,115.2"
@@ -2876,7 +3052,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g433"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -2887,7 +3063,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g437"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -2898,7 +3074,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_2"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -2909,7 +3085,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_6"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <defs
        id="defs445">
       <path
@@ -2935,7 +3111,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_7"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -2953,7 +3129,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g457"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,14.4 49.2356,0"
@@ -2963,7 +3139,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g461"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 135.318,129.6 0,-115.2"
@@ -2973,7 +3149,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g465"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0"
@@ -2983,7 +3159,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g622"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0 0,-115.2 -49.235,0 0,115.2"
@@ -2993,7 +3169,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g626"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3004,7 +3180,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_23"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3015,7 +3191,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_3"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3026,7 +3202,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_10"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <defs
        id="defs637">
       <path
@@ -3052,7 +3228,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_11"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#p38a591a752-1)"
@@ -3070,7 +3246,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_24"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,14.4 49.235,0"
@@ -3080,7 +3256,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_25"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 194.4,129.6 0,-115.2"
@@ -3090,7 +3266,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_26"
-     transform="matrix(1.1845367,0,0,1.1845367,338.63106,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0"
@@ -3100,7 +3276,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_27"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <path
        inkscape:connector-curvature="0"
        d="m 140.165,127.711 0,-113.311"
@@ -3110,7 +3286,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="matplotlib.axis_6"
-     transform="matrix(1.1845367,0,0,1.1845367,262.82071,512.3045)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="ytick_6">
@@ -3302,19 +3478,19 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g867"
-     transform="translate(-738.05976,712.80133)" />
+     transform="translate(-866.95305,901.7043)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1059"
-     transform="translate(-738.05976,712.80133)" />
+     transform="translate(-866.95305,901.7043)" />
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1226"
-     transform="translate(-738.05976,712.80133)" />
+     transform="translate(-866.95305,901.7043)" />
   <g
      id="g813"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        id="path815"
        style="fill:none;stroke-linecap:butt;stroke-linejoin:round"
@@ -3324,7 +3500,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g819"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0 0,-115.2 -49.2353,0 0,115.2"
@@ -3334,7 +3510,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g823"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3345,7 +3521,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g827"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3356,7 +3532,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g831"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3367,7 +3543,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g835"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <defs
        id="defs837">
       <path
@@ -3393,7 +3569,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g845"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pdfeb44492b-7)"
@@ -3411,7 +3587,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g851"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,14.4 49.2353,0"
@@ -3421,7 +3597,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g855"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 76.2353,129.6 0,-115.2"
@@ -3431,7 +3607,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g859"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0"
@@ -3441,7 +3617,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g863"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="M 22,129.6 22,37.44"
@@ -3451,7 +3627,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g869"
-     transform="matrix(1.1845367,0,0,1.1845367,209.38561,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="g871">
@@ -3737,7 +3913,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1011"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0 0,-115.2 -49.2356,0 0,115.2"
@@ -3747,7 +3923,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1015"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3758,7 +3934,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1019"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3769,7 +3945,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1023"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3780,7 +3956,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1027"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <defs
        id="defs1029">
       <path
@@ -3806,7 +3982,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1037"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3824,7 +4000,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1043"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,14.4 49.2356,0"
@@ -3834,7 +4010,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1047"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 135.318,129.6 0,-115.2"
@@ -3844,7 +4020,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1051"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0"
@@ -3854,7 +4030,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1178"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0 0,-115.2 -49.235,0 0,115.2"
@@ -3864,7 +4040,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1182"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3875,7 +4051,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1186"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3886,7 +4062,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1190"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3897,7 +4073,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1194"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <defs
        id="defs1196">
       <path
@@ -3923,7 +4099,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1204"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#p38a591a752-1)"
@@ -3941,7 +4117,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1210"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,14.4 49.235,0"
@@ -3951,7 +4127,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1214"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 194.4,129.6 0,-115.2"
@@ -3961,7 +4137,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1218"
-     transform="matrix(1.1845367,0,0,1.1845367,344.14855,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0"
@@ -3971,7 +4147,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1222"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <path
        inkscape:connector-curvature="0"
        d="m 140.165,127.786 0,-113.386"
@@ -3981,7 +4157,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1228"
-     transform="matrix(1.1845367,0,0,1.1845367,263.60005,692.88597)">
+     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="g1230">
