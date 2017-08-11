@@ -1,0 +1,7 @@
+python plot.py -s -f 'Monkey1/matx2_wa071017b_NL_up_1050.mat'
+python plot.py -s -f 'Monkey1/matx2_wa080208_NL_up_10050.mat'
+python plot.py -s -f 'Monkey1/matx2_wa080523_NL_up_5050.mat'
+python plot.py -s -f 'Monkey1/matx2_wa071017c_NL_up_1050.mat'
+python plot.py -s -f 'Monkey1/matx2_wa080507_NL_up_100100.mat'
+python plot.py -s -f 'Monkey1/matx2_wa071130_NL_up_1020.mat'
+python plot.py -s -f 'Monkey1/matx2_wa080507_NL_up_5050.mat'
