@@ -10,7 +10,7 @@ def create_grid_scan_bash_script(args):
             ' --conduction_velocity_mm_s '+str(vc)+\
             ' --exc_connect_extent '+str(ecr)+\
             ' --inh_connect_extent '+str(ecr*rIE)+\
-            ' --Tau2 '+str(t2)+' -f '+fn+' --no_plot --X_extent 30 X_discretization 30 \n'
+            ' --Tau2 '+str(t2)+' -f '+fn+' --no_plot --X_extent 30 --X_discretization 30 \n'
 
     VC = np.linspace(args.vc[0], args.vc[1], args.N)
     ECR = np.linspace(args.Econn_radius[0], args.Econn_radius[1], args.N)
