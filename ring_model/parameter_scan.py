@@ -6,42 +6,40 @@ import zipfile, sys
 sys.path.append("../experimental_data")
 from compare_to_model import *
 
-def to_filename(vc, ecr, rIE, t2, t1):
-    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(rIE)+'_'+str(t2)+'_'+str(t1)+'.npy'
+def to_filename(vc, ecr, t2, t1):
+    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(t2)+'_'+str(t1)+'.npy'
 
 def create_grid_scan_bash_script(args):
     
-    def cmd(vc, ecr, rIE, t2, t1):
-        fn = to_filename(vc, ecr, rIE, t2, t1)
+    def cmd(vc, ecr, t2, t1):
+        fn = to_filename(vc, ecr, t2, t1)
         return fn, 'python single_trial.py '+\
             ' --conduction_velocity_mm_s '+str(vc)+\
             ' --exc_connect_extent '+str(ecr)+\
-            ' --inh_connect_extent '+str(ecr*rIE)+\
+            ' --inh_connect_extent '+str(ecr/5.)+\
             ' --Tau2 '+str(t2)+' --Tau1 '+str(t1)+' -f '+fn+\
             ' --no_plot --X_extent 30 --X_discretization 30 & \n'
 
     VC = np.linspace(args.vc[0], args.vc[1], args.N)
     ECR = np.linspace(args.Econn_radius[0], args.Econn_radius[1], args.N)
-    RIE = np.logspace(np.log(args.ratio_Iconn_Econn[0])/np.log(10),\
-                      np.log(args.ratio_Iconn_Econn[1])/np.log(10), args.N)
     TAU2 = np.linspace(args.Tau2[0], args.Tau2[1], args.N)
     TAU1 = np.linspace(args.Tau1[0], args.Tau1[1], args.N)
 
     f = open('bash_parameter_scan.sh', 'w')
     FILENAMES = []
-    for vc, ecr, rIE, t2, t1 in itertools.product(VC, ECR, RIE, TAU2, TAU1):
-        fn, c = cmd(vc, ecr, rIE, t2, t1)
+    for vc, ecr, t2, t1 in itertools.product(VC, ECR, TAU2, TAU1):
+        fn, c = cmd(vc, ecr, t2, t1)
         f.write(c)
         FILENAMES.append(fn)
     f.close()
-    np.save('data/scan_data.npy', [VC, ECR, RIE, TAU2, TAU1, np.array(FILENAMES)])
+    np.save('data/scan_data.npy', [VC, ECR, TAU2, TAU1, np.array(FILENAMES)])
 
 
 def zip_data(args):
     zf = zipfile.ZipFile(args.zip_filename, mode='w')
     # writing the parameters
     zf.write('data/scan_data.npy')
-    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
     for fn in FILENAMES:
         zf.write(fn)
     zf.close()
@@ -51,7 +49,7 @@ def unzip_data(args):
     # writing the parameters
     data = zf.read('data/scan_data.npy')
     with open('data/scan_data.npy', 'wb') as f: f.write(data)
-    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
     for fn in FILENAMES:
         data = zf.read(fn)
         with open(fn, 'wb') as f: f.write(data)
@@ -59,24 +57,24 @@ def unzip_data(args):
     
 def analyze_scan(args):
     
-    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
 
     # exec(open("../experimental_data/compare_to_model.py").read())
-    Residuals, vcFull, ecrFull, rIEFull, t2Full, t1Full = [], [], [], [], [], []
-    for vc, ecr, rIE, t2 in itertools.product(VC, ECR, RIE, TAU2):
-        Residuals.append(get_residual({}, fn=to_filename(vc, ecr, rIE, t2)))
+    Residuals, vcFull, ecrFull, t2Full, t1Full = [], [], [], [], []
+    for vc, ecr, t2, t1 in itertools.product(VC, ECR, TAU2, TAU1):
+        Residuals.append(get_residual({}, fn=to_filename(vc, ecr, t2, t1)))
         vcFull.append(vc)
         ecrFull.append(ecr)
-        rIEFull.append(rIE)
         t2Full.append(t2)
         t1Full.append(t1)
 
     np.save('data/analyzed_scan.npy', [np.array(Residuals), np.array(vcFull),
-             np.array(ecrFull), np.array(rIEFull), np.array(t2Full), np.array(t1Full)])
+             np.array(ecrFull), np.array(t2Full), np.array(t1Full)])
 
 def plot_analysis(args):
     
-    Residuals, vcFull, ecrFull, rIEFull, t2Full, t1Full = np.load('data/analyzed_scan.npy')
+    Residuals, vcFull, ecrFull,\
+        t2Full, t1Full = np.load('data/analyzed_scan.npy')
 
     i0 = np.argmin(Residuals)
     
@@ -84,8 +82,8 @@ def plot_analysis(args):
     
     fig, AX = plt.subplots(1, 4, figsize=(9,2.3))
     plt.subplots_adjust(bottom=.3, left=.15)
-    for ax, vec, label in zip(AX, [vcFull, ecrFull, 1./rIEFull, t2Full],\
-                    ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$r_{exc}/r_{inh}$)','$tau2$ (ms)']):
+    for ax, vec, label in zip(AX, [vcFull, ecrFull, t2Full, t1Full],\
+                    ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$tau2$ (ms)', '$tau1$ (ms)']):
         ax.plot(vec, Residuals, 'o')
         ax.plot([vec[i0]], [Residuals[i0]], 'ro')
         ax.set_yscale('log')
@@ -99,7 +97,7 @@ def plot_analysis(args):
         else:
             set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
 
-    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
     get_residual({}, fn=FILENAMES[i0], with_plot=True)
     plt.show()
     
