@@ -1,10 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
 import sys
-sys.path.append('../../')
-from graphs.my_graph import set_plot
-from graphs.plot_export import put_list_of_figs_to_svg_fig
-
 from model import Euler_method_for_ring_model
 from ring_model.ring_models import pixels_per_mm
 
@@ -62,6 +58,10 @@ if __name__=='__main__':
         args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(args.file) # we just load a file
         
     if not args.no_plot:
+
+        sys.path.append('../../')
+        from graphs.my_graph import set_plot
+        from graphs.plot_export import put_list_of_figs_to_svg_fig
         params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
 
         ax, fig1 = space_time_vsd_style_plot(t*1e3, Fe_aff,\
