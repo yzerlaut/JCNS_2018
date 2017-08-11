@@ -42,35 +42,14 @@ def zip_data(args):
 def unzip_data(args):
     zf = zipfile.ZipFile(args.zip_filename, mode='r')
     # writing the parameters
-    zf.write('data/scan_data.npy')
-    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
-    data = zf.read(filename.replace('data/scan_data.npy'))
+    data = zf.read('data/scan_data.npy')
     with open('data/scan_data.npy', 'wb') as f: f.write(data)
+    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
     for fn in FILENAMES:
-        zf.write(fn)
+        data = zf.read(fn)
+        with open('data/scan_data.npy', 'wb') as f: f.write(data)
     zf.close()
     
-    
-    # if filename is None:
-    #     filename=str(Model['zip_filename'])
-    # zf = zipfile.ZipFile(filename, mode='r')
-    
-    # Model = dict(np.load(filename.replace('.zip', '_Model.npz')).items())
-    
-    # F_aff, seeds = Model['F_AffExc_array'], Model['SEEDS']
-    
-    # DATA = []
-    # for i, j in product(range(len(F_aff)), range(len(seeds))):
-        
-    #     fn = Model['FILENAMES'][i,j]
-    #     data = zf.read(fn)
-    #     with open(fn, 'wb') as f: f.write(data)
-    #     with open(fn, 'rb') as f: data = load_dict_from_hdf5(fn)
-    #     data['faff'], data['seed'] = F_aff[i], seeds[j]
-    #     DATA.append(data)
-        
-    # return Model, F_aff, seeds, DATA
-
 def analyze_scan(args):
     
     VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
@@ -94,9 +73,15 @@ if __name__=='__main__':
     parser.add_argument("--N", type=int, default=2)
     parser.add_argument("--zip_filename", '-f', type=str, default='data/data.zip')
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
+    parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
+    parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
     
     args = parser.parse_args()
     if args.analyze:
         analyze_scan(args)
+    elif args.zip:
+        zip_data(args)
+    elif args.unzip:
+        unzip_data(args)
     else:
         create_grid_scan_bash_script(args)
