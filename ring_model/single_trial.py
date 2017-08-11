@@ -25,6 +25,7 @@ if __name__=='__main__':
     parser.add_argument("--STIM",help="Choose a network model", default='CENTER')
     parser.add_argument("-s", "--SAVE",help="save the figures as SVG", action="store_true")
     parser.add_argument("--no_sim", help="plot only", action="store_true")
+    parser.add_argument("--no_plot", help="no plot", action="store_true")
     parser.add_argument("-f", "--file",help="filename for saving", default='data/example_data.npy')
     parser.add_argument("--X_discretization", type=int, default=30) # PUT 100 for HD
     parser.add_argument("--X_extent", type=float, default=36.)
@@ -60,24 +61,25 @@ if __name__=='__main__':
     else:
         args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(args.file) # we just load a file
         
-    params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
+    if not args.no_plot:
+        params = {'pixels_per_mm':pixels_per_mm(args2.RING)}
 
-    ax, fig1 = space_time_vsd_style_plot(t*1e3, Fe_aff,\
-                                         title='$\\nu_e^{aff}(x, t)$',\
-                                         params=params,
-                                         xlabel='time (ms)', with_latency_analysis=True)
-    ax, fig2 = space_time_vsd_style_plot(t*1e3, .8*Fe+.2*Fi,\
-                                         title='$\\nu(x, t)$',\
-                                         params=params,
-                                         xlabel='time (ms)', with_latency_analysis=True)
-    ax, fig3 = space_time_vsd_style_plot(t*1e3, 1e2*muVn,\
-                                         xlabel='time (ms)', title='$\delta V / V_0 (x, t)$',\
-                                         params=params,
-                                         zlabel='%', with_latency_analysis=True)
-    if args.SAVE:
-        put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
-        for i in range(1,4):
-            # exec("fig"+str(i)+".savefig('fig"+str(i)+".png', dpi=300)")
-            exec("fig"+str(i)+".savefig('fig"+str(i)+".svg')")
-    else:
-        plt.show()
+        ax, fig1 = space_time_vsd_style_plot(t*1e3, Fe_aff,\
+                                             title='$\\nu_e^{aff}(x, t)$',\
+                                             params=params,
+                                             xlabel='time (ms)', with_latency_analysis=True)
+        ax, fig2 = space_time_vsd_style_plot(t*1e3, .8*Fe+.2*Fi,\
+                                             title='$\\nu(x, t)$',\
+                                             params=params,
+                                             xlabel='time (ms)', with_latency_analysis=True)
+        ax, fig3 = space_time_vsd_style_plot(t*1e3, 1e2*muVn,\
+                                             xlabel='time (ms)', title='$\delta V / V_0 (x, t)$',\
+                                             params=params,
+                                             zlabel='%', with_latency_analysis=True)
+        if args.SAVE:
+            put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
+            for i in range(1,4):
+                # exec("fig"+str(i)+".savefig('fig"+str(i)+".png', dpi=300)")
+                exec("fig"+str(i)+".savefig('fig"+str(i)+".svg')")
+        else:
+            plt.show()
