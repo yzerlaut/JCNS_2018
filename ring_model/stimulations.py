@@ -54,7 +54,6 @@ def get_stimulation(X, MODEL, return_print=False, custom={}):
     for key, val in custom.items():
         params[key] = val
 
-        
     if type(MODEL)==dict:
         print('Stimulation not taken from library, manually set')
         params = MODEL
