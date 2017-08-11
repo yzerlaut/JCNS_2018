@@ -6,10 +6,11 @@ import zipfile, sys
 sys.path.append("../experimental_data")
 from compare_to_model import *
 
-def to_filename(vc, ecr, rIE, t2):
-    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(rIE)+'_'+str(t2)+'.npy'
-def create_grid_scan_bash_script(args):
+def to_filename(vc, ecr, rIE, t2, t1):
+    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(rIE)+'_'+str(t2)+'_'+str(t1)+'.npy'
 
+def create_grid_scan_bash_script(args):
+    
     def cmd(vc, ecr, rIE, t2, t1):
         fn = to_filename(vc, ecr, rIE, t2, t1)
         return fn, 'python single_trial.py '+\
