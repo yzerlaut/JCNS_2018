@@ -7,9 +7,7 @@ from graphs.my_graph import set_plot
 from scipy.signal import convolve2d
 import matplotlib.cm as cm
 
-
-
-f = loadmat('matx2_br131023_NL_dw_1020_23.mat')
+f = loadmat('../experimental_data/matx2_br131023_NL_dw_1020_23.mat')
 data = 1e3*f['matNL'][0]['stim1'][0]
 time = f['matNL'][0]['time'][0].flatten()+100
 space = f['matNL'][0]['space'][0].flatten()
@@ -19,6 +17,7 @@ smoothing = np.ones((Nsmooth, Nsmooth))/Nsmooth**2
 smooth_data = convolve2d(data, smoothing, mode='same')
 cond = (time>0) & (time<250)
 new_time, new_data = np.array(time[cond]), np.array(smooth_data[:,cond])
+
 # fig, ax = plt.subplots(1, figsize=(4.5,3))
 # plt.subplots_adjust(bottom=.23, top=.97, right=.85)
 # c = ax.contourf(new_time, space, new_data, cmap=cm.viridis)
@@ -26,9 +25,8 @@ new_time, new_data = np.array(time[cond]), np.array(smooth_data[:,cond])
 
 def get_residual(args, fn='../ring_model/data/example_data.npy', with_plot=False):
 
-
     args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
-    print(args2)
+
     t*=1e3 # bringing to ms
     X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization
     # restricting to the same spatio-temporal space than data
@@ -82,6 +80,5 @@ def get_residual(args, fn='../ring_model/data/example_data.npy', with_plot=False
 
     return Residuals[j0]
 
-
-
-print(get_residual({}, fn='../ring_model/data/example_data.npy', with_plot=True))
+if __name__=='__main__':
+    print(get_residual({}, fn='../ring_model/data/example_data.npy', with_plot=True))

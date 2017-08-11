@@ -2,39 +2,45 @@ import numpy as np
 import matplotlib.pylab as plt
 import itertools
 # everything stored within a zip file
-import zipfile
+import zipfile, sys
+sys.path.append("../experimental_data")
+from compare_to_model import *
 
+def to_filename(vc, ecr, rIE, t2):
+    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(rIE)+'_'+str(t2)+'.npy'
 def create_grid_scan_bash_script(args):
 
-    def cmd(vc, ecr, rIE, t2):
-        fn = 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(rIE)+'_'+str(t2)+'.npy'
+    def cmd(vc, ecr, rIE, t2, t1):
+        fn = to_filename(vc, ecr, rIE, t2, t1)
         return fn, 'python single_trial.py '+\
             ' --conduction_velocity_mm_s '+str(vc)+\
             ' --exc_connect_extent '+str(ecr)+\
             ' --inh_connect_extent '+str(ecr*rIE)+\
-            ' --Tau2 '+str(t2)+' -f '+fn+' --no_plot --X_extent 30 --X_discretization 30 & \n'
+            ' --Tau2 '+str(t2)+' --Tau1 '+str(t1)+' -f '+fn+\
+            ' --no_plot --X_extent 30 --X_discretization 30 & \n'
 
     VC = np.linspace(args.vc[0], args.vc[1], args.N)
     ECR = np.linspace(args.Econn_radius[0], args.Econn_radius[1], args.N)
     RIE = np.logspace(np.log(args.ratio_Iconn_Econn[0])/np.log(10),\
                       np.log(args.ratio_Iconn_Econn[1])/np.log(10), args.N)
     TAU2 = np.linspace(args.Tau2[0], args.Tau2[1], args.N)
+    TAU1 = np.linspace(args.Tau1[0], args.Tau1[1], args.N)
 
     f = open('bash_parameter_scan.sh', 'w')
     FILENAMES = []
-    for vc, ecr, rIE, t2 in itertools.product(VC, ECR, RIE, TAU2):
-        fn, c = cmd(vc, ecr, rIE, t2)
+    for vc, ecr, rIE, t2, t1 in itertools.product(VC, ECR, RIE, TAU2, TAU1):
+        fn, c = cmd(vc, ecr, rIE, t2, t1)
         f.write(c)
         FILENAMES.append(fn)
     f.close()
-    np.save('data/scan_data.npy', [VC, ECR, RIE, TAU2, np.array(FILENAMES)])
+    np.save('data/scan_data.npy', [VC, ECR, RIE, TAU2, TAU1, np.array(FILENAMES)])
 
 
 def zip_data(args):
     zf = zipfile.ZipFile(args.zip_filename, mode='w')
     # writing the parameters
     zf.write('data/scan_data.npy')
-    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
     for fn in FILENAMES:
         zf.write(fn)
     zf.close()
@@ -44,17 +50,57 @@ def unzip_data(args):
     # writing the parameters
     data = zf.read('data/scan_data.npy')
     with open('data/scan_data.npy', 'wb') as f: f.write(data)
-    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
     for fn in FILENAMES:
         data = zf.read(fn)
-        with open('data/scan_data.npy', 'wb') as f: f.write(data)
+        with open(fn, 'wb') as f: f.write(data)
     zf.close()
     
 def analyze_scan(args):
     
-    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
-    print(FILENAMES)
+    VC, ECR, RIE, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
 
+    # exec(open("../experimental_data/compare_to_model.py").read())
+    Residuals, vcFull, ecrFull, rIEFull, t2Full, t1Full = [], [], [], [], [], []
+    for vc, ecr, rIE, t2 in itertools.product(VC, ECR, RIE, TAU2):
+        Residuals.append(get_residual({}, fn=to_filename(vc, ecr, rIE, t2)))
+        vcFull.append(vc)
+        ecrFull.append(ecr)
+        rIEFull.append(rIE)
+        t2Full.append(t2)
+        t1Full.append(t1)
+
+    np.save('data/analyzed_scan.npy', [np.array(Residuals), np.array(vcFull),
+             np.array(ecrFull), np.array(rIEFull), np.array(t2Full), np.array(t1Full)])
+
+def plot_analysis(args):
+    
+    Residuals, vcFull, ecrFull, rIEFull, t2Full, t1Full = np.load('data/analyzed_scan.npy')
+
+    i0 = np.argmin(Residuals)
+    
+    Residuals/=Residuals[i0] # normalizing
+    
+    fig, AX = plt.subplots(1, 4, figsize=(9,2.3))
+    plt.subplots_adjust(bottom=.3, left=.15)
+    for ax, vec, label in zip(AX, [vcFull, ecrFull, 1./rIEFull, t2Full],\
+                    ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$r_{exc}/r_{inh}$)','$tau2$ (ms)']):
+        ax.plot(vec, Residuals, 'o')
+        ax.plot([vec[i0]], [Residuals[i0]], 'ro')
+        ax.set_yscale('log')
+        if ax==AX[2]:
+            ax.set_xscale('log')
+            set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[],
+                     xticks=[0.5, 1., 2., 5.])
+        elif ax==AX[0]:
+            set_plot(ax, xlabel=label, ylabel='Residual (norm.)',
+                     yticks=[1, 2, 5, 10, 20], yticks_labels=['1', '2', '5', '10', '20'])
+        else:
+            set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
+
+    VC, ECR, RIE, TAU2, FILENAMES = np.load('data/scan_data.npy')
+    get_residual({}, fn=FILENAMES[i0], with_plot=True)
+    plt.show()
     
 if __name__=='__main__':
     import argparse
@@ -68,17 +114,20 @@ if __name__=='__main__':
     parser.add_argument("--stim_extent", nargs=2, type=float, default=[1., 10.])
     parser.add_argument("--Econn_radius", nargs=2, type=float, default=[1., 10.])
     parser.add_argument("--ratio_Iconn_Econn", nargs=2, type=float, default=[0.05, 1.5])
-    parser.add_argument("--Tau1", nargs=2, type=float, default=[5., 100.])
-    parser.add_argument("--Tau2", nargs=2, type=float, default=[50., 300.])
+    parser.add_argument("--Tau1", nargs=2, type=float, default=[5e-3, 100e-3])
+    parser.add_argument("--Tau2", nargs=2, type=float, default=[50e-3, 400e-3])
     parser.add_argument("--N", type=int, default=2)
     parser.add_argument("--zip_filename", '-f', type=str, default='data/data.zip')
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
+    parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
     parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
     
     args = parser.parse_args()
     if args.analyze:
         analyze_scan(args)
+    elif args.plot:
+        plot_analysis(args)
     elif args.zip:
         zip_data(args)
     elif args.unzip:
