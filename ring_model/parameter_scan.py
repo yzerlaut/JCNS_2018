@@ -175,8 +175,8 @@ if __name__=='__main__':
     # data
     parser.add_argument("--data_index", '-df', type=int,
                         default=7)
-    parser.add_argument("--t0", type=float, default=-100.)
-    parser.add_argument("--t1", type=float, default=150.)
+    parser.add_argument("--t0", type=float, default=-50.)
+    parser.add_argument("--t1", type=float, default=200.)
     parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
     # script function
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")

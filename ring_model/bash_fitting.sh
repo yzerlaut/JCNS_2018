@@ -1,0 +1,13 @@
+python fitting_model_params.py --N 1000 -df 0 &
+python fitting_model_params.py --N 1000 -df 1 &
+python fitting_model_params.py --N 1000 -df 2 &
+python fitting_model_params.py --N 1000 -df 3 &
+python fitting_model_params.py --N 1000 -df 4 &
+python fitting_model_params.py --N 1000 -df 5 &
+python fitting_model_params.py --N 1000 -df 6 &
+python fitting_model_params.py --N 1000 -df 7 &
+python fitting_model_params.py --N 1000 -df 8 &
+python fitting_model_params.py --N 1000 -df 9 &
+python fitting_model_params.py --N 1000 -df 10 &
+python fitting_model_params.py --N 1000 -df 11 &
+python fitting_model_params.py --N 1000 -df 12 &
