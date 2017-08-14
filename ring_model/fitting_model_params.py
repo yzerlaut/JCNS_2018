@@ -62,7 +62,7 @@ def plot_analysis(args):
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
-    run_sim(X, args)
+    # run_sim(X, args)
     res = get_residual(args,
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,
@@ -128,7 +128,7 @@ if __name__=='__main__':
                         default=7)
     parser.add_argument("--t0", type=float, default=-50.)
     parser.add_argument("--t1", type=float, default=200.)
-    parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
+    parser.add_argument("--Nsmooth", help="for data plots", type=int, default=2)
     # script function
     parser.add_argument("--fitting", help="fitting", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
@@ -140,8 +140,8 @@ if __name__=='__main__':
     args = parser.parse_args()
     if args.fitting:
         run_fitting(args)
-    # elif args.plot:
-    #     plot_analysis(args)
+    elif args.plot:
+        plot_analysis(args)
     # elif args.zip:
     #     zip_data(args)
     # elif args.unzip:
