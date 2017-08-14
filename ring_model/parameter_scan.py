@@ -150,17 +150,10 @@ def full_plot(args):
                color='lightgray', edgecolor='k', lw=3)
         set_plot(ax, ['left'], xticks=[], ylabel=label)
 
-    # fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
-    # plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
-    # for ax, vec, label, ylim in zip(AX, [VC, ECR, np.array(ECR)/5.],
-    #                                 ['$v_c$ (mm/s)', '$s_{exc}$ (mm)', '$s_{inh}$ (mm)'],
-    #                                 [[0,500], [0,6], [0,6]]):
-    #     ax.plot([0, 0], ylim, 'w.', ms=0.1)
-    #     ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
-    #            color='lightgray', edgecolor='k', lw=3)
-    #     set_plot(ax, ['left'], xticks=[], ylabel=label)
-    # AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
-    # AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
+    fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
+    plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
+    AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
+    AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
     plt.show()
     
 if __name__=='__main__':

@@ -10,23 +10,22 @@ import matplotlib.cm as cm
 from dataset import get_dataset
 from scipy.optimize import minimize
 
-def get_onset_time(t, data, fraction_of_max_criteria=0.3, debug=False):
-    spatial_average = np.mean(data, axis=0)
-    cond = (spatial_average>fraction_of_max_criteria*spatial_average.max())
-    if debug:
-        plt.plot(t, spatial_average)
-        plt.plot([t[cond][0]], spatial_average[cond][0], 'D')
-        plt.show()
-    return t[cond][0]
-
-def gaussian(x, amp, mean, std):
-    return amp*np.exp(-(x-mean)**2/2./std**2)
-
 from scipy.ndimage.filters import gaussian_filter1d
-
 def gaussian_smoothing(signal, idt_sbsmpl=10):
     """Gaussian smoothing of the data"""
     return gaussian_filter1d(signal, idt_sbsmpl)
+
+def get_time_max(t, data, debug=False, Nsmooth=1):
+    spatial_average = np.mean(data, axis=0)
+    smoothed = gaussian_smoothing(spatial_average, Nsmooth)[:-int(Nsmooth)]
+    i0 = np.argmax(smoothed)
+    t0 = t[:-int(Nsmooth)][i0]
+    if debug:
+        plt.plot(t, spatial_average)
+        plt.plot(t[:-int(Nsmooth)], smoothed)
+        plt.plot([t0], [smoothed[i0]], 'D')
+        plt.show()
+    return t0
 
 def get_stim_center(space, data, Nsmooth=4, debug=False):
     """ we smoothe the average over time and take the x position of max signal"""
@@ -39,21 +38,14 @@ def get_stim_center(space, data, Nsmooth=4, debug=False):
         plt.plot(space[:-int(Nsmooth)], smoothed)
         plt.plot([x0], [smoothed[i0]], 'D')
         plt.show()
-        # def to_minimize(X):
-        #     return np.sum((temporal_average-gaussian(space, *X))**2)
-        # res = minimize(to_minimize, [5., 1.], options={'maxiter':1e3})
-        # plt.plot(space, temporal_average)
-        # plt.plot(space, gaussian(space, *res.x))
-        # plt.plot(space, gaussian(space, temporal_average.max(), *res.x))
-        # plt.show()
-        # return res.x[1]
-        # x0 = res.x[0]
     return x0
 
-def get_data(dataset_index, Nsmooth=2, t0=-150, t1=100):
+
+def get_data(dataset_index, Nsmooth=2, t0=-150, t1=100, debug=False):
 
     # loading data
     print(get_dataset()[dataset_index])
+    delay = get_dataset()[dataset_index]['delay']
     f = loadmat(get_dataset()[dataset_index]['filename'])
     data = 1e3*f['matNL'][0]['stim1'][0]
     data[np.isnan(data)] = 0 # blanking infinite data
@@ -62,13 +54,12 @@ def get_data(dataset_index, Nsmooth=2, t0=-150, t1=100):
     smoothing = np.ones((Nsmooth, Nsmooth))/Nsmooth**2
     smooth_data = convolve2d(data, smoothing, mode='same')
     # apply time conditions
-    cond = (time>t0) & (time<t1)
+    cond = (time>t0-delay) & (time<t1-delay)
     new_time, new_data = np.array(time[cond]), np.array(smooth_data[:,cond])
     # get onset time
-    t_onset = get_onset_time(new_time, new_data, debug=args.debug)
-    x_center = get_stim_center(space, new_data, debug=args.debug)
+    t_onset = get_time_max(new_time, new_data, debug=debug)
+    x_center = get_stim_center(space, new_data, debug=debug)
     return new_time-t_onset, space-x_center, new_data
-
 
 def get_residual(args,
                  new_time, space, new_data,
@@ -82,9 +73,7 @@ def get_residual(args,
     X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
     Xcond = (X>=space.min()) & (X<=space.max())
     new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
-    t -= get_onset_time(t, new_muVn)  # centering over time in the same than for data
-    print(new_X)
-    print(new_muVn)
+    t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
     # let's construct the spatial subsampling of the data that
     # matches the spatial discretization of the model
     new_data_common_sampling = np.zeros((len(new_X), len(new_time)))
@@ -99,7 +88,6 @@ def get_residual(args,
         i0 = np.argmin((np.abs(t-nt))**2)
         new_muVn_common_sampling[:, i] = new_muVn[:, i0]
 
-        
     if with_plot:
 
         fig, AX = plt.subplots(2, figsize=(4.5,5))
@@ -135,13 +123,14 @@ if __name__=='__main__':
                         default='../ring_model/data/example_data.npy')
     parser.add_argument("--data_index", '-df', type=int,
                         default=1)
-    parser.add_argument("--t0", type=float, default=-100.)
-    parser.add_argument("--t1", type=float, default=150.)
+    parser.add_argument("--t0", type=float, default=-50.)
+    parser.add_argument("--t1", type=float, default=200.)
     args = parser.parse_args()
 
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
-                                         t0=args.t0, t1=args.t1)
+                                         t0=args.t0, t1=args.t1,
+                                         debug=args.debug)
     print(get_residual(args,
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,

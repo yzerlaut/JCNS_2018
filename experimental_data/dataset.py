@@ -19,10 +19,12 @@ def get_dataset():
     os.chdir("../experimental_data/")
     for f in glob.glob("Monkey1"+os.path.sep+"*.mat"):
         DATA.append({'Monkey':'1', 'filename':f,
-                     'duration':get_duration(f)[0]})
+                     'duration':get_duration(f)[0],
+                     'delay':get_duration(f)[1]})
     for f in glob.glob("Monkey2"+os.path.sep+"*.mat"):
         DATA.append({'Monkey':'2', 'filename':f,
-                     'duration':get_duration(f)[0]})
+                     'duration':get_duration(f)[0],
+                     'delay':get_duration(f)[1]})
     return DATA
 
 if __name__=='__main__':
