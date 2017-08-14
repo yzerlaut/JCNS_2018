@@ -5,9 +5,11 @@ import itertools
 import zipfile, sys
 sys.path.append("../experimental_data")
 from compare_to_model import *
+from dataset import get_dataset
+from compare_to_model import get_data, get_residual
 
 def to_filename(vc, ecr, t2, t1):
-    return 'data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(t2)+'_'+str(t1)+'.npy'
+    return '../ring_model/data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(t2)+'_'+str(t1)+'.npy'
 
 def create_grid_scan_bash_script(args):
     
@@ -32,14 +34,14 @@ def create_grid_scan_bash_script(args):
         f.write(c)
         FILENAMES.append(fn)
     f.close()
-    np.save('data/scan_data.npy', [VC, ECR, TAU2, TAU1, np.array(FILENAMES)])
+    np.save('../ring_model/data/scan_data.npy', [VC, ECR, TAU2, TAU1, np.array(FILENAMES)])
 
 
 def zip_data(args):
     zf = zipfile.ZipFile(args.zip_filename, mode='w')
     # writing the parameters
-    zf.write('data/scan_data.npy')
-    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    zf.write('../ring_model/data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
     for fn in FILENAMES:
         zf.write(fn)
     zf.close()
@@ -47,9 +49,9 @@ def zip_data(args):
 def unzip_data(args):
     zf = zipfile.ZipFile(args.zip_filename, mode='r')
     # writing the parameters
-    data = zf.read('data/scan_data.npy')
-    with open('data/scan_data.npy', 'wb') as f: f.write(data)
-    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    data = zf.read('../ring_model/data/scan_data.npy')
+    with open('../ring_model/data/scan_data.npy', 'wb') as f: f.write(data)
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
     for fn in FILENAMES:
         data = zf.read(fn)
         with open(fn, 'wb') as f: f.write(data)
@@ -57,24 +59,34 @@ def unzip_data(args):
     
 def analyze_scan(args):
     
-    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
 
-    # exec(open("../experimental_data/compare_to_model.py").read())
+    ## loading data
+    new_time, space, new_data = get_data(args.data_index,
+                                         Nsmooth=args.Nsmooth,
+                                         t0=args.t0, t1=args.t1)
+    
     Residuals, vcFull, ecrFull, t2Full, t1Full = [], [], [], [], []
+    
     for vc, ecr, t2, t1 in itertools.product(VC, ECR, TAU2, TAU1):
-        Residuals.append(get_residual({}, fn=to_filename(vc, ecr, t2, t1)))
+        res = get_residual(args,
+                           new_time, space, new_data,
+                           Nsmooth=args.Nsmooth,
+                           fn=to_filename(vc, ecr, t2, t1))
+        Residuals.append(res)
         vcFull.append(vc)
         ecrFull.append(ecr)
         t2Full.append(t2)
         t1Full.append(t1)
 
-    np.save('data/analyzed_scan.npy', [np.array(Residuals), np.array(vcFull),
+    np.save('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy',
+            [np.array(Residuals), np.array(vcFull),
              np.array(ecrFull), np.array(t2Full), np.array(t1Full)])
 
 def plot_analysis(args):
     
     Residuals, vcFull, ecrFull,\
-        t2Full, t1Full = np.load('data/analyzed_scan.npy')
+        t2Full, t1Full = np.load('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy')
 
     i0 = np.argmin(Residuals)
     
@@ -87,18 +99,61 @@ def plot_analysis(args):
         ax.plot(vec, Residuals, 'o')
         ax.plot([vec[i0]], [Residuals[i0]], 'ro')
         ax.set_yscale('log')
-        if ax==AX[2]:
-            ax.set_xscale('log')
-            set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[],
-                     xticks=[0.5, 1., 2., 5.])
-        elif ax==AX[0]:
+        if ax==AX[0]:
             set_plot(ax, xlabel=label, ylabel='Residual (norm.)',
                      yticks=[1, 2, 5, 10, 20], yticks_labels=['1', '2', '5', '10', '20'])
         else:
             set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
 
-    VC, ECR, TAU2, TAU1, FILENAMES = np.load('data/scan_data.npy')
-    get_residual({}, fn=FILENAMES[i0], with_plot=True)
+    VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
+    new_time, space, new_data = get_data(args.data_index,
+                                         Nsmooth=args.Nsmooth,
+                                         t0=args.t0, t1=args.t1)
+    res = get_residual(args,
+                       new_time, space, new_data,
+                       Nsmooth=args.Nsmooth,
+                       fn='../ring_model/'+FILENAMES[i0], with_plot=True)
+    plt.show()
+
+def get_minimum_params(args):
+    Residuals, vcFull, ecrFull,\
+        t2Full, t1Full = np.load('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy')
+    i0 = np.argmin(Residuals)
+    return vcFull[i0], ecrFull[i0], t2Full[i0], t1Full[i0]
+
+    
+def full_analysis(args):
+
+    DATA = get_dataset()
+    for i in range(len(DATA)):
+        args.data_index = i
+        analyze_scan(args)
+
+def full_plot(args):
+
+    DATA = get_dataset()
+    VC, ECR, TAU2, TAU1, DUR = [], [], [], [], []
+    for i in range(len(DATA)):
+        args.data_index = i
+        params = get_minimum_params(args)
+        for vec, VEC in zip(params, [VC, ECR, TAU2, TAU1]):
+            VEC.append(vec)
+        DUR.append(DATA[i]['duration'])
+
+    fig, AX = plt.subplots(1, 3, figsize=(4.8,2.3))
+    plt.subplots_adjust(bottom=.3, left=.25, wspace=3.)
+    for ax, vec, label, ylim in zip(AX, [VC, ECR, np.array(ECR)/5.],
+                                    ['$v_c$ (mm/s)', '$s_{exc}$ (mm)', '$s_{inh}$ (mm)'],
+                                    [[0,500], [0,6], [0,6]]):
+        ax.plot([0, 0], ylim, 'w.', ms=0.1)
+        ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
+               color='lightgray', edgecolor='k', lw=3)
+        set_plot(ax, ['left'], xticks=[], ylabel=label)
+
+    fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
+    plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
+    AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
+    AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
     plt.show()
     
 if __name__=='__main__':
@@ -116,11 +171,20 @@ if __name__=='__main__':
     parser.add_argument("--Tau1", nargs=2, type=float, default=[5e-3, 100e-3])
     parser.add_argument("--Tau2", nargs=2, type=float, default=[50e-3, 400e-3])
     parser.add_argument("--N", type=int, default=2)
-    parser.add_argument("--zip_filename", '-f', type=str, default='data/data.zip')
+    parser.add_argument("--zip_filename", '-f', type=str, default='../ring_model/data/data.zip')
+    # data
+    parser.add_argument("--data_index", '-df', type=int,
+                        default=7)
+    parser.add_argument("--t0", type=float, default=-50.)
+    parser.add_argument("--t1", type=float, default=200.)
+    parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
+    # script function
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
     parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
+    parser.add_argument("--full", help="full analysis", action="store_true")
+    parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
     args = parser.parse_args()
     if args.analyze:
@@ -131,5 +195,9 @@ if __name__=='__main__':
         zip_data(args)
     elif args.unzip:
         unzip_data(args)
+    elif args.full:
+        full_analysis(args)
+    elif args.full_plot:
+        full_plot(args)
     else:
         create_grid_scan_bash_script(args)
