@@ -8,6 +8,8 @@ from dataset import get_dataset
 from compare_to_model import get_data, get_residual
 from model import Euler_method_for_ring_model
 from scipy.optimize import minimize
+sys.path.append("../../")
+from graphs.my_graph import set_plot
 
 def run_sim(X, args):
     t, X, Fe_aff, Fe, Fi, muVn =\
@@ -52,17 +54,18 @@ def run_fitting(args):
 
     print(res)
 
-    np.save('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy',
-            res.x)
+    np.save('../ring_model/data/analyzed_scan_data_'+\
+            str(args.data_index)+'.npy', res.x)
 
 def plot_analysis(args):
 
-    X = np.load('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy')
+    X = np.load('../ring_model/data/analyzed_scan_data_'+\
+                str(args.data_index)+'.npy')
 
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
-    # run_sim(X, args)
+    run_sim(X, args)
     res = get_residual(args,
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,
@@ -73,38 +76,33 @@ def plot_analysis(args):
 def full_analysis(args):
 
     DATA = get_dataset()
+    VC, ECR, TAU2, TAU1, SEXT, DUR = [], [], [], [], [], []
     for i in range(len(DATA)):
-        args.data_index = i
-        run_fitting(args)
+        X = np.load('../ring_model/data/analyzed_scan_data_'+\
+                    str(i)+'.npy')
+        print(X.shape)
+        if X.shape==(5,):
+            for vec, VEC in zip(X, [VC, ECR, TAU2, TAU1, SEXT]):
+                VEC.append(vec)
+            DUR.append(DATA[i]['duration'])
+        
+    fig, AX = plt.subplots(1, 4, figsize=(6.,2.3))
+    plt.subplots_adjust(bottom=.3, left=.25, wspace=3.)
+    for ax, vec, label, ylim in zip(AX, [VC, ECR, np.array(ECR)/5., SEXT],
+        ['$v_c$ (mm/s)', '$l_{exc}$ (mm)', '$l_{inh}$ (mm)', '$s_{ext}$ (mm)'],
+                                    [[0,500], [0,6], [0,6], [0,4]]):
+        ax.plot([0, 0], ylim, 'w.', ms=0.1)
+        ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
+               color='lightgray', edgecolor='k', lw=3)
+        set_plot(ax, ['left'], xticks=[], ylabel=label)
+
+    fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
+    plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
+    AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
+    AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
+    plt.show()
 
 
-# def full_plot(args):
-
-#     DATA = get_dataset()
-#     VC, ECR, TAU2, TAU1, DUR = [], [], [], [], []
-#     for i in range(len(DATA)):
-#         args.data_index = i
-#         params = get_minimum_params(args)
-#         for vec, VEC in zip(params, [VC, ECR, TAU2, TAU1]):
-#             VEC.append(vec)
-#         DUR.append(DATA[i]['duration'])
-
-#     fig, AX = plt.subplots(1, 3, figsize=(4.8,2.3))
-#     plt.subplots_adjust(bottom=.3, left=.25, wspace=3.)
-#     for ax, vec, label, ylim in zip(AX, [VC, ECR, np.array(ECR)/5.],
-#                                     ['$v_c$ (mm/s)', '$s_{exc}$ (mm)', '$s_{inh}$ (mm)'],
-#                                     [[0,500], [0,6], [0,6]]):
-#         ax.plot([0, 0], ylim, 'w.', ms=0.1)
-#         ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
-#                color='lightgray', edgecolor='k', lw=3)
-#         set_plot(ax, ['left'], xticks=[], ylabel=label)
-
-#     fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
-#     plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
-#     AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
-#     AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
-#     plt.show()
-    
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(description=
@@ -132,9 +130,6 @@ if __name__=='__main__':
     # script function
     parser.add_argument("--fitting", help="fitting", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
-    parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
-    parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
-    parser.add_argument("--full", help="full analysis", action="store_true")
     parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
     args = parser.parse_args()
@@ -142,13 +137,7 @@ if __name__=='__main__':
         run_fitting(args)
     elif args.plot:
         plot_analysis(args)
-    # elif args.zip:
-    #     zip_data(args)
-    # elif args.unzip:
-    #     unzip_data(args)
-    # elif args.full:
-    #     full_analysis(args)
-    # elif args.full_plot:
-    #     full_plot(args)
-    # else:
-    #     create_grid_scan_bash_script(args)
+    elif args.full_plot:
+        full_analysis(args)
+    else:
+        print('need arg')
