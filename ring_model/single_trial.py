@@ -73,9 +73,15 @@ if __name__=='__main__':
                                              params=params,
                                              xlabel='time (ms)', with_latency_analysis=True)
         ax, fig3 = space_time_vsd_style_plot(t*1e3, 1e2*muVn,\
-                                             xlabel='time (ms)', title='$\delta V / V_0 (x, t)$',\
+                                             xlabel='time (ms)', title='',\
                                              params=params,
-                                             zlabel='%', with_latency_analysis=True)
+                                             zlabel='$\delta V_N $ (%)', with_latency_analysis=True)
+        ax.annotate('$\\tau_1$='+str(round(1e3*args.Tau1))+'ms\n'+\
+                    '$\\tau_2$='+str(round(1e3*args.Tau2))+'ms\n'+\
+                    '$v_c$='+str(round(args.conduction_velocity_mm_s))+'\n'+\
+                    '$\\alpha_c$='+str(round(args.inh_connect_extent))+'\n'+\
+                    '$l_{stim}$='+str(round(args.sX)),
+                    (0.5, 0.5), xycoords='axes fraction', fontsize=13)
         if args.SAVE:
             put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
             for i in range(1,4):

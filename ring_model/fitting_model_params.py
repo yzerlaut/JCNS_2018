@@ -11,7 +11,7 @@ from scipy.optimize import minimize
 sys.path.append("../../")
 from graphs.my_graph import set_plot
 
-def run_sim(X, args):
+def run_sim(X, args, fn=None):
     t, X, Fe_aff, Fe, Fi, muVn =\
                                  Euler_method_for_ring_model(\
                                                              'RS-cell', 'FS-cell',\
@@ -25,11 +25,13 @@ def run_sim(X, args):
                                         custom_stim_params={\
                                                             'sX':X[4], 'amp':15.,
                                                             'Tau1':X[2], 'Tau2':X[3]})
-    fn = str(int(np.random.randint(100000)*abs(X[0])*abs(X[1])))+'.npy' # random filename for parrallel minimization
+    if fn is None:
+        # random filename for parrallel minimization        
+        fn = str(int(\
+                     np.random.randint(100000)*abs(X[0])*abs(X[1])))+'.npy' 
     np.save(fn, [args, t, X, Fe_aff, Fe, Fi, muVn])
     return fn
                                                                     
-
                                                      
 def run_fitting(args):
 
@@ -38,31 +40,20 @@ def run_fitting(args):
     BOUNDS = [args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]
 
     #####################################################################
-    ## fitting of temporal features
+    ## first estimate of temporal features
     #####################################################################
     new_time, space, new_data = get_data(args.data_index,
                                          smoothing=np.ones((1, 4))/4**2,
                                          t0=args.t0, t1=args.t1)
-
-    def to_minimize(Xfit):
-        """ X are the parameters """
-        X = [X0[0], X0[1], Xfit[0], Xfit[1], X0[4]] # splitting between, fixed and to fit
-        fn = run_sim(X, args)
-        return get_time_residual(args,
-                            new_time, space, new_data,
-                            Nsmooth=args.Nsmooth,
-                            fn=fn)
     
-    res = minimize(to_minimize, method='L-BFGS-B',
-             x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
-             bounds=[BOUNDS[2], BOUNDS[3]],
-             options={'maxiter':args.N})
-
-
+    T1, T2 = get_time_residual(args,
+                               new_time, space, new_data,
+                               return_fit_directly=True)
+    X0[2], X0[3] = 1e-3*T1, 1e-3*T2 # forcing temporal features to previous fitting, from ms to s
+    
     #####################################################################
     ## fitting of spatial features
     #####################################################################
-    X0[2], X0[3] = res.x # forcing temporal features to previous fitting
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
@@ -83,6 +74,28 @@ def run_fitting(args):
     
     X0[0], X0[1], X0[4] = res.x # forcing spatial features to previous fitting
 
+    #####################################################################
+    ## fitting of temporal features
+    #####################################################################
+    new_time, space, new_data = get_data(args.data_index,
+                                         smoothing=np.ones((1, 4))/4**2,
+                                         t0=args.t0, t1=args.t1)
+    
+    def to_minimize(Xfit):
+        """ X are the parameters """
+        X = [X0[0], X0[1], Xfit[0], Xfit[1], X0[4]] # splitting between, fixed and to fit
+        fn = run_sim(X, args)
+        return get_time_residual(args,
+                                 new_time, space, new_data,
+                                 fn=fn)
+    
+    res = minimize(to_minimize, method='L-BFGS-B',
+             x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
+             bounds=[BOUNDS[2], BOUNDS[3]],
+             options={'maxiter':args.N})
+
+    X0[2], X0[3] = res.X
+
     np.save('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy', X0)
 
 def plot_analysis(args):
@@ -93,7 +106,7 @@ def plot_analysis(args):
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
-    fn = run_sim(X0, args)
+    fn = run_sim(X0, args, fn='../ring_model/data/model_data_'+str(args.data_index)+'.npy')
     res = get_residual(args,
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,

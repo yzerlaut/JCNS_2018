@@ -49,13 +49,13 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     
     ax = plt.subplot2grid((1,8), (0,0), colspan=7)
     
-    ax.annotate(str(bar_mm)+'mm', (0.,0.), xycoords='axes fraction') # bar
     if yzoom is None:
         yzoom = [0, array.shape[1]]
     else:
         yzoom = np.array(yzoom)*params['pixels_per_mm']
     if xzoom is None:
         xzoom = [t[0], t[-1]]
+    ax.annotate(str(bar_mm)+'mm', (-.1, 0.1), xycoords='axes fraction', rotation=90, fontsize=13) # bar
     # now in pixel coordinates
     bar_mm *= params['pixels_per_mm']
     
@@ -72,6 +72,7 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     plt.imshow(array.T, vmin=MIN, vmax=MAX, cmap=cmap,
                interpolation='none', aspect='auto', extent=[t[0],t[-1], array.shape[1],0])
 
+    
     if with_latency_analysis:
         # in pixel coordinates
         # TT, XX = find_latencies_over_space(t, np.linspace(0,1,array.shape[1])*array.shape[1],\
@@ -83,7 +84,10 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
                         amp_criteria=1./4., discard=20)
         ax.plot(TT, XX, 'w--', lw=3)
 
-    ax.plot([xzoom[0],xzoom[0]], [yzoom[0], yzoom[0]+bar_mm], 'k-', lw=5)
+    # bar annotation
+    ax.plot([xzoom[0], xzoom[0]], [yzoom[0], yzoom[0]+bar_mm], '-', color='gray', lw=8)
+    ax.plot([xzoom[0], xzoom[0]+50], [yzoom[0], yzoom[0]], '-', color='gray', lw=8)
+    ax.annotate('50ms', (xzoom[0]+20,yzoom[0]+.5), fontsize=13)
     set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, xlim=xzoom, ylim=yzoom, yticks=[])
     
     ax2 = plt.subplot2grid((1, 8), (0, 7), rowspan=1)
