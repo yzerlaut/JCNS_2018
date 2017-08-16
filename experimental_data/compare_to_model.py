@@ -41,7 +41,10 @@ def get_stim_center(space, data, Nsmooth=4, debug=False):
     return x0
 
 
-def get_data(dataset_index, Nsmooth=2, t0=-150, t1=100, debug=False):
+def get_data(dataset_index,
+             t0=-150, t1=100, debug=False,\
+             Nsmooth=2,
+             smoothing=None):
 
     # loading data
     print(get_dataset()[dataset_index])
@@ -51,7 +54,8 @@ def get_data(dataset_index, Nsmooth=2, t0=-150, t1=100, debug=False):
     data[np.isnan(data)] = 0 # blanking infinite data
     time = f['matNL'][0]['time'][0].flatten()
     space = f['matNL'][0]['space'][0].flatten()
-    smoothing = np.ones((Nsmooth, Nsmooth))/Nsmooth**2
+    if smoothing is None:
+        smoothing = np.ones((Nsmooth, Nsmooth))/Nsmooth**2
     smooth_data = convolve2d(data, smoothing, mode='same')
     # apply time conditions
     cond = (time>t0-delay) & (time<t1-delay)
@@ -87,7 +91,7 @@ def get_residual(args,
     for i, nt in enumerate(new_time):
         i0 = np.argmin((np.abs(t-nt))**2)
         new_muVn_common_sampling[:, i] = new_muVn[:, i0]
-
+    
     if with_plot:
 
         fig, AX = plt.subplots(2, figsize=(4.5,5))
@@ -95,16 +99,114 @@ def get_residual(args,
         plt.axes(AX[0])
         c = AX[0].contourf(new_time, new_X, new_data_common_sampling, cmap=cm.viridis)
         plt.colorbar(c, label='VSD signal ($\perthousand$)', ticks=.5*np.arange(3))
-        set_plot(AX[0], [], xticks=[], ylabel='space (mm)')
+        # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
+        set_plot(AX[0], ylabel='space (mm)')
         plt.axes(AX[1])
         c2 = AX[1].contourf(new_time, new_X, new_muVn_common_sampling, cmap=cm.viridis)
         plt.colorbar(c2, label='VSD signal ($\perthousand$)')
-        set_plot(AX[1], ['bottom'], xlabel='time (ms)', ylabel='space (mm)')
+        set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
+
+        plt.show()
+
+    return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
+
+def get_space_residual(args,
+                 new_time, space, new_data,
+                 Nsmooth=2,
+                 fn='../ring_model/data/example_data.npy',
+                 with_plot=False):
+
+    # loading model and centering just like in the model
+    args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
+    t*=1e3 # bringing to ms
+    X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
+    Xcond = (X>=space.min()) & (X<=space.max())
+    new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
+    t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
+    # let's construct the spatial subsampling of the data that
+    # matches the spatial discretization of the model
+    new_data_common_sampling = np.zeros((len(new_X), len(new_time)))
+    for i, nx in enumerate(new_X):
+        i0 = np.argmin(np.abs(nx-space)**2)
+        # new_data_common_sampling[i, :] = new_data[i0,:]
+        # normalizing by local maximum over time
+        new_data_common_sampling[i, :] = new_data[i0,:]/new_data[i0,:].max()
+
+    # let's construct the temporal subsampling of the model that
+    # matches the temporal discretization of the data
+    new_muVn_common_sampling = np.zeros((len(new_X), len(new_time)))
+    for i, nt in enumerate(new_time):
+        i0 = np.argmin((np.abs(t-nt))**2)
+        new_muVn_common_sampling[:, i] = new_muVn[:, i0]
+    # normalizing by local maximum over time
+    for i, nx in enumerate(new_X):
+        new_muVn_common_sampling[i, :] /= new_muVn_common_sampling[i,:].max()
+    
+    if with_plot:
+
+        fig, AX = plt.subplots(2, figsize=(4.5,5))
+        plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
+        plt.axes(AX[0])
+        c = AX[0].contourf(new_time, new_X, new_data_common_sampling, cmap=cm.viridis)
+        plt.colorbar(c, label='VSD signal ($\perthousand$)', ticks=.5*np.arange(3))
+        # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
+        set_plot(AX[0], ylabel='space (mm)')
+        plt.axes(AX[1])
+        c2 = AX[1].contourf(new_time, new_X, new_muVn_common_sampling, cmap=cm.viridis)
+        plt.colorbar(c2, label='VSD signal ($\perthousand$)')
+        set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
 
         plt.show()
 
     return np.sum((new_data_common_sampling/new_data_common_sampling.max()-\
                    new_muVn_common_sampling/new_muVn_common_sampling.max())**2)
+
+def get_time_residual(args,
+                      new_time, space, new_data,
+                      Nsmooth=2,
+                      fraction_of_max_criteria = 0.8,
+                      fn='../ring_model/data/example_data.npy',
+                      with_plot=False):
+
+    Xcond_data = np.argwhere(\
+            new_data.max(axis=1)>fraction_of_max_criteria*new_data.max()).flatten()
+    if args.debug:
+        print(Xcond_data)
+        
+    new_data_common_sampling = new_data[Xcond_data,:].mean(axis=0)
+    # normalizing by local maximum
+    new_data_common_sampling /= new_data_common_sampling.max()
+
+    # loading model and centering just like in the model
+    args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
+    t*=1e3 # bringing to ms
+    X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
+    Xcond = (X>=space.min()) & (X<=space.max())
+    new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
+    t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
+    imodel = np.argmax(new_muVn.max(axis=1))
+    if args.debug:
+        print(imodel)
+    new_muVn_common_sampling0 = new_muVn[imodel, :]
+    # # let's construct the temporal subsampling of the model that
+    # # matches the temporal discretization of the data
+    new_muVn_common_sampling = np.zeros(len(new_time))
+    for i, nt in enumerate(new_time):
+        i0 = np.argmin((np.abs(t-nt))**2)
+        new_muVn_common_sampling[i] = new_muVn_common_sampling0[i0]
+    new_muVn_common_sampling /= new_muVn_common_sampling.max()
+    
+    if with_plot:
+
+        fig, ax = plt.subplots(figsize=(4,2.7))
+        plt.subplots_adjust(left=.3, bottom=.3)
+        ax.plot(new_time, new_data_common_sampling, lw=2, label='data')
+        ax.plot(new_time, new_muVn_common_sampling, lw=2, label='Model')
+        ax.legend()
+        set_plot(ax, xlabel='time (ms)', ylabel='norm. signal')
+        plt.show()
+
+    return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
 
 
 if __name__=='__main__':
@@ -119,11 +221,13 @@ if __name__=='__main__':
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
+    parser.add_argument("--space", help="space residual", action="store_true")
+    parser.add_argument("--time", help="temporal residual", action="store_true")
     parser.add_argument("--model_filename", '-f', type=str,
                         default='../ring_model/data/example_data.npy')
     parser.add_argument("--data_index", '-df', type=int,
                         default=1)
-    parser.add_argument("--t0", type=float, default=-50.)
+    parser.add_argument("--t0", type=float, default=-100.)
     parser.add_argument("--t1", type=float, default=200.)
     args = parser.parse_args()
 
@@ -131,8 +235,25 @@ if __name__=='__main__':
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1,
                                          debug=args.debug)
-    print(get_residual(args,
-                       new_time, space, new_data,
-                       Nsmooth=args.Nsmooth,
-                       fn=args.model_filename,
-                       with_plot=True))
+    if args.space:
+        print(get_space_residual(args,
+                             new_time, space, new_data,
+                             Nsmooth=args.Nsmooth,
+                             fn=args.model_filename,
+                             with_plot=True))
+    elif args.time:
+        new_time, space, new_data = get_data(args.data_index,
+                                             smoothing=np.ones((1, 4))/4**2,
+                                             t0=args.t0, t1=args.t1,
+                                             debug=args.debug)
+        print(get_time_residual(args,
+                                new_time, space, new_data,
+                                Nsmooth=2,
+                                fn=args.model_filename,
+                                with_plot=True))
+    else:
+        print(get_residual(args,
+                             new_time, space, new_data,
+                             Nsmooth=args.Nsmooth,
+                             fn=args.model_filename,
+                             with_plot=True))

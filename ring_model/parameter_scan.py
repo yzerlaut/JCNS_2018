@@ -6,7 +6,7 @@ import zipfile, sys
 sys.path.append("../experimental_data")
 from compare_to_model import *
 from dataset import get_dataset
-from compare_to_model import get_data, get_residual
+from compare_to_model import get_data, get_time_residual, get_space_residual
 
 def to_filename(vc, ecr, t2, t1):
     return '../ring_model/data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(t2)+'_'+str(t1)+'.npy'
@@ -61,41 +61,64 @@ def analyze_scan(args):
     
     VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
 
-    ## loading data
+    time_Residuals, spatial_Residuals = [], []
+    vcFull, ecrFull, t2Full, t1Full = [], [], [], []
+    
+    ## loading data for time residual
     new_time, space, new_data = get_data(args.data_index,
-                                         Nsmooth=args.Nsmooth,
+                                         smoothing=np.ones((1, 4))/4**2,
                                          t0=args.t0, t1=args.t1)
     
-    Residuals, vcFull, ecrFull, t2Full, t1Full = [], [], [], [], []
-    
     for vc, ecr, t2, t1 in itertools.product(VC, ECR, TAU2, TAU1):
-        res = get_residual(args,
-                           new_time, space, new_data,
-                           Nsmooth=args.Nsmooth,
-                           fn=to_filename(vc, ecr, t2, t1))
-        Residuals.append(res)
-        vcFull.append(vc)
-        ecrFull.append(ecr)
+        res = get_time_residual(args,
+                                new_time, space, new_data,
+                                Nsmooth=args.Nsmooth,
+                                fn=to_filename(vc, ecr, t2, t1))
+        time_Residuals.append(res)
         t2Full.append(t2)
         t1Full.append(t1)
 
-    np.save('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy',
-            [np.array(Residuals), np.array(vcFull),
-             np.array(ecrFull), np.array(t2Full), np.array(t1Full)])
+    i0T = np.argmin(np.array(time_Residuals))
+    # forcing temporal constants to those parameters
+    t2, t1 = t2Full[i0T], t1Full[i0T]
+    
+    ## loading data for space
+    new_time, space, new_data = get_data(args.data_index,
+                                         Nsmooth=args.Nsmooth,
+                                         t0=args.t0, t1=args.t1)
+
+    for vc, ecr in itertools.product(VC, ECR):
+        res = get_space_residual(args,
+                                new_time, space, new_data,
+                                Nsmooth=args.Nsmooth,
+                                fn=to_filename(vc, ecr, t2, t1))
+        spatial_Residuals.append(res)
+        vcFull.append(vc)
+        ecrFull.append(ecr)
+        
+    np.save('../ring_model/data/residuals_data_'+str(args.data_index)+'.npy',
+            [np.array(time_Residuals), np.array(spatial_Residuals),
+             np.array(vcFull), np.array(ecrFull),
+             np.array(t2Full), np.array(t1Full)])
 
 def plot_analysis(args):
     
-    Residuals, vcFull, ecrFull,\
-        t2Full, t1Full = np.load('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy')
+    time_Residuals, spatial_Residuals, vcFull, ecrFull,\
+        t2Full, t1Full = np.load(\
+            '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
 
-    i0 = np.argmin(Residuals)
-    
-    Residuals/=Residuals[i0] # normalizing
+    i0T = np.argmin(time_Residuals)
+    time_Residuals/=time_Residuals[i0T] # normalizing
+    i0S = np.argmin(spatial_Residuals)
+    spatial_Residuals/=spatial_Residuals[i0S] # normalizing
     
     fig, AX = plt.subplots(1, 4, figsize=(9,2.3))
     plt.subplots_adjust(bottom=.3, left=.15)
-    for ax, vec, label in zip(AX, [vcFull, ecrFull, t2Full, t1Full],\
-                    ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$tau2$ (ms)', '$tau1$ (ms)']):
+    for ax, Residuals, i0, vec, label in zip(AX,
+           [spatial_Residuals, spatial_Residuals, time_Residuals, time_Residuals],
+           [i0S, i0S, i0T, i0T],
+                             [vcFull, ecrFull, t2Full, t1Full],\
+                   ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$tau2$ (ms)', '$tau1$ (ms)']):
         ax.plot(vec, Residuals, 'o')
         ax.plot([vec[i0]], [Residuals[i0]], 'ro')
         ax.set_yscale('log')
@@ -105,21 +128,26 @@ def plot_analysis(args):
         else:
             set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
 
-    VC, ECR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
-    new_time, space, new_data = get_data(args.data_index,
-                                         Nsmooth=args.Nsmooth,
-                                         t0=args.t0, t1=args.t1)
-    res = get_residual(args,
-                       new_time, space, new_data,
-                       Nsmooth=args.Nsmooth,
-                       fn='../ring_model/'+FILENAMES[i0], with_plot=True)
+    # _, _, _, _, FILENAMES = np.load('../ring_model/data/scan_data.npy')
+    # new_time, space, new_data = get_data(args.data_index,
+    #                                      Nsmooth=args.Nsmooth,
+    #                                      t0=args.t0, t1=args.t1)
+    # res = get_residual(args,
+    #                    new_time, space, new_data,
+    #                    Nsmooth=args.Nsmooth,
+    #                    fn='../ring_model/'+FILENAMES[i0], with_plot=True)
     plt.show()
 
 def get_minimum_params(args):
-    Residuals, vcFull, ecrFull,\
-        t2Full, t1Full = np.load('../ring_model/data/analyzed_scan_data_'+str(args.data_index)+'.npy')
-    i0 = np.argmin(Residuals)
-    return vcFull[i0], ecrFull[i0], t2Full[i0], t1Full[i0]
+    time_Residuals, spatial_Residuals, vcFull, ecrFull,\
+        t2Full, t1Full = np.load(\
+            '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
+
+    i0T = np.argmin(time_Residuals)
+    time_Residuals/=time_Residuals[i0T] # normalizing
+    i0S = np.argmin(spatial_Residuals)
+    spatial_Residuals/=spatial_Residuals[i0S] # normalizing
+    return vcFull[i0S], ecrFull[i0S], t2Full[i0T], t1Full[i0T]
 
     
 def full_analysis(args):
@@ -183,6 +211,7 @@ if __name__=='__main__':
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
     parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
+    parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
     parser.add_argument("--full", help="full analysis", action="store_true")
     parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
