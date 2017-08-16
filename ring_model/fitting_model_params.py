@@ -87,7 +87,7 @@ def run_fitting(args):
         fn = run_sim(X, args)
         return get_time_residual(args,
                                  new_time, space, new_data,
-                                 fn=fn, return_fit_directly=True)
+                                 fn=fn)
     
     res = minimize(to_minimize, method='L-BFGS-B',
              x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
