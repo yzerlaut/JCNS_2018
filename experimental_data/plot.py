@@ -35,17 +35,23 @@ def plot_response(args):
     data = 1e3*f['matNL'][0]['stim1'][0]
     time = f['matNL'][0]['time'][0].flatten()+args.tshift
     space = f['matNL'][0]['space'][0].flatten()
-    smoothing = np.ones((args.Nsmooth, args.Nsmooth))/args.Nsmooth**2
-    smooth_data = convolve2d(data, smoothing, mode='same')
+    if args.Nsmooth>0:
+        smoothing = np.ones((args.Nsmooth, args.Nsmooth))/args.Nsmooth**2
+        smooth_data = convolve2d(data, smoothing, mode='same')
+    else:
+        smooth_data = data
 
     cond = (time>args.t0) & (time<args.t1)
     c = ax.contourf(time[cond], space, smooth_data[:,cond], cmap=cm.viridis)
     plt.colorbar(c, label='VSD signal ($\perthousand$)',
-                 ticks=-.3+.3*np.arange(5))
+                 ticks=args.vsd_ticks)
 
     x1, x2 = ax.get_xlim()
     ax.plot([x1,x1], [0,2], '-', color='gray', lw=4)
     ax.annotate('2mm', (x1,2), rotation=90, fontsize=14)
+    y1, y2 = ax.get_ylim()
+    ax.plot([x1,x1+50], [y1, y1], '-', color='gray', lw=4)
+    ax.annotate('50ms', (x1+20,y1+.5), fontsize=14)
 
     if args.with_onset_propag:
         tt, xx = find_latencies_over_space_simple(time, space,
@@ -63,8 +69,7 @@ def plot_response(args):
     # set_plot(ax, ['bottom'], yticks=[], xlabel='time (ms)')
     set_plot(ax, xlabel='time (ms)', ylabel='space (mm)')
     if args.SAVE:
-        fig.savefig('/Users/yzerlaut/Desktop/'+\
-                    args.filename.replace('/matx','.matx')+'.png')
+        fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
     else:
         plt.show()
 
@@ -87,6 +92,8 @@ if __name__=='__main__':
     parser.add_argument("--tshift", type=float, default=0)
     parser.add_argument("--signal_criteria", type=float, default=0.4)
     parser.add_argument("--amp_criteria", type=float, default=0.6)
+    parser.add_argument("--vsd_ticks", nargs='*',
+                        type=float, default=[0, 0.5, 1.])
     parser.add_argument("--t0", type=float, default=-1000.)
     parser.add_argument("--t1", type=float, default=1000.)
 

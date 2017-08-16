@@ -40,7 +40,6 @@ def get_stim_center(space, data, Nsmooth=4, debug=False):
         plt.show()
     return x0
 
-
 def get_data(dataset_index,
              t0=-150, t1=100, debug=False,\
              Nsmooth=2,
@@ -161,12 +160,18 @@ def get_space_residual(args,
     return np.sum((new_data_common_sampling/new_data_common_sampling.max()-\
                    new_muVn_common_sampling/new_muVn_common_sampling.max())**2)
 
+def heaviside(x):
+    return 0.5*(1+np.sign(x))
+def double_gaussian(t, t0, T1, T2, amplitude):
+    return amplitude*(np.exp(-(t-t0)**2/2./T1**2)*heaviside(-(t-t0))+\
+                      np.exp(-(t-t0)**2/2./T2**2)*heaviside(t-t0))
+
 def get_time_residual(args,
                       new_time, space, new_data,
                       Nsmooth=2,
                       fraction_of_max_criteria = 0.8,
                       fn='../ring_model/data/example_data.npy',
-                      with_plot=False):
+                      with_plot=False, return_fit_directly=False):
 
     Xcond_data = np.argwhere(\
             new_data.max(axis=1)>fraction_of_max_criteria*new_data.max()).flatten()
@@ -177,36 +182,54 @@ def get_time_residual(args,
     # normalizing by local maximum
     new_data_common_sampling /= new_data_common_sampling.max()
 
-    # loading model and centering just like in the model
-    args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
-    t*=1e3 # bringing to ms
-    X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
-    Xcond = (X>=space.min()) & (X<=space.max())
-    new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
-    t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
-    imodel = np.argmax(new_muVn.max(axis=1))
-    if args.debug:
-        print(imodel)
-    new_muVn_common_sampling0 = new_muVn[imodel, :]
-    # # let's construct the temporal subsampling of the model that
-    # # matches the temporal discretization of the data
-    new_muVn_common_sampling = np.zeros(len(new_time))
-    for i, nt in enumerate(new_time):
-        i0 = np.argmin((np.abs(t-nt))**2)
-        new_muVn_common_sampling[i] = new_muVn_common_sampling0[i0]
-    new_muVn_common_sampling /= new_muVn_common_sampling.max()
-    
-    if with_plot:
+    if return_fit_directly:
+        
+        def to_minimize(X):
+            """ X are the parameters """
+            return np.sum((double_gaussian(new_time, *X)-new_data_common_sampling)**2)
+        res = minimize(to_minimize,
+                 x0= [0., 10., 100., 1.])
+        return res.x[1], res.x[2]
 
-        fig, ax = plt.subplots(figsize=(4,2.7))
-        plt.subplots_adjust(left=.3, bottom=.3)
-        ax.plot(new_time, new_data_common_sampling, lw=2, label='data')
-        ax.plot(new_time, new_muVn_common_sampling, lw=2, label='Model')
-        ax.legend()
-        set_plot(ax, xlabel='time (ms)', ylabel='norm. signal')
-        plt.show()
+    else:
+        # loading model and centering just like in the model
+        args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
+        t*=1e3 # bringing to ms
+        X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
+        Xcond = (X>=space.min()) & (X<=space.max())
+        new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
+        t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
+        imodel = np.argmax(new_muVn.max(axis=1))
+        if args.debug:
+            print(imodel)
+        new_muVn_common_sampling0 = new_muVn[imodel, :]
+        # # let's construct the temporal subsampling of the model that
+        # # matches the temporal discretization of the data
+        new_muVn_common_sampling = np.zeros(len(new_time))
+        for i, nt in enumerate(new_time):
+            i0 = np.argmin((np.abs(t-nt))**2)
+            new_muVn_common_sampling[i] = new_muVn_common_sampling0[i0]
+        new_muVn_common_sampling /= new_muVn_common_sampling.max()
 
-    return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
+
+        if with_plot:
+
+            fig, ax = plt.subplots(figsize=(4,2.7))
+            plt.subplots_adjust(left=.3, bottom=.3)
+            tt = np.linspace(new_time.min(), new_time.max(), 1e3)
+            if return_fit_directly:
+                ax.plot(tt, double_gaussian(tt, *res.x), lw=4, alpha=.8, label='Model')
+                ax.annotate('$\\tau_1$='+str(round(res.x[1]))+'ms\n$\\tau_2$='+str(round(res.x[2]))+'ms', (0., 0.8))
+            ax.plot(new_time, new_data_common_sampling, 'k-', lw=2, label='data')
+            ax.plot(new_time, new_muVn_common_sampling, 'k:', lw=2, label='Model')
+            # ax.plot(new_time, double_gaussian(new_time, *res.x), lw=2, label='fit')
+            ax.legend()
+            set_plot(ax, xlabel='time (ms)', ylabel='norm. signal', yticks=[0, 0.5, 1.])
+            # fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+            plt.show()
+
+        else:
+            return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
 
 
 if __name__=='__main__':
