@@ -5,7 +5,7 @@ import itertools
 import zipfile, sys
 sys.path.append("../experimental_data")
 from dataset import get_dataset
-from compare_to_model import get_data, get_residual
+from compare_to_model import get_data, get_residual, get_time_residual, get_space_residual
 from model import Euler_method_for_ring_model
 from scipy.optimize import minimize
 sys.path.append("../../")
@@ -25,51 +25,79 @@ def run_sim(X, args):
                                         custom_stim_params={\
                                                             'sX':X[4], 'amp':15.,
                                                             'Tau1':X[2], 'Tau2':X[3]})
-    np.save('../ring_model/data/temp.npy', [args, t, X, Fe_aff, Fe, Fi, muVn])
+    fn = str(int(np.random.randint(100000)*abs(X[0])*abs(X[1])))+'.npy' # random filename for parrallel minimization
+    np.save(fn, [args, t, X, Fe_aff, Fe, Fi, muVn])
+    return fn
                                                                     
 
                                                      
 def run_fitting(args):
+
+    # baseline params and boundaries
+    X0 = np.array([args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]).mean(axis=1)
+    BOUNDS = [args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]
+
+    #####################################################################
+    ## fitting of temporal features
+    #####################################################################
+    new_time, space, new_data = get_data(args.data_index,
+                                         smoothing=np.ones((1, 4))/4**2,
+                                         t0=args.t0, t1=args.t1)
+
+    def to_minimize(Xfit):
+        """ X are the parameters """
+        X = [X0[0], X0[1], Xfit[0], Xfit[1], X0[4]] # splitting between, fixed and to fit
+        fn = run_sim(X, args)
+        return get_time_residual(args,
+                            new_time, space, new_data,
+                            Nsmooth=args.Nsmooth,
+                            fn=fn)
     
-    ## loading data
+    res = minimize(to_minimize, method='L-BFGS-B',
+             x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
+             bounds=[BOUNDS[2], BOUNDS[3]],
+             options={'maxiter':args.N})
+
+
+    #####################################################################
+    ## fitting of spatial features
+    #####################################################################
+    X0[2], X0[3] = res.x # forcing temporal features to previous fitting
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
 
-    def to_minimize(X):
+    def to_minimize(Xfit):
         """ X are the parameters """
-        run_sim(X, args)
-        return get_residual(args,
-                           new_time, space, new_data,
-                           Nsmooth=args.Nsmooth,
-                           fn='../ring_model/data/temp.npy')
-    BOUNDS = [args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]
-    X0 = np.array([args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]).mean(axis=1)
+        X = [Xfit[0], Xfit[1], X0[2], X0[3], Xfit[2]] # splitting between, fixed and to fit
+        fn = run_sim(X, args)
+        return get_space_residual(args,
+                                  new_time, space, new_data,
+                                  Nsmooth=args.Nsmooth,
+                                  fn=fn)
     
     res = minimize(to_minimize, method='L-BFGS-B',
-             x0=X0,
-             bounds=BOUNDS,
+             x0=[X0[0], X0[1], X0[4]], # SET TEMPORAL FEATURES HERE
+             bounds=[BOUNDS[0], BOUNDS[1], BOUNDS[4]],
              options={'maxiter':args.N})
-        
+    
+    X0[0], X0[1], X0[4] = res.x # forcing spatial features to previous fitting
 
-    print(res)
-
-    np.save('../ring_model/data/analyzed_scan_data_'+\
-            str(args.data_index)+'.npy', res.x)
+    np.save('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy', X0)
 
 def plot_analysis(args):
 
-    X = np.load('../ring_model/data/analyzed_scan_data_'+\
-                str(args.data_index)+'.npy')
+    X0 = np.load('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy')
+    print(X0)
 
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
-    run_sim(X, args)
+    fn = run_sim(X0, args)
     res = get_residual(args,
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,
-                       fn='../ring_model/data/temp.npy', with_plot=True)
+                       fn=fn, with_plot=True)
     plt.show()
 
 
@@ -130,6 +158,7 @@ if __name__=='__main__':
     # script function
     parser.add_argument("--fitting", help="fitting", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
+    parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
     parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
     args = parser.parse_args()
