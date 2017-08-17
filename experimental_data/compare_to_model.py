@@ -96,16 +96,28 @@ def get_residual(args,
         fig, AX = plt.subplots(2, figsize=(4.5,5))
         plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
         plt.axes(AX[0])
-        c = AX[0].contourf(new_time, new_X, new_data_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c, label='VSD signal ($\perthousand$)', ticks=.5*np.arange(3))
+        c = AX[0].contourf(new_time, new_X, new_data_common_sampling,
+                           cmap=cm.viridis,
+                           levels=\
+                           np.linspace(new_data_common_sampling.min(),
+                                       new_data_common_sampling.max(), 30))
+        plt.colorbar(c, label='VSD signal ($\perthousand$)',
+                     ticks=.5*np.arange(3))
         # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
         set_plot(AX[0], ylabel='space (mm)')
         plt.axes(AX[1])
-        c2 = AX[1].contourf(new_time, new_X, new_muVn_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c2, label='VSD signal ($\perthousand$)')
+        c2 = AX[1].contourf(new_time, new_X, new_muVn_common_sampling,
+                            cmap=cm.viridis,
+                            levels=\
+                            np.linspace(0, new_muVn_common_sampling.max(), 30))
+        # plt.colorbar(c2, label='$\\delta V_N$',
+        #              ticks=np.linspace(0, new_muVn_common_sampling.max(), 5))
         set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
 
-        plt.show()
+        if args.save:
+            fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+        else:
+            plt.show()
 
     return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
 
@@ -147,15 +159,21 @@ def get_space_residual(args,
         plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
         plt.axes(AX[0])
         c = AX[0].contourf(new_time, new_X, new_data_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c, label='VSD signal ($\perthousand$)', ticks=.5*np.arange(3))
+        plt.colorbar(c, label='norm. VSD signal',
+                     ticks=.5*np.arange(3))
         # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
         set_plot(AX[0], ylabel='space (mm)')
         plt.axes(AX[1])
         c2 = AX[1].contourf(new_time, new_X, new_muVn_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c2, label='VSD signal ($\perthousand$)')
+        plt.colorbar(c2, label='norm. $\\delta V_N$',
+                     ticks=.5*np.arange(3))
         set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
 
-        plt.show()
+        if args.save:
+            fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+        else:
+            plt.show()
+
 
     return np.sum((new_data_common_sampling/new_data_common_sampling.max()-\
                    new_muVn_common_sampling/new_muVn_common_sampling.max())**2)
@@ -225,8 +243,10 @@ def get_time_residual(args,
             # ax.plot(new_time, double_gaussian(new_time, *res.x), lw=2, label='fit')
             ax.legend()
             set_plot(ax, xlabel='time (ms)', ylabel='norm. signal', yticks=[0, 0.5, 1.])
-            # fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
-            plt.show()
+            if args.save:
+                fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+            else:
+                plt.show()
 
         else:
             return np.sum((new_data_common_sampling-new_muVn_common_sampling)**2)
@@ -241,6 +261,7 @@ if __name__=='__main__':
             formatter_class=argparse.RawTextHelpFormatter)
     
     parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
+    parser.add_argument("-s", "--save", help="save fig", action="store_true")
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
