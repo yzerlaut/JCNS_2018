@@ -94,7 +94,7 @@ def run_fitting(args):
              bounds=[BOUNDS[2], BOUNDS[3]],
              options={'maxiter':args.N})
 
-    X0[2], X0[3] = res.X
+    X0[2], X0[3] = res.x
 
     np.save('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy', X0)
 
