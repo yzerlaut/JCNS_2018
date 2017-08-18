@@ -70,7 +70,7 @@ def run_fitting(args):
     res = minimize(to_minimize, method='L-BFGS-B',
              x0=[X0[0], X0[1], X0[4]], # SET TEMPORAL FEATURES HERE
              bounds=[BOUNDS[0], BOUNDS[1], BOUNDS[4]],
-             options={'maxiter':args.N})
+             options={'maxiter':args.N, 'maxfun':args.N})
     
     X0[0], X0[1], X0[4] = res.x # forcing spatial features to previous fitting
 
@@ -92,7 +92,7 @@ def run_fitting(args):
     res = minimize(to_minimize, method='L-BFGS-B',
              x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
              bounds=[BOUNDS[2], BOUNDS[3]],
-             options={'maxiter':args.N})
+             options={'maxiter':args.N, 'maxfun':args.N})
 
     X0[2], X0[3] = res.x
 
