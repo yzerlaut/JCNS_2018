@@ -11,6 +11,8 @@ from scipy.optimize import minimize
 sys.path.append("../../")
 from graphs.my_graph import set_plot
 
+METHOD = 'TNC'
+
 def run_sim(X, args, fn=None):
     t, X, Fe_aff, Fe, Fi, muVn =\
                                  Euler_method_for_ring_model(\
@@ -38,6 +40,7 @@ def run_fitting(args):
     # baseline params and boundaries
     X0 = np.array([args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]).mean(axis=1)
     BOUNDS = [args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]
+    EPS = np.diff(np.array([args.vc, args.Econn_radius, args.Tau1, args.Tau2, args.stim_extent]), axis=1)/20.
 
     #####################################################################
     ## first estimate of temporal features
@@ -61,19 +64,23 @@ def run_fitting(args):
     def to_minimize(Xfit):
         """ X are the parameters """
         X = [Xfit[0], Xfit[1], X0[2], X0[3], Xfit[2]] # splitting between, fixed and to fit
+        print(X)
         fn = run_sim(X, args)
         return get_space_residual(args,
                                   new_time, space, new_data,
                                   Nsmooth=args.Nsmooth,
                                   fn=fn)
     
-    res = minimize(to_minimize, method='L-BFGS-B',
+    res = minimize(to_minimize, method=METHOD,
              x0=[X0[0], X0[1], X0[4]], # SET TEMPORAL FEATURES HERE
              bounds=[BOUNDS[0], BOUNDS[1], BOUNDS[4]],
-             options={'maxiter':args.N, 'maxfun':args.N})
+             options={'maxiter':args.N, 'maxfun':args.N,
+                      'eps':np.array([EPS[0], EPS[1], EPS[4]]).flatten()})
     
     X0[0], X0[1], X0[4] = res.x # forcing spatial features to previous fitting
 
+    print('first fit:')
+    print(res)
     #####################################################################
     ## fitting of temporal features
     #####################################################################
@@ -84,17 +91,22 @@ def run_fitting(args):
     def to_minimize(Xfit):
         """ X are the parameters """
         X = [X0[0], X0[1], Xfit[0], Xfit[1], X0[4]] # splitting between, fixed and to fit
+        print(X)
         fn = run_sim(X, args)
         return get_time_residual(args,
                                  new_time, space, new_data,
                                  fn=fn)
-    
-    res = minimize(to_minimize, method='L-BFGS-B',
-             x0=[X0[2], X0[3]], # SET TEMPORAL FEATURES HERE
+
+    factor_for_reduction = 0.7
+    res = minimize(to_minimize, method=METHOD,
+             x0=[X0[2]*factor_for_reduction, X0[3]*factor_for_reduction], # SET TEMPORAL FEATURES HERE
              bounds=[BOUNDS[2], BOUNDS[3]],
-             options={'maxiter':args.N, 'maxfun':args.N})
+             options={'maxiter':args.N, 'maxfun':args.N,
+                      'eps':np.array([EPS[2], EPS[3]]).flatten()})
 
     X0[2], X0[3] = res.x
+    print('second fit:')
+    print(res)
 
     np.save('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy', X0)
 
@@ -102,7 +114,6 @@ def plot_analysis(args):
 
     X0 = np.load('../ring_model/data/fitted_data_'+str(args.data_index)+'.npy')
     print(X0)
-
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
@@ -172,6 +183,7 @@ if __name__=='__main__':
     parser.add_argument("--fitting", help="fitting", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
+    parser.add_argument("-s", "--save", help="save fig", action="store_true")
     parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
     args = parser.parse_args()

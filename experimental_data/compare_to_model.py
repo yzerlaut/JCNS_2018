@@ -93,6 +93,10 @@ def get_residual(args,
     
     if with_plot:
 
+        # normalizing
+        new_muVn_common_sampling /= new_muVn_common_sampling.max()
+        new_data_common_sampling /= new_data_common_sampling.max()
+        
         fig, AX = plt.subplots(2, figsize=(4.5,5))
         plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
         plt.axes(AX[0])
@@ -101,7 +105,7 @@ def get_residual(args,
                            levels=\
                            np.linspace(new_data_common_sampling.min(),
                                        new_data_common_sampling.max(), 30))
-        plt.colorbar(c, label='VSD signal ($\perthousand$)',
+        plt.colorbar(c, label='norm. VSD signal',
                      ticks=.5*np.arange(3))
         # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
         set_plot(AX[0], ylabel='space (mm)')
@@ -110,8 +114,8 @@ def get_residual(args,
                             cmap=cm.viridis,
                             levels=\
                             np.linspace(0, new_muVn_common_sampling.max(), 30))
-        # plt.colorbar(c2, label='$\\delta V_N$',
-        #              ticks=np.linspace(0, new_muVn_common_sampling.max(), 5))
+        plt.colorbar(c2, label='norm. $\\delta V_N$',
+                     ticks=.5*np.arange(3))
         set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
 
         if args.save:
