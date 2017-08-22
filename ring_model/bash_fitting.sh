@@ -15,6 +15,6 @@ python fitting_model_params.py --N 200 -df 12 --fitting &
 # ########################################################
 # for i in {0..13}
 # do
-#     echo sget '../ring_model/data/fitting_data_'$i'.npy'
+#     echo sget '../ring_model/data/fitted_data_'$i'.npy'
 # done
 # echo ''
