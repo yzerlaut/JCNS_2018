@@ -69,6 +69,9 @@ def get_stimulation(X, MODEL, return_print=False, custom={}):
 
         if BASE=='CENTER':
             X0 = X[int(len(X)/2.)]
+            # check if stimulation temporal boundaris is ok, making it longer if stim not fully develloped
+            params['tstart'] = np.max([3.*params['Tau1'], params['tstart']])
+            params['tstop'] = np.max([params['tstart']+3.*params['Tau2'], params['tstop']])
             t = np.arange(int((params['tstop'])/params['dt']))*params['dt'] # time array
             X1, t1 = np.meshgrid(X, t)
             nu_e_aff = triple_gaussian(\

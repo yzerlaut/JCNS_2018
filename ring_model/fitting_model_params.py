@@ -130,13 +130,13 @@ def full_analysis(args):
     DATA = get_dataset()
     VC, ECR, TAU2, TAU1, SEXT, DUR = [], [], [], [], [], []
     for i in range(len(DATA)):
-        X = np.load('../ring_model/data/analyzed_scan_data_'+\
-                    str(i)+'.npy')
-        print(X.shape)
-        if X.shape==(5,):
+        try:
+            X = np.load('../ring_model/data/fitted_data_'+str(i)+'.npy')
             for vec, VEC in zip(X, [VC, ECR, TAU2, TAU1, SEXT]):
                 VEC.append(vec)
             DUR.append(DATA[i]['duration'])
+        except IOError:
+            pass
         
     fig, AX = plt.subplots(1, 4, figsize=(6.,2.3))
     plt.subplots_adjust(bottom=.3, left=.25, wspace=3.)

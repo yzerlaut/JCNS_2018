@@ -54,8 +54,13 @@ def Euler_method_for_ring_model(NRN1, NRN2, NTWK, RING, STIM, BIN=5e-3,\
     afferent_exc_fraction = M[0,0]['afferent_exc_fraction']
 
     print('----- ## we look for the fixed point [...]')
-    fe0, fi0 = find_fixed_point_first_order(NRN1, NRN2, NTWK, exc_aff=ext_drive)
-    muV0, _, _, _ = get_fluct_regime_vars(fe0+ext_drive, fi0, *pseq_params(params))
+    try:
+        fe0, fi0, muV0 = np.load("fixed_point_data_TO_BE_REMOVED.npy")
+        print("/!\\ STORED FIXED POINT DATA LOADED, check if not a different config /!\\")
+    except IOError:
+        fe0, fi0 = find_fixed_point_first_order(NRN1, NRN2, NTWK, exc_aff=ext_drive)
+        muV0, _, _, _ = get_fluct_regime_vars(fe0+ext_drive, fi0, *pseq_params(params))
+        np.save('fixed_point_data_TO_BE_REMOVED.npy', [fe0, fi0, muV0])
     
     print('----- ## we load the transfer functions [...]')
     TF1, TF2 = load_transfer_functions(NRN1, NRN2, NTWK)

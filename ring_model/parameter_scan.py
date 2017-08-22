@@ -4,9 +4,11 @@ import itertools
 # everything stored within a zip file
 import zipfile, sys
 sys.path.append("../experimental_data")
-from compare_to_model import *
+# from compare_to_model import *
+sys.path.append("../../")
+from graphs.my_graph import set_plot
 from dataset import get_dataset
-from compare_to_model import get_data, get_time_residual, get_space_residual
+from compare_to_model import get_data, get_time_residual, get_space_residual, get_residual
 
 def to_filename(vc, ecr, t2, t1):
     return '../ring_model/data/scan_'+str(vc)+'_'+str(ecr)+'_'+str(t2)+'_'+str(t1)+'.npy'
@@ -128,14 +130,14 @@ def plot_analysis(args):
         else:
             set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
 
-    # _, _, _, _, FILENAMES = np.load('../ring_model/data/scan_data.npy')
-    # new_time, space, new_data = get_data(args.data_index,
-    #                                      Nsmooth=args.Nsmooth,
-    #                                      t0=args.t0, t1=args.t1)
-    # res = get_residual(args,
-    #                    new_time, space, new_data,
-    #                    Nsmooth=args.Nsmooth,
-    #                    fn='../ring_model/'+FILENAMES[i0], with_plot=True)
+    _, _, _, _, FILENAMES = np.load('../ring_model/data/scan_data.npy')
+    new_time, space, new_data = get_data(args.data_index,
+                                         Nsmooth=args.Nsmooth,
+                                         t0=args.t0, t1=args.t1)
+    res = get_residual(args,
+                       new_time, space, new_data,
+                       Nsmooth=args.Nsmooth,
+                       fn='../ring_model/'+FILENAMES[i0], with_plot=True)
     plt.show()
 
 def get_minimum_params(args):
@@ -196,8 +198,8 @@ if __name__=='__main__':
     parser.add_argument("--stim_extent", nargs=2, type=float, default=[1., 10.])
     parser.add_argument("--Econn_radius", nargs=2, type=float, default=[1., 10.])
     parser.add_argument("--ratio_Iconn_Econn", nargs=2, type=float, default=[0.05, 1.5])
-    parser.add_argument("--Tau1", nargs=2, type=float, default=[5e-3, 100e-3])
-    parser.add_argument("--Tau2", nargs=2, type=float, default=[50e-3, 400e-3])
+    parser.add_argument("--Tau1", nargs=2, type=float, default=[5e-3, 50e-3])
+    parser.add_argument("--Tau2", nargs=2, type=float, default=[50e-3, 200e-3])
     parser.add_argument("--N", type=int, default=2)
     parser.add_argument("--zip_filename", '-f', type=str, default='../ring_model/data/data.zip')
     # data
@@ -207,6 +209,7 @@ if __name__=='__main__':
     parser.add_argument("--t1", type=float, default=200.)
     parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
     # script function
+    parser.add_argument("-s", "--save", help="save fig", action="store_true")
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
     parser.add_argument("-p", "--plot", help="plot analysis", action="store_true")
     parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
