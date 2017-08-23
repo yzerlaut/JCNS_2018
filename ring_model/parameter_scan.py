@@ -197,8 +197,8 @@ if __name__=='__main__':
 
     parser.add_argument("--vc", nargs=2, type=float, default=[50., 600.])
     parser.add_argument("--stim_extent", nargs=2, type=float, default=[0.2, 2.])
-    parser.add_argument("--Econn_radius", nargs=2, type=float, default=[1., 10.])
-    parser.add_argument("--Iconn_radius", nargs=2, type=float, default=[1., 10.])
+    parser.add_argument("--Econn_radius", nargs=2, type=float, default=[1., 7.])
+    parser.add_argument("--Iconn_radius", nargs=2, type=float, default=[1., 7.])
     parser.add_argument("--Tau1", nargs=2, type=float, default=[5e-3, 50e-3])
     parser.add_argument("--Tau2", nargs=2, type=float, default=[50e-3, 200e-3])
     parser.add_argument("--N", type=int, default=2)
