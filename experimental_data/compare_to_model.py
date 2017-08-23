@@ -91,7 +91,7 @@ def reformat_model_data_for_comparison(model_data_filename,
     # matches the temporal discretization of the data
     dt_exp = time_exp[1]-time_exp[0]
     model_data_common_sampling = np.zeros((len(space), len(time_exp)))
-    for i, nt in enumerate(new_time):
+    for i, nt in enumerate(time_exp):
         i0 = np.argwhere(np.abs(t-nt)<dt_exp)
         if len(i0)>0:
             model_data_common_sampling[:, i] = new_muVn[:, i0[0][0]]
