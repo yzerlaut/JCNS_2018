@@ -66,8 +66,8 @@ def analyze_scan(args):
     
     VC, SE, ECR, ICR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
 
-    time_Residuals, spatial_Residuals = [], []
-    vcFull, se, ecr, icr,Full, t2Full, t1Full = [], [], [], []
+    Residuals, time_Residuals, spatial_Residuals = [], [], []
+    vcFull, seFull, ecrFull, icrFull, t2Full, t1Full = [], [], [], [], [], []
     
     ## loading data for time residual
     new_time, space, new_data = get_data(args.data_index,
@@ -75,55 +75,67 @@ def analyze_scan(args):
                                          t0=args.t0, t1=args.t1)
     
     for vc, se, ecr, icr, t2, t1 in itertools.product(VC, SE, ECR, ICR, TAU2, TAU1):
-        res = get_time_residual(args,
-                                new_time, space, new_data,
-                                Nsmooth=args.Nsmooth,
-                                fn=to_filename(vc, se, ecr, icr, t2, t1))
-        time_Residuals.append(res)
+        # res = get_time_residual(args,
+        #                         new_time, space, new_data,
+        #                         Nsmooth=args.Nsmooth,
+        #                         fn=to_filename(vc, se, ecr, icr, t2, t1))
+        # time_Residuals.append(res)
+        res = get_residual(args,
+                           new_time, space, new_data,
+                           fn=to_filename(vc, se, ecr, icr, t2, t1))
+        Residuals.append(res)
         t2Full.append(t2)
         t1Full.append(t1)
+        vcFull.append(vc)
+        seFull.append(se)
+        ecrFull.append(ecr)
+        icrFull.append(icr)
 
-    i0T = np.argmin(np.array(time_Residuals))
-    # forcing temporal constants to those parameters
-    t2, t1 = t2Full[i0T], t1Full[i0T]
+    # i0T = np.argmin(np.array(time_Residuals))
+    # # forcing temporal constants to those parameters
+    # t2, t1 = t2Full[i0T], t1Full[i0T]
     
     ## loading data for space
-    new_time, space, new_data = get_data(args.data_index,
-                                         Nsmooth=args.Nsmooth,
-                                         t0=args.t0, t1=args.t1)
+    # new_time, space, new_data = get_data(args.data_index,
+    #                                      Nsmooth=args.Nsmooth,
+    #                                      t0=args.t0, t1=args.t1)
 
-    for vc, se, ecr, icr, in itertools.product(VC, SE, ECR, ICR,):
-        res = get_space_residual(args,
-                                new_time, space, new_data,
-                                Nsmooth=args.Nsmooth,
-                                fn=to_filename(vc, se, ecr, icr, t2, t1))
-        spatial_Residuals.append(res)
-        vcFull.append(vc)
-        ecrFull.append(ecr)
+    # for vc, se, ecr, icr, in itertools.product(VC, SE, ECR, ICR,):
+    #     res = get_space_residual(args,
+    #                             new_time, space, new_data,
+    #                             Nsmooth=args.Nsmooth,
+    #                             fn=to_filename(vc, se, ecr, icr, t2, t1))
+    #     spatial_Residuals.append(res)
+    #     vcFull.append(vc)
+    #     ecrFull.append(ecr)
         
     np.save('../ring_model/data/residuals_data_'+str(args.data_index)+'.npy',
-            [np.array(time_Residuals), np.array(spatial_Residuals),
-             np.array(vcFull), np.array(ecrFull),
+            [np.array(Residuals), np.array(time_Residuals), np.array(spatial_Residuals),
+             np.array(vcFull), np.array(seFull),
+             np.array(ecrFull), np.array(icrFull),
              np.array(t2Full), np.array(t1Full)])
 
 def plot_analysis(args):
     
-    time_Residuals, spatial_Residuals, vcFull, se, ecr, icr,Full,\
+    Residuals, time_Residuals, spatial_Residuals,\
+        vcFull, seFull, ecrFull, icrFull,\
         t2Full, t1Full = np.load(\
             '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
 
-    i0T = np.argmin(time_Residuals)
-    time_Residuals/=time_Residuals[i0T] # normalizing
-    i0S = np.argmin(spatial_Residuals)
-    spatial_Residuals/=spatial_Residuals[i0S] # normalizing
+    i0 = np.argmin(Residuals)
+    Residuals/=Residuals[i0] # normalizing
+    # i0T = np.argmin(time_Residuals)
+    # time_Residuals/=time_Residuals[i0T] # normalizing
+    # i0S = np.argmin(spatial_Residuals)
+    # spatial_Residuals/=spatial_Residuals[i0S] # normalizing
     
-    fig, AX = plt.subplots(1, 4, figsize=(9,2.3))
+    fig, AX = plt.subplots(1, 6, figsize=(9,2.))
     plt.subplots_adjust(bottom=.3, left=.15)
-    for ax, Residuals, i0, vec, label in zip(AX,
-           [spatial_Residuals, spatial_Residuals, time_Residuals, time_Residuals],
-           [i0S, i0S, i0T, i0T],
-                             [vcFull, se, ecr, icr,Full, t2Full, t1Full],\
-                   ['$v_c (mm/s)$', '$r_{exc}$ (mm)', '$tau2$ (ms)', '$tau1$ (ms)']):
+    for ax, vec, label in zip(AX,
+                              [vcFull, seFull, ecrFull, icrFull, t2Full, t1Full],\
+                              ['$v_c (mm/s)$','$l_{stim}$ (mm)',
+                               '$l_{exc}$ (mm)', '$l_{inh}$ (mm)',
+                               '$\\tau_2$ (ms)', '$\\tau_1$ (ms)']):
         ax.plot(vec, Residuals, 'o')
         ax.plot([vec[i0]], [Residuals[i0]], 'ro')
         ax.set_yscale('log')
@@ -133,7 +145,7 @@ def plot_analysis(args):
         else:
             set_plot(ax, xlabel=label, yticks=[1, 5, 10, 20], yticks_labels=[])
 
-    _, _, _, _, FILENAMES = np.load('../ring_model/data/scan_data.npy')
+    _, _, _, _, _, _, FILENAMES = np.load('../ring_model/data/scan_data.npy')
     new_time, space, new_data = get_data(args.data_index,
                                          Nsmooth=args.Nsmooth,
                                          t0=args.t0, t1=args.t1)
@@ -144,15 +156,18 @@ def plot_analysis(args):
     plt.show()
 
 def get_minimum_params(args):
-    time_Residuals, spatial_Residuals, vcFull, se, ecr, icr,Full,\
+    Residuals, time_Residuals, spatial_Residuals,\
+        vcFull, seFull, ecrFull, icrFull,\
         t2Full, t1Full = np.load(\
             '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
 
-    i0T = np.argmin(time_Residuals)
-    time_Residuals/=time_Residuals[i0T] # normalizing
-    i0S = np.argmin(spatial_Residuals)
-    spatial_Residuals/=spatial_Residuals[i0S] # normalizing
-    return vcFull[i0S], se, ecr, icr,Full[i0S], t2Full[i0T], t1Full[i0T]
+    i0 = np.argmin(Residuals)
+    Residuals/=Residuals[i0T] # normalizing
+    # i0T = np.argmin(time_Residuals)
+    # time_Residuals/=time_Residuals[i0T] # normalizing
+    # i0S = np.argmin(spatial_Residuals)
+    # spatial_Residuals/=spatial_Residuals[i0S] # normalizing
+    return vcFull[i0], seFull[i0], ecrFull[i0], icrFull[i0], t2Full[i0], t1Full[i0]
 
     
 def full_analysis(args):
