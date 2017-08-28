@@ -107,7 +107,6 @@ def reformat_model_data_for_comparison(model_data_filename,
             
     return time_exp, space, model_data_common_sampling, exp_data_common_sampling
         
-    
 
 def get_residual(args,
                  new_time, space, new_data,
@@ -129,10 +128,9 @@ def get_residual(args,
         plt.axes(AX[0])
         c = AX[0].contourf(new_time, space, exp_data_common_sampling,
                            cmap=cm.viridis)
-        plt.colorbar(c, label='norm. VSD signal',
+        plt.colorbar(c, label='norm. VSD',
                      ticks=.5*np.arange(3))
-        # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
-        set_plot(AX[0], ylabel='space (mm)')
+        set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
         plt.axes(AX[1])
         c2 = AX[1].contourf(new_time, space, model_data_common_sampling,
                             cmap=cm.viridis)
