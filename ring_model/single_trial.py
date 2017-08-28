@@ -56,7 +56,7 @@ if __name__=='__main__':
         args2 = args
     else:
         args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(args.file) # we just load a file
-        
+
     if not args.no_plot:
 
         sys.path.append('../../')

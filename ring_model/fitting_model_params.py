@@ -5,21 +5,25 @@ import itertools
 import zipfile, sys, os
 sys.path.append("../experimental_data")
 from dataset import get_dataset
-from compare_to_model import get_data, get_residual, get_time_residual, get_space_residual
+from compare_to_model import get_data, get_residual
+# from compare_to_model import get_data, get_residual, get_time_residual, get_space_residual
 from model import Euler_method_for_ring_model
 from scipy.optimize import minimize
 sys.path.append("../../")
 from graphs.my_graph import set_plot
 
 METHOD = 'TNC'
+FACTOR_FOR_MUVN_NORM = abs((-54.+58.)/58.) # 6% corresponding to a ~5mV wrt to rest level
 
 def to_filename(vc, se, ecr, icr, t2, t1):
     return '../ring_model/data/scan_'+str(vc)+'_'+str(se)+'_'+str(ecr)+'_'+str(icr)+'_'+str(t2)+'_'+str(t1)+'.npy'
 
 def run_sim(X, args, fn=None, force=False):
-    print(X)
+
     vc, se, ecr, icr, t2, t1 = X
     fn = to_filename(vc, se, ecr, icr, t2, t1)
+    print(fn)
+    
     if (force==False) and os.path.isfile(fn):
         print('LOADED A PREVIOUS CONFIGURATION !!')
         args, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn)
@@ -60,6 +64,7 @@ def run_fitting(args):
         return get_residual(args,
                             new_time, space, new_data,
                             Nsmooth=args.Nsmooth,
+                            model_normalization_factor=FACTOR_FOR_MUVN_NORM,
                             fn=fn)
     
     res = minimize(to_minimize, method=METHOD,
@@ -211,8 +216,8 @@ if __name__=='__main__':
     # data
     parser.add_argument("--data_index", '-df', type=int,
                         default=7)
-    parser.add_argument("--t0", type=float, default=-50.)
-    parser.add_argument("--t1", type=float, default=200.)
+    parser.add_argument("--t0", type=float, default=-100.)
+    parser.add_argument("--t1", type=float, default=300.)
     parser.add_argument("--Nsmooth", help="for data plots", type=int, default=2)
     # script function
     parser.add_argument("--fitting", help="fitting", action="store_true")

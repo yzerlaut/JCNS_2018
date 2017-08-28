@@ -67,6 +67,7 @@ def get_data(dataset_index,
 
 def reformat_model_data_for_comparison(model_data_filename,
                                        time_exp, space_exp, data_exp,
+                                       model_normalization_factor=None,
                                        with_global_normalization=False,
                                        with_local_normalization=False):
     """
@@ -97,7 +98,10 @@ def reformat_model_data_for_comparison(model_data_filename,
             model_data_common_sampling[:, i] = new_muVn[:, i0[0][0]]
     
     if with_global_normalization:
-        model_data_common_sampling /= model_data_common_sampling.max()
+        if model_normalization_factor is None:
+            model_normalization_factor = model_data_common_sampling.max()
+        print(model_normalization_factor, model_data_common_sampling.max())
+        model_data_common_sampling /= model_normalization_factor
         exp_data_common_sampling /= exp_data_common_sampling.max()
     elif with_local_normalization:
         # normalizing by local maximum over time
@@ -112,6 +116,7 @@ def get_residual(args,
                  new_time, space, new_data,
                  Nsmooth=2,
                  fn='../ring_model/data/example_data.npy',
+                 model_normalization_factor=None,
                  with_plot=False):
 
     new_time, space,\
@@ -119,6 +124,7 @@ def get_residual(args,
         exp_data_common_sampling =\
                 reformat_model_data_for_comparison(fn,
                                        new_time, space, new_data,
+                                       model_normalization_factor=model_normalization_factor,
                                        with_global_normalization=True)
     
     if with_plot:
@@ -145,117 +151,117 @@ def get_residual(args,
 
     return np.sum((exp_data_common_sampling-model_data_common_sampling)**2)
 
-def get_space_residual(args,
-                 new_time, space, new_data,
-                 Nsmooth=2,
-                 fn='../ring_model/data/example_data.npy',
-                 with_plot=False):
+# def get_space_residual(args,
+#                  new_time, space, new_data,
+#                  Nsmooth=2,
+#                  fn='../ring_model/data/example_data.npy',
+#                  with_plot=False):
 
-    new_time, space,\
-        model_data_common_sampling,\
-        exp_data_common_sampling =\
-                reformat_model_data_for_comparison(fn,
-                                       new_time, space, new_data,
-                                       with_local_normalization=True)
+#     new_time, space,\
+#         model_data_common_sampling,\
+#         exp_data_common_sampling =\
+#                 reformat_model_data_for_comparison(fn,
+#                                        new_time, space, new_data,
+#                                        with_local_normalization=True)
     
-    if with_plot:
+#     if with_plot:
 
-        fig, AX = plt.subplots(2, figsize=(4.5,5))
-        plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
-        plt.axes(AX[0])
-        c = AX[0].contourf(new_time, space, exp_data_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c, label='norm. VSD signal',
-                     ticks=.5*np.arange(3))
-        # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
-        set_plot(AX[0], ylabel='space (mm)')
-        plt.axes(AX[1])
-        c2 = AX[1].contourf(new_time, space, model_data_common_sampling, cmap=cm.viridis)
-        plt.colorbar(c2, label='norm. $\\delta V_N$',
-                     ticks=.5*np.arange(3))
-        set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
+#         fig, AX = plt.subplots(2, figsize=(4.5,5))
+#         plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
+#         plt.axes(AX[0])
+#         c = AX[0].contourf(new_time, space, exp_data_common_sampling, cmap=cm.viridis)
+#         plt.colorbar(c, label='norm. VSD signal',
+#                      ticks=.5*np.arange(3))
+#         # set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
+#         set_plot(AX[0], ylabel='space (mm)')
+#         plt.axes(AX[1])
+#         c2 = AX[1].contourf(new_time, space, model_data_common_sampling, cmap=cm.viridis)
+#         plt.colorbar(c2, label='norm. $\\delta V_N$',
+#                      ticks=.5*np.arange(3))
+#         set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
 
-        if args.save:
-            fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
-        else:
-            plt.show()
+#         if args.save:
+#             fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+#         else:
+#             plt.show()
 
 
-    return np.sum((exp_data_common_sampling/exp_data_common_sampling.max()-\
-                   model_data_common_sampling/model_data_common_sampling.max())**2)
+#     return np.sum((exp_data_common_sampling/exp_data_common_sampling.max()-\
+#                    model_data_common_sampling/model_data_common_sampling.max())**2)
 
-def heaviside(x):
-    return 0.5*(1+np.sign(x))
+# def heaviside(x):
+#     return 0.5*(1+np.sign(x))
 
-def double_gaussian(t, t0, T1, T2, amplitude):
-    return amplitude*(np.exp(-(t-t0)**2/2./T1**2)*heaviside(-(t-t0))+\
-                      np.exp(-(t-t0)**2/2./T2**2)*heaviside(t-t0))
+# def double_gaussian(t, t0, T1, T2, amplitude):
+#     return amplitude*(np.exp(-(t-t0)**2/2./T1**2)*heaviside(-(t-t0))+\
+#                       np.exp(-(t-t0)**2/2./T2**2)*heaviside(t-t0))
 
-def get_time_residual(args,
-                      new_time, space, new_data,
-                      Nsmooth=2,
-                      fraction_of_max_criteria = 0.8,
-                      fn='../ring_model/data/example_data.npy',
-                      with_plot=False, return_fit_directly=False):
+# def get_time_residual(args,
+#                       new_time, space, new_data,
+#                       Nsmooth=2,
+#                       fraction_of_max_criteria = 0.8,
+#                       fn='../ring_model/data/example_data.npy',
+#                       with_plot=False, return_fit_directly=False):
 
-    Xcond_data = np.argwhere(\
-            new_data.max(axis=1)>fraction_of_max_criteria*new_data.max()).flatten()
-    if args.debug:
-        print(Xcond_data)
+#     Xcond_data = np.argwhere(\
+#             new_data.max(axis=1)>fraction_of_max_criteria*new_data.max()).flatten()
+#     if args.debug:
+#         print(Xcond_data)
         
-    exp_data_common_sampling = new_data[Xcond_data,:].mean(axis=0)
-    # normalizing by local maximum
-    exp_data_common_sampling /= exp_data_common_sampling.max()
+#     exp_data_common_sampling = new_data[Xcond_data,:].mean(axis=0)
+#     # normalizing by local maximum
+#     exp_data_common_sampling /= exp_data_common_sampling.max()
 
         
-    def to_minimize(X):
-        """ X are the parameters """
-        return np.sum((double_gaussian(new_time, *X)-exp_data_common_sampling)**2)
-    res = minimize(to_minimize,
-             x0= [0., 10., 100., 1.])
+#     def to_minimize(X):
+#         """ X are the parameters """
+#         return np.sum((double_gaussian(new_time, *X)-exp_data_common_sampling)**2)
+#     res = minimize(to_minimize,
+#              x0= [0., 10., 100., 1.])
     
-    if return_fit_directly:
-        return res.x[1], res.x[2]
+#     if return_fit_directly:
+#         return res.x[1], res.x[2]
 
-    else:
-        # loading model and centering just like in the model
-        args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
-        t*=1e3 # bringing to ms
-        X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
-        Xcond = (X>=space.min()) & (X<=space.max())
-        new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
-        t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
-        imodel = np.argmax(new_muVn.max(axis=1))
-        if args.debug:
-            print(imodel)
-        model_data_common_sampling0 = new_muVn[imodel, :]
-        # # let's construct the temporal subsampling of the model that
-        # # matches the temporal discretization of the data
-        model_data_common_sampling = np.zeros(len(new_time))
-        for i, nt in enumerate(new_time):
-            i0 = np.argmin((np.abs(t-nt))**2)
-            model_data_common_sampling[i] = model_data_common_sampling0[i0]
-        model_data_common_sampling /= model_data_common_sampling.max()
+#     else:
+#         # loading model and centering just like in the model
+#         args2, t, X, Fe_aff, Fe, Fi, muVn = np.load(fn) # we just load a file
+#         t*=1e3 # bringing to ms
+#         X -= args2.X_extent/2.+args2.X_extent/args2.X_discretization/2.
+#         Xcond = (X>=space.min()) & (X<=space.max())
+#         new_X, new_muVn = X[Xcond], muVn.T[Xcond,:]
+#         t -= get_time_max(t, new_muVn)  # centering over time in the same than for data
+#         imodel = np.argmax(new_muVn.max(axis=1))
+#         if args.debug:
+#             print(imodel)
+#         model_data_common_sampling0 = new_muVn[imodel, :]
+#         # # let's construct the temporal subsampling of the model that
+#         # # matches the temporal discretization of the data
+#         model_data_common_sampling = np.zeros(len(new_time))
+#         for i, nt in enumerate(new_time):
+#             i0 = np.argmin((np.abs(t-nt))**2)
+#             model_data_common_sampling[i] = model_data_common_sampling0[i0]
+#         model_data_common_sampling /= model_data_common_sampling.max()
 
 
-        if with_plot:
+#         if with_plot:
 
-            fig, ax = plt.subplots(figsize=(4,2.7))
-            plt.subplots_adjust(left=.3, bottom=.3)
-            tt = np.linspace(new_time.min(), new_time.max(), 1e3)
-            ax.plot(tt, double_gaussian(tt, *res.x), lw=4, alpha=.8, label='Model')
-            ax.annotate('$\\tau_1$='+str(round(res.x[1]))+'ms\n$\\tau_2$='+str(round(res.x[2]))+'ms', (0., 0.8))
-            ax.plot(new_time, exp_data_common_sampling, 'k-', lw=2, label='data')
-            ax.plot(new_time, model_data_common_sampling, 'k:', lw=2, label='Model')
-            # ax.plot(new_time, double_gaussian(new_time, *res.x), lw=2, label='fit')
-            ax.legend()
-            set_plot(ax, xlabel='time (ms)', ylabel='norm. signal', yticks=[0, 0.5, 1.])
-            if args.save:
-                fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
-            else:
-                plt.show()
+#             fig, ax = plt.subplots(figsize=(4,2.7))
+#             plt.subplots_adjust(left=.3, bottom=.3)
+#             tt = np.linspace(new_time.min(), new_time.max(), 1e3)
+#             ax.plot(tt, double_gaussian(tt, *res.x), lw=4, alpha=.8, label='Model')
+#             ax.annotate('$\\tau_1$='+str(round(res.x[1]))+'ms\n$\\tau_2$='+str(round(res.x[2]))+'ms', (0., 0.8))
+#             ax.plot(new_time, exp_data_common_sampling, 'k-', lw=2, label='data')
+#             ax.plot(new_time, model_data_common_sampling, 'k:', lw=2, label='Model')
+#             # ax.plot(new_time, double_gaussian(new_time, *res.x), lw=2, label='fit')
+#             ax.legend()
+#             set_plot(ax, xlabel='time (ms)', ylabel='norm. signal', yticks=[0, 0.5, 1.])
+#             if args.save:
+#                 fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
+#             else:
+#                 plt.show()
 
-        else:
-            return np.sum((exp_data_common_sampling-model_data_common_sampling)**2)
+#         else:
+#             return np.sum((exp_data_common_sampling-model_data_common_sampling)**2)
 
 
 if __name__=='__main__':

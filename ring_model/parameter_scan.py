@@ -8,7 +8,10 @@ sys.path.append("../experimental_data")
 sys.path.append("../../")
 from graphs.my_graph import set_plot
 from dataset import get_dataset
-from compare_to_model import get_data, get_time_residual, get_space_residual, get_residual
+from compare_to_model import get_data, get_residual
+# from compare_to_model import get_data, get_time_residual, get_space_residual, get_residual
+
+FACTOR_FOR_MUVN_NORM = abs((-54.+58.)/58.) # 6% corresponding to a ~5mV wrt to rest level
 
 def to_filename(vc, se, ecr, icr, t2, t1):
     return '../ring_model/data/scan_'+str(vc)+'_'+str(se)+'_'+str(ecr)+'_'+str(icr)+'_'+str(t2)+'_'+str(t1)+'.npy'
@@ -23,7 +26,7 @@ def create_grid_scan_bash_script(args):
             ' --exc_connect_extent '+str(ecr)+\
             ' --inh_connect_extent '+str(icr)+\
             ' --Tau2 '+str(t2)+' --Tau1 '+str(t1)+' -f '+fn+\
-            ' --no_plot --X_extent 36 --X_discretization 30 & \n'
+            ' --no_plot --X_extent 36 --X_discretization 30'
 
     VC = np.linspace(args.vc[0], args.vc[1], args.N)
     SE = np.linspace(args.stim_extent[0], args.stim_extent[1], args.N)
@@ -36,8 +39,13 @@ def create_grid_scan_bash_script(args):
     FILENAMES = []
     for vc, se, ecr, icr, t2, t1 in itertools.product(VC, SE, ECR, ICR, TAU2, TAU1):
         fn, c = cmd(vc, se, ecr, icr, t2, t1)
-        f.write(c)
-        FILENAMES.append(fn)
+        if (t1<TAU1[-1]) or (t2<TAU2[-1]):
+            c += ' & \n'
+        else:
+            c += ' \n'
+        if (force==True) or (os.path.isfile(fn)==False):
+            f.write(c)
+            FILENAMES.append(fn)
     f.close()
     np.save('../ring_model/data/scan_data.npy', [VC, SE, ECR, ICR, TAU2, TAU1, np.array(FILENAMES)])
 
@@ -82,6 +90,7 @@ def analyze_scan(args):
         # time_Residuals.append(res)
         res = get_residual(args,
                            new_time, space, new_data,
+                           model_normalization_factor=FACTOR_FOR_MUVN_NORM,
                            fn=to_filename(vc, se, ecr, icr, t2, t1))
         Residuals.append(res)
         t2Full.append(t2)
@@ -233,6 +242,7 @@ if __name__=='__main__':
     parser.add_argument("-z", "--zip", help="zip datafiles", action="store_true")
     parser.add_argument("-uz", "--unzip", help="unzip datafiles", action="store_true")
     parser.add_argument("-d", "--debug", help="with debugging", action="store_true")
+    parser.add_argument("--force", help="force simulation", action="store_true")
     parser.add_argument("--full", help="full analysis", action="store_true")
     parser.add_argument("--full_plot", help="plot of full analysis", action="store_true")
     
