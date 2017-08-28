@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import itertools
 # everything stored within a zip file
-import zipfile, sys
+import zipfile, sys, os
 sys.path.append("../experimental_data")
 # from compare_to_model import *
 sys.path.append("../../")
@@ -43,7 +43,7 @@ def create_grid_scan_bash_script(args):
             c += ' & \n'
         else:
             c += ' \n'
-        if (force==True) or (os.path.isfile(fn)==False):
+        if (args.force==True) or (os.path.isfile(fn)==False):
             f.write(c)
             FILENAMES.append(fn)
     f.close()
