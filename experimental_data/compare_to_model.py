@@ -100,7 +100,6 @@ def reformat_model_data_for_comparison(model_data_filename,
     if with_global_normalization:
         if model_normalization_factor is None:
             model_normalization_factor = model_data_common_sampling.max()
-        print(model_normalization_factor, model_data_common_sampling.max())
         model_data_common_sampling /= model_normalization_factor
         exp_data_common_sampling /= exp_data_common_sampling.max()
     elif with_local_normalization:
