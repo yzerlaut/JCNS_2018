@@ -175,27 +175,39 @@ def full_plot(args):
         DUR.append(DATA[i]['duration'])
         MONKEY.append(DATA[i]['Monkey'])
 
-    fig, AX = plt.subplots(1, 3, figsize=(6.,2.3))
-    plt.subplots_adjust(bottom=.3, left=.25, wspace=4.)
     # vc
-    print(MONKEY)
-    i0, i1 = np.array(MONKEY)=='1', np.array(MONKEY)=='2'
-    AX[0].bar([0], [np.array(VC)[i0].mean()], yerr=[np.array(VC)[i0].std()])
-    AX[0].bar([1], [np.array(VC)[i1].mean()], yerr=[np.array(VC)[i1].std()])
-    
-    # for ax, vec, label, ylim in zip(AX, [VC, ECR, ICR, SE],
-    #                     ['$v_c$ (mm/s)', '$l_{exc}$ (mm)', '$l_{inh}$ (mm)', '$l_{stim}$ (mm)'],
-    #                                 [[0,600], [0,10], [0,10], [0,3]]):
-    #     ax.plot([0, 0], ylim, 'w.', ms=0.1)
-    #     ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
-    #            color='lightgray', edgecolor='k', lw=3)
-    #     set_plot(ax, ['left'], xticks=[], ylabel=label)
+    fig1, ax1 = plt.subplots(1, figsize=(1.5,2.3));plt.subplots_adjust(bottom=.4, left=.6)
+    ax1.fill_between([-1., 1.], np.ones(2)*args.vc[0], np.ones(2)*args.vc[1],
+                       color='lightgray', alpha=.8, label=r'$\mathcal{D}$ domain')
+    ax1.bar([0], [np.array(VC).mean()], yerr=[np.array(VC).std()],
+               color='lightgray', edgecolor='k', lw=3)
+    ax1.legend(frameon=False)
+    set_plot(ax1, ['left'], xticks=[], ylabel='$v_c$ (mm/s)')
+    fig2, ax2 = plt.subplots(1, figsize=(2.,2.3));plt.subplots_adjust(bottom=.4, left=.6)
+    # for ecr, icr in zip(ECR, ICR):
+    #     ax2.plot([0,1], [ecr, icr], 'o-', color='gray')
+    ax2.bar([0], [np.array(ECR).mean()], yerr=[np.array(ECR).std()],
+               color='lightgray', edgecolor='g', lw=3, label='$l_{exc}$')
+    ax2.bar([1.5], [np.array(ICR).mean()], yerr=[np.array(ICR).std()],
+               color='lightgray', edgecolor='r', lw=3, label='$l_{inh}$')
+    ax2.fill_between([-1., 2.5], np.ones(2)*args.Econn_radius[0],
+                       np.ones(2)*args.Econn_radius[1],
+                       color='lightgray', alpha=.8)
+    ax2.legend(frameon=False)
+    set_plot(ax2, ['left'], xticks=[], ylabel='extent (mm)')
+    fig3, ax3 = plt.subplots(1, figsize=(1.5,2.3));plt.subplots_adjust(bottom=.4, left=.6)
+    ax3.bar([0], [np.array(SE).mean()], yerr=[np.array(SE).std()],
+               color='lightgray', edgecolor='k', lw=3)
+    ax3.fill_between([-1., 1.], np.ones(2)*args.stim_extent[0], np.ones(2)*args.stim_extent[1],
+                       color='lightgray', alpha=.8)
+    set_plot(ax3, ['left'], xticks=[], ylabel='$l_{stim}$ (mm)')
 
     # fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
     # plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
     # AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
     # AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
-    # plt.show()
+    
+    plt.show()
     
 if __name__=='__main__':
     import argparse
