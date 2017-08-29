@@ -87,11 +87,6 @@ def analyze_scan(args):
     print(TAU1, TAU2)
     for vc, se, ecr, icr, t2, t1 in itertools.product(VC, SE, ECR, ICR, TAU2, TAU1):
         fn = to_filename(vc, se, ecr, icr, t2, t1)
-        # res = get_time_residual(args,
-        #                         new_time, space, new_data,
-        #                         Nsmooth=args.Nsmooth,
-        #                         fn=to_filename(vc, se, ecr, icr, t2, t1))
-        # time_Residuals.append(res)
         try:
             res = get_residual(args,
                                new_time, space, new_data,
@@ -106,24 +101,6 @@ def analyze_scan(args):
             icrFull.append(icr)
         except (IOError, OSError):
             print('missing', fn)
-
-    # i0T = np.argmin(np.array(time_Residuals))
-    # # forcing temporal constants to those parameters
-    # t2, t1 = t2Full[i0T], t1Full[i0T]
-    
-    ## loading data for space
-    # new_time, space, new_data = get_data(args.data_index,
-    #                                      Nsmooth=args.Nsmooth,
-    #                                      t0=args.t0, t1=args.t1)
-
-    # for vc, se, ecr, icr, in itertools.product(VC, SE, ECR, ICR,):
-    #     res = get_space_residual(args,
-    #                             new_time, space, new_data,
-    #                             Nsmooth=args.Nsmooth,
-    #                             fn=to_filename(vc, se, ecr, icr, t2, t1))
-    #     spatial_Residuals.append(res)
-    #     vcFull.append(vc)
-    #     ecrFull.append(ecr)
         
     np.save('../ring_model/data/residuals_data_'+str(args.data_index)+'.npy',
             [np.array(Residuals), np.array(time_Residuals), np.array(spatial_Residuals),
@@ -140,10 +117,6 @@ def plot_analysis(args):
 
     i0 = np.argmin(Residuals)
     Residuals/=Residuals[i0] # normalizing
-    # i0T = np.argmin(time_Residuals)
-    # time_Residuals/=time_Residuals[i0T] # normalizing
-    # i0S = np.argmin(spatial_Residuals)
-    # spatial_Residuals/=spatial_Residuals[i0S] # normalizing
     
     fig, AX = plt.subplots(1, 6, figsize=(9,2.))
     plt.subplots_adjust(bottom=.3, left=.15)
@@ -179,10 +152,6 @@ def get_minimum_params(args):
 
     i0 = np.argmin(Residuals)
     Residuals/=Residuals[i0] # normalizing
-    # i0T = np.argmin(time_Residuals)
-    # time_Residuals/=time_Residuals[i0T] # normalizing
-    # i0S = np.argmin(spatial_Residuals)
-    # spatial_Residuals/=spatial_Residuals[i0S] # normalizing
     return vcFull[i0], seFull[i0], ecrFull[i0], icrFull[i0], t2Full[i0], t1Full[i0]
 
     
