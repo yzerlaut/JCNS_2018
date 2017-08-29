@@ -45,7 +45,9 @@ def create_grid_scan_bash_script(args):
             c += ' \n'
         if (args.force==True) or (os.path.isfile(fn)==False):
             f.write(c)
-            FILENAMES.append(fn)
+        else:
+            print('existing datafile')
+        FILENAMES.append(fn)
     f.close()
     np.save('../ring_model/data/scan_data.npy', [VC, SE, ECR, ICR, TAU2, TAU1, np.array(FILENAMES)])
 
@@ -73,7 +75,8 @@ def unzip_data(args):
 def analyze_scan(args):
     
     VC, SE, ECR, ICR, TAU2, TAU1, FILENAMES = np.load('../ring_model/data/scan_data.npy')
-
+    print(TAU1[0], FILENAMES[0])
+    
     Residuals, time_Residuals, spatial_Residuals = [], [], []
     vcFull, seFull, ecrFull, icrFull, t2Full, t1Full = [], [], [], [], [], []
     
@@ -81,24 +84,28 @@ def analyze_scan(args):
     new_time, space, new_data = get_data(args.data_index,
                                          smoothing=np.ones((1, 4))/4**2,
                                          t0=args.t0, t1=args.t1)
-    
+    print(TAU1, TAU2)
     for vc, se, ecr, icr, t2, t1 in itertools.product(VC, SE, ECR, ICR, TAU2, TAU1):
+        fn = to_filename(vc, se, ecr, icr, t2, t1)
         # res = get_time_residual(args,
         #                         new_time, space, new_data,
         #                         Nsmooth=args.Nsmooth,
         #                         fn=to_filename(vc, se, ecr, icr, t2, t1))
         # time_Residuals.append(res)
-        res = get_residual(args,
-                           new_time, space, new_data,
-                           model_normalization_factor=FACTOR_FOR_MUVN_NORM,
-                           fn=to_filename(vc, se, ecr, icr, t2, t1))
-        Residuals.append(res)
-        t2Full.append(t2)
-        t1Full.append(t1)
-        vcFull.append(vc)
-        seFull.append(se)
-        ecrFull.append(ecr)
-        icrFull.append(icr)
+        try:
+            res = get_residual(args,
+                               new_time, space, new_data,
+                               model_normalization_factor=FACTOR_FOR_MUVN_NORM,
+                               fn=fn)
+            Residuals.append(res)
+            t2Full.append(t2)
+            t1Full.append(t1)
+            vcFull.append(vc)
+            seFull.append(se)
+            ecrFull.append(ecr)
+            icrFull.append(icr)
+        except (IOError, OSError):
+            print('missing', fn)
 
     # i0T = np.argmin(np.array(time_Residuals))
     # # forcing temporal constants to those parameters
@@ -171,7 +178,7 @@ def get_minimum_params(args):
             '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
 
     i0 = np.argmin(Residuals)
-    Residuals/=Residuals[i0T] # normalizing
+    Residuals/=Residuals[i0] # normalizing
     # i0T = np.argmin(time_Residuals)
     # time_Residuals/=time_Residuals[i0T] # normalizing
     # i0S = np.argmin(spatial_Residuals)
@@ -189,7 +196,7 @@ def full_analysis(args):
 def full_plot(args):
 
     DATA = get_dataset()
-    VC, SE, ECR, ICR, TAU2, TAU1, DUR = [], [], [], [], []
+    VC, SE, ECR, ICR, TAU2, TAU1, DUR = [], [], [], [], [], [], []
     for i in range(len(DATA)):
         args.data_index = i
         params = get_minimum_params(args)
@@ -197,11 +204,11 @@ def full_plot(args):
             VEC.append(vec)
         DUR.append(DATA[i]['duration'])
 
-    fig, AX = plt.subplots(1, 3, figsize=(4.8,2.3))
-    plt.subplots_adjust(bottom=.3, left=.25, wspace=3.)
-    for ax, vec, label, ylim in zip(AX, [VC, SE, ECR, ICR, np.array(ECR)/5.],
-                                    ['$v_c$ (mm/s)', '$s_{exc}$ (mm)', '$s_{inh}$ (mm)'],
-                                    [[0,500], [0,6], [0,6]]):
+    fig, AX = plt.subplots(1, 3, figsize=(6.,2.3))
+    plt.subplots_adjust(bottom=.3, left=.25, wspace=4.)
+    for ax, vec, label, ylim in zip(AX, [VC, ECR, ICR, SE],
+                        ['$v_c$ (mm/s)', '$l_{exc}$ (mm)', '$l_{inh}$ (mm)', '$l_{stim}$ (mm)'],
+                                    [[0,600], [0,10], [0,10], [0,3]]):
         ax.plot([0, 0], ylim, 'w.', ms=0.1)
         ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
                color='lightgray', edgecolor='k', lw=3)
@@ -232,8 +239,8 @@ if __name__=='__main__':
     # data
     parser.add_argument("--data_index", '-df', type=int,
                         default=7)
-    parser.add_argument("--t0", type=float, default=-50.)
-    parser.add_argument("--t1", type=float, default=200.)
+    parser.add_argument("--t0", type=float, default=-100.)
+    parser.add_argument("--t1", type=float, default=300.)
     parser.add_argument("--Nsmooth", help="for data plots", type=int, default=1)
     # script function
     parser.add_argument("-s", "--save", help="save fig", action="store_true")
