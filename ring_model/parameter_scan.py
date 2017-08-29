@@ -159,35 +159,43 @@ def full_analysis(args):
 
     DATA = get_dataset()
     for i in range(len(DATA)):
+        print('analyzing cell ', i, ' [...]')
         args.data_index = i
         analyze_scan(args)
 
 def full_plot(args):
 
     DATA = get_dataset()
-    VC, SE, ECR, ICR, TAU2, TAU1, DUR = [], [], [], [], [], [], []
+    VC, SE, ECR, ICR, TAU2, TAU1, DUR, MONKEY = [], [], [], [], [], [], [], []
     for i in range(len(DATA)):
         args.data_index = i
         params = get_minimum_params(args)
         for vec, VEC in zip(params, [VC, SE, ECR, ICR, TAU2, TAU1]):
             VEC.append(vec)
         DUR.append(DATA[i]['duration'])
+        MONKEY.append(DATA[i]['Monkey'])
 
     fig, AX = plt.subplots(1, 3, figsize=(6.,2.3))
     plt.subplots_adjust(bottom=.3, left=.25, wspace=4.)
-    for ax, vec, label, ylim in zip(AX, [VC, ECR, ICR, SE],
-                        ['$v_c$ (mm/s)', '$l_{exc}$ (mm)', '$l_{inh}$ (mm)', '$l_{stim}$ (mm)'],
-                                    [[0,600], [0,10], [0,10], [0,3]]):
-        ax.plot([0, 0], ylim, 'w.', ms=0.1)
-        ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
-               color='lightgray', edgecolor='k', lw=3)
-        set_plot(ax, ['left'], xticks=[], ylabel=label)
+    # vc
+    print(MONKEY)
+    i0, i1 = np.array(MONKEY)=='1', np.array(MONKEY)=='2'
+    AX[0].bar([0], [np.array(VC)[i0].mean()], yerr=[np.array(VC)[i0].std()])
+    AX[0].bar([1], [np.array(VC)[i1].mean()], yerr=[np.array(VC)[i1].std()])
+    
+    # for ax, vec, label, ylim in zip(AX, [VC, ECR, ICR, SE],
+    #                     ['$v_c$ (mm/s)', '$l_{exc}$ (mm)', '$l_{inh}$ (mm)', '$l_{stim}$ (mm)'],
+    #                                 [[0,600], [0,10], [0,10], [0,3]]):
+    #     ax.plot([0, 0], ylim, 'w.', ms=0.1)
+    #     ax.bar([0], [np.array(vec).mean()], yerr=[np.array(vec).std()],
+    #            color='lightgray', edgecolor='k', lw=3)
+    #     set_plot(ax, ['left'], xticks=[], ylabel=label)
 
-    fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
-    plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
-    AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
-    AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
-    plt.show()
+    # fig2, AX = plt.subplots(1, 2, figsize=(3.2,2.3))
+    # plt.subplots_adjust(bottom=.3, left=.3, wspace=1.8)
+    # AX[0].plot(DUR, 1e3*np.array(TAU1), 'o')
+    # AX[0].plot(DUR, 1e3*np.array(TAU2), 'o')
+    # plt.show()
     
 if __name__=='__main__':
     import argparse
