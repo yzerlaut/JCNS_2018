@@ -193,7 +193,7 @@ def plot_analysis(args):
     plt.show()
 
 def get_minimum_params(args):
-    Residuals, time_Residuals, spatial_Residuals,\
+    Residuals,\
         vcFull, seFull, ecrFull, icrFull,\
         t2Full, t1Full = np.load(\
             '../ring_model/data/residuals_data_'+str(args.data_index)+'.npy')
