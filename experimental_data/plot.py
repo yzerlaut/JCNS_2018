@@ -27,8 +27,9 @@ def find_latencies_over_space_simple(t, X, signal,\
 
 def plot_response(args):
     
-    fig, ax = plt.subplots(1, figsize=(4.5,3))
-    plt.subplots_adjust(bottom=.23, top=.97, right=.85)
+    fig, ax = plt.subplots(1, figsize=(4.7,3))
+    fig.suptitle(get_dataset()[args.data_index]['filename'])
+    plt.subplots_adjust(bottom=.23, top=.9, right=.84, left=.25)
 
     print(get_dataset()[args.data_index])
     f = loadmat(get_dataset()[args.data_index]['filename'])
@@ -93,9 +94,9 @@ if __name__=='__main__':
     parser.add_argument("--signal_criteria", type=float, default=0.4)
     parser.add_argument("--amp_criteria", type=float, default=0.6)
     parser.add_argument("--vsd_ticks", nargs='*',
-                        type=float, default=[0, 0.5, 1.])
-    parser.add_argument("--t0", type=float, default=-1000.)
-    parser.add_argument("--t1", type=float, default=1000.)
+                        type=float, default=[-0.5, 0, 0.5, 1.])
+    parser.add_argument("--t0", type=float, default=-np.inf)
+    parser.add_argument("--t1", type=float, default=np.inf)
 
     args = parser.parse_args()
     plot_response(args)
