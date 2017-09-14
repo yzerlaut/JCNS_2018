@@ -28,7 +28,7 @@ if __name__=='__main__':
     parser.add_argument("--exc_connect_extent", type=float, default=5.)
     parser.add_argument("--inh_connect_extent", type=float, default=1.)
     parser.add_argument("--conduction_velocity_mm_s", type=float, default=300.)
-    parser.add_argument("--sX", type=float, default=1.5)
+    parser.add_argument("--sX", type=float, default=0.8)
     parser.add_argument("--amp", type=float, default=15.)
     parser.add_argument("--Tau1", type=float, default=50e-3)
     parser.add_argument("--Tau2", type=float, default=150e-3)

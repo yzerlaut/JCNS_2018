@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 sys.path.append('../../')
-from graphs.my_graph import set_plot
+from graphs.my_graph import set_plot, show
 from scipy.signal import convolve2d
 import matplotlib.cm as cm
 from dataset import get_dataset
@@ -43,7 +43,8 @@ def plot_response(args):
         smooth_data = data
 
     cond = (time>args.t0) & (time<args.t1)
-    c = ax.contourf(time[cond], space, smooth_data[:,cond], cmap=cm.viridis)
+    c = ax.contourf(time[cond], space, smooth_data[:,cond],\
+             np.linspace(smooth_data.min(), smooth_data.max(), args.Nlevels), cmap=cm.viridis)
     plt.colorbar(c, label='VSD signal ($\perthousand$)',
                  ticks=args.vsd_ticks)
 
@@ -72,7 +73,7 @@ def plot_response(args):
     if args.SAVE:
         fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
     else:
-        plt.show()
+        show()
 
 if __name__=='__main__':
 
@@ -95,6 +96,7 @@ if __name__=='__main__':
     parser.add_argument("--amp_criteria", type=float, default=0.6)
     parser.add_argument("--vsd_ticks", nargs='*',
                         type=float, default=[-0.5, 0, 0.5, 1.])
+    parser.add_argument("--Nlevels", type=int, default=10)
     parser.add_argument("--t0", type=float, default=-np.inf)
     parser.add_argument("--t1", type=float, default=np.inf)
 

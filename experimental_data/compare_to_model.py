@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 sys.path.append('../../')
-from graphs.my_graph import set_plot
+from graphs.my_graph import set_plot, show
 # from data_analysis.processing.signanalysis import * #gaussian_smoothing
 from scipy.signal import convolve2d
 import matplotlib.cm as cm
@@ -24,12 +24,14 @@ def get_time_max(t, data, debug=False, Nsmooth=1):
         plt.plot(t, spatial_average)
         plt.plot(t[:-int(Nsmooth)], smoothed)
         plt.plot([t0], [smoothed[i0]], 'D')
-        plt.show()
+        show()
     return t0
 
-def get_stim_center(space, data, Nsmooth=4, debug=False):
+def get_stim_center(time, space, data,
+                    Nsmooth=4, debug=False, tmax=0., window=100.):
     """ we smoothe the average over time and take the x position of max signal"""
-    temporal_average = np.mean(data, axis=1)
+    temporal_average = np.mean(\
+                data[:,(time>tmax-window) & (time<tmax+window)], axis=1)
     smoothed = gaussian_smoothing(temporal_average, Nsmooth)[:-int(Nsmooth)]
     i0 = np.argmax(smoothed)
     x0 = space[:-int(Nsmooth)][i0]
@@ -37,7 +39,7 @@ def get_stim_center(space, data, Nsmooth=4, debug=False):
         plt.plot(space, temporal_average)
         plt.plot(space[:-int(Nsmooth)], smoothed)
         plt.plot([x0], [smoothed[i0]], 'D')
-        plt.show()
+        show()
     return x0
 
 def get_data(dataset_index,
@@ -61,9 +63,10 @@ def get_data(dataset_index,
     cond = (time>t0-delay) & (time<t1-delay)
     new_time, new_data = np.array(time[cond]), np.array(smooth_data[:,cond])
     # get onset time
-    t_onset = get_time_max(new_time, new_data, debug=debug)
-    x_center = get_stim_center(space, new_data, debug=debug)
-    return new_time-t_onset, space-x_center, new_data
+    tmax = get_time_max(new_time, new_data, debug=debug)
+    x_center = get_stim_center(new_time, space, new_data, debug=debug,
+                               tmax=tmax)
+    return new_time-tmax, space-x_center, new_data
 
 def reformat_model_data_for_comparison(model_data_filename,
                                        time_exp, space_exp, data_exp,
@@ -122,9 +125,9 @@ def get_residual(args,
         model_data_common_sampling,\
         exp_data_common_sampling =\
                 reformat_model_data_for_comparison(fn,
-                                       new_time, space, new_data,
-                                       model_normalization_factor=model_normalization_factor,
-                                       with_global_normalization=True)
+                    new_time, space, new_data,
+                    model_normalization_factor=model_normalization_factor,
+                    with_global_normalization=True)
     
     if with_plot:
 
@@ -132,13 +135,21 @@ def get_residual(args,
         plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.3)
         plt.axes(AX[0])
         c = AX[0].contourf(new_time, space, exp_data_common_sampling,
+           np.linspace(exp_data_common_sampling.min(), exp_data_common_sampling.max(), args.Nlevels),
                            cmap=cm.viridis)
         plt.colorbar(c, label='norm. VSD',
                      ticks=.5*np.arange(3))
         set_plot(AX[0], xticks_labels=[], ylabel='space (mm)')
         plt.axes(AX[1])
+
+        # to have the zero at the same color level
+        factor = np.abs(exp_data_common_sampling.min()/exp_data_common_sampling.max())
+        model_data_common_sampling[-1,-1] = -factor*model_data_common_sampling.max()
+
         c2 = AX[1].contourf(new_time, space, model_data_common_sampling,
+          np.linspace(model_data_common_sampling.min(), model_data_common_sampling.max(), args.Nlevels),
                             cmap=cm.viridis)
+        
         plt.colorbar(c2, label='norm. $\\delta V_N$',
                      ticks=.5*np.arange(3))
         set_plot(AX[1], xlabel='time (ms)', ylabel='space (mm)')
@@ -146,7 +157,7 @@ def get_residual(args,
         if args.save:
             fig.savefig('/Users/yzerlaut/Desktop/temp.svg')
         else:
-            plt.show()
+            show()
 
     return np.sum((exp_data_common_sampling-model_data_common_sampling)**2)
 
@@ -169,10 +180,9 @@ if __name__=='__main__':
                         default='../ring_model/data/example_data.npy')
     parser.add_argument("--data_index", '-df', type=int,
                         default=1)
-    # parser.add_argument("--t0", type=float, default=-100.)
-    # parser.add_argument("--t1", type=float, default=200.)
     parser.add_argument("--t0", type=float, default=-np.inf)
     parser.add_argument("--t1", type=float, default=np.inf)
+    parser.add_argument("--Nlevels", type=int, default=20)
     args = parser.parse_args()
 
     new_time, space, new_data = get_data(args.data_index,
