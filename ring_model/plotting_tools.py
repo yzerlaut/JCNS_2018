@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pylab as plt
-
 import sys
 sys.path.append('../code/')
 from my_graph import set_plot, get_linear_colormap
@@ -25,10 +24,12 @@ def find_latencies_over_space_simple(t, X, signal,\
             TT.append(t[ii]+t[i_discard])
     return TT, XX
 
-def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
+def space_time_vsd_style_plot(t, X, array,
+                              Xwindow = 30., tzoom=[-150, 300.],
+                              zlabel='rate (Hz)',\
                               xlabel='time (ms)', ylabel='cortical space', title='',
                               zlim=None, with_latency_analysis=False,
-                              bar_mm=5, cmap = 'sequential',
+                              bar_mm=2, Nlevels=10,
                               params={'pixels_per_mm':1.},
                               xzoom=None, yzoom=None):
     """
@@ -37,62 +38,48 @@ def space_time_vsd_style_plot(t, array, zlabel='rate (Hz)',\
     it returns the figure
     """
 
-    if cmap=='diverging':
-        cmap = mpl.cm.coolwarm
-    elif cmap=='sequential':
-        # cmap = mpl.cm.Greys
-        cmap = mpl.cm.viridis
-        
-    # to have the same scale on all plots we normalize all the response with respect to the total mean and total max
-    fig = plt.figure(figsize=(5,3))
-    plt.suptitle(title, fontsize=22)
-    
-    ax = plt.subplot2grid((1,8), (0,0), colspan=7)
-    
     if yzoom is None:
         yzoom = [0, array.shape[1]]
     else:
         yzoom = np.array(yzoom)*params['pixels_per_mm']
     if xzoom is None:
         xzoom = [t[0], t[-1]]
-    ax.annotate(str(bar_mm)+'mm', (-.1, 0.1), xycoords='axes fraction', rotation=90, fontsize=13) # bar
-    # now in pixel coordinates
-    bar_mm *= params['pixels_per_mm']
+
+    iXcenter = np.argmax(np.mean(array, axis=0))
+    iTcenter = np.argmax(np.mean(array, axis=1))
+
+    # condX = (X>X[iXcenter]-Xwindow/2.) & (X<X[iXcenter]+Xwindow/2.)
+    # condT = (t>t[iTcenter]-tzoom[0]) & (t<t[iTcenter]+tzoom[1])
+
     
-    
-    if zlim is not None:
-        MIN, MAX = zlim
-    else:
-        MIN = np.min(array[int(xzoom[0]/(t[1]-t[0])):int(xzoom[1]/(t[1]-t[0])), int(yzoom[0]):int(yzoom[1])])
-        MAX = np.max(array[int(xzoom[0]/(t[1]-t[0])):int(xzoom[1]/(t[1]-t[0])), int(yzoom[0]):int(yzoom[1])])
-
-    norm = mpl.colors.Normalize(vmin=MIN, vmax=MAX) # to set the color bar
-
-    # in pixel coordinates
-    plt.imshow(array.T, vmin=MIN, vmax=MAX, cmap=cmap,
-               interpolation='none', aspect='auto', extent=[t[0],t[-1], array.shape[1],0])
-
+    fig, ax = plt.subplots(1, figsize=(4.5,3.))
+    # plt.suptitle(title, fontsize=22)
+    plt.subplots_adjust(bottom=.23, top=.97, right=.85, left=.1)
+    c = ax.contourf(t, X, array.T,
+                    np.linspace(min([0,array.min()]), array.max(), Nlevels),
+                    cmap=mpl.cm.viridis)
+    plt.colorbar(c, label=zlabel, ticks=np.round(np.linspace(min([0,array.min()]), array.max(), 5),1))
+    ax.annotate(str(int(bar_mm))+'mm', (-.1, 0.1),
+                xycoords='axes fraction', rotation=90, fontsize=13) # ba
     
     if with_latency_analysis:
-        # in pixel coordinates
-        # TT, XX = find_latencies_over_space(t, np.linspace(0,1,array.shape[1])*array.shape[1],\
-        #                                    array, phase_criteria=-np.pi/2.+np.pi/4.,\
-        #                                    signal_criteria=0.01)
         TT, XX = find_latencies_over_space_simple(t,
-                        np.linspace(0,1,array.shape[1])*array.shape[1],\
+                                                  X,
+                        # np.linspace(0,1,array.shape[1])*array.shape[1],\
                         array, signal_criteria=5e-2,\
-                        amp_criteria=1./4., discard=20)
-        ax.plot(TT, XX, 'w--', lw=3)
+                        amp_criteria=1./6., discard=20)
+        print(XX)
+        ax.plot(TT, XX, 'w--', lw=1)
 
     # bar annotation
-    ax.plot([xzoom[0], xzoom[0]], [yzoom[0], yzoom[0]+bar_mm], '-', color='gray', lw=8)
-    ax.plot([xzoom[0], xzoom[0]+50], [yzoom[0], yzoom[0]], '-', color='gray', lw=8)
+    # now in pixel coordinates
+    bar_mm *= params['pixels_per_mm']
     ax.annotate('50ms', (xzoom[0]+20,yzoom[0]+.5), fontsize=13)
-    set_plot(ax, ['bottom'], xlabel=xlabel, ylabel=ylabel, xlim=xzoom, ylim=yzoom, yticks=[])
+    set_plot(ax, [], xticks=[], yticks=[],
+             ylim=[X[iXcenter]-Xwindow/2., X[iXcenter]+Xwindow/2.],
+                   xlim=xzoom)
+    ax.plot([xzoom[0], xzoom[0]], ax.get_ylim()[0]+np.array([0, bar_mm]), 'k-', lw=3)
+    ax.plot([xzoom[0], xzoom[0]+50], ax.get_ylim()[0]*np.ones(2), 'k-', lw=3)
     
-    ax2 = plt.subplot2grid((1, 8), (0, 7), rowspan=1)
-    cb = mpl.colorbar.ColorbarBase(ax2, cmap=cmap, norm=norm)
-    cb.set_label(zlabel)
-    plt.subplots_adjust(left=.12, top=0.87, bottom=0.15, right=.84)
     return ax, fig
         

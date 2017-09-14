@@ -6,11 +6,10 @@ import zipfile, sys, os
 sys.path.append("../experimental_data")
 # from compare_to_model import *
 sys.path.append("../../")
-from graphs.my_graph import set_plot
+from graphs.my_graph import set_plot, show
 from graphs.plot_export import put_list_of_figs_to_svg_fig
 from dataset import get_dataset
 from compare_to_model import get_data, get_residual
-# from compare_to_model import get_data, get_time_residual, get_space_residual, get_residual
 from model import Euler_method_for_ring_model
 
 FACTOR_FOR_MUVN_NORM = abs((-54.+58.)/58.) # ~6% corresponding to a ~5mV wrt to rest level
@@ -190,7 +189,7 @@ def plot_analysis(args):
                        new_time, space, new_data,
                        Nsmooth=args.Nsmooth,
                        fn=fn, with_plot=True)
-    plt.show()
+    show()
 
 def get_minimum_params(args):
     Residuals,\
@@ -282,7 +281,7 @@ def full_plot(args):
 
     put_list_of_figs_to_svg_fig([fig1, fig2, fig3, fig4, fig5],
                                 fig_name="/Users/yzerlaut/Desktop/temp.svg")
-    plt.show()
+    show()
     
 if __name__=='__main__':
     import argparse
@@ -312,6 +311,7 @@ if __name__=='__main__':
     parser.add_argument("--simultaneous_sims",
                         help="Number of sims launched simultaneoulsy on the cluster",
                         type=int, default=10)
+    parser.add_argument("--Nlevels", type=int, default=20)
     # script function
     parser.add_argument("-s", "--save", help="save fig", action="store_true")
     parser.add_argument("-a", "--analyze", help="analyze", action="store_true")
