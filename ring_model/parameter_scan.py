@@ -230,13 +230,16 @@ def full_plot(args):
     ax1.bar([0], [np.array(VC).mean()], yerr=[np.array(VC).std()],
                color='lightgray', edgecolor='k', lw=3)
     ax1.legend(frameon=False)
+    print('Vc = ', round(np.array(VC).mean()), '+/-', round(np.array(VC).std()), 'mm/s')
     set_plot(ax1, ['left'], xticks=[], ylabel='$v_c$ (mm/s)')
     # connectivity
     fig2, ax2 = plt.subplots(1, figsize=(2.,2.3));plt.subplots_adjust(bottom=.4, left=.6)
     ax2.bar([0], [np.array(ECR).mean()], yerr=[np.array(ECR).std()],
                color='lightgray', edgecolor='g', lw=3, label='$l_{exc}$')
+    print('Ecr=', round(np.array(ECR).mean(),1), '+/-', round(np.array(ECR).std(),1), 'mm/s')
     ax2.bar([1.5], [np.array(ICR).mean()], yerr=[np.array(ICR).std()],
                color='lightgray', edgecolor='r', lw=3, label='$l_{inh}$')
+    print('Icr=', round(np.array(ICR).mean(),1), '+/-', round(np.array(ICR).std(),1), 'mm/s')
     ax2.fill_between([-1., 2.5], np.ones(2)*args.Econn_radius[0],
                        np.ones(2)*args.Econn_radius[1],
                        color='lightgray', alpha=.8)
@@ -247,6 +250,7 @@ def full_plot(args):
     fig3, ax3 = plt.subplots(1, figsize=(1.5,2.3));plt.subplots_adjust(bottom=.4, left=.6)
     ax3.bar([0], [np.array(SE).mean()], yerr=[np.array(SE).std()],
                color='lightgray', edgecolor='k', lw=3)
+    print('Ecr=', round(np.array(SE).mean(),1), '+/-', round(np.array(SE).std(),1), 'mm/s')
     ax3.fill_between([-1., 1.], np.ones(2)*args.stim_extent[0], np.ones(2)*args.stim_extent[1],
                        color='lightgray', alpha=.8)
     set_plot(ax3, ['left'], xticks=[], ylabel='$l_{stim}$ (mm)', yticks=[0,1,2])

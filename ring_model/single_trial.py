@@ -27,11 +27,17 @@ if __name__=='__main__':
     parser.add_argument("--exc_connect_extent", type=float, default=5.)
     parser.add_argument("--inh_connect_extent", type=float, default=1.)
     parser.add_argument("--conduction_velocity_mm_s", type=float, default=300.)
-    parser.add_argument("--sX", type=float, default=0.7)
+    parser.add_argument("--sX", type=float, default=1.)
     parser.add_argument("--amp", type=float, default=15.)
     parser.add_argument("--Tau1", type=float, default=50e-3)
     parser.add_argument("--Tau2", type=float, default=150e-3)
     parser.add_argument("--Nlevels", type=int, default=20)
+    parser.add_argument("--vsd_ticks", nargs='*',
+                        type=float, default=[0, 1, 2, 3, 4])
+    parser.add_argument("--input_ticks", nargs='*',
+                        type=float, default=[0, 4, 8, 12, 16])
+    parser.add_argument("--rec_dyn_ticks", nargs='*',
+                        type=float, default=[0, 15, 30, 45, 60])
     
     args = parser.parse_args()
     
@@ -66,24 +72,31 @@ if __name__=='__main__':
         ax, fig1 = space_time_vsd_style_plot(t*1e3, X, Fe_aff,\
                                              title='$\\nu_e^{aff}(x, t)$',\
                                              params=params,
+                                             zticks=args.input_ticks,
                                              xlabel='time (ms)', with_latency_analysis=True)
         ax, fig2 = space_time_vsd_style_plot(t*1e3, X, .8*Fe+.2*Fi,\
                                              title='$\\nu(x, t)$',\
                                              params=params,
+                                             zticks=args.rec_dyn_ticks,
                                              xlabel='time (ms)',
                                              with_latency_analysis=True)
         ax, fig3 = space_time_vsd_style_plot(t*1e3, X, 1e2*muVn,\
                                              xlabel='time (ms)', title='',\
+                                             zticks=args.vsd_ticks,
                                              params=params,
                                              zlabel='$\delta V_N $ (%)',
                                              with_latency_analysis=True)
         ax.annotate('$\\tau_1$='+str(round(1e3*args.Tau1))+'ms\n'+\
                     '$\\tau_2$='+str(round(1e3*args.Tau2))+'ms\n'+\
                     '$v_c$='+str(round(args.conduction_velocity_mm_s))+'mm/s\n'+\
-                    '$l_{exc}$='+str(round(args.exc_connect_extent,1))+'mm\n'+\
-                    '$l_{inh}$='+str(round(args.inh_connect_extent,1))+'mm\n'+\
+                    # '$l_{exc}$='+str(round(args.exc_connect_extent,1))+'mm\n'+\
+                    # '$l_{inh}$='+str(round(args.inh_connect_extent,1))+'mm\n'+\
+                    '$l_{exc}$='+str(int(args.exc_connect_extent))+'mm\n'+\
+                    '$l_{inh}$='+str(int(args.inh_connect_extent))+'mm\n'+\
                     '$l_{stim}$='+str(round(args.sX))+'mm',
                     (0.5, 0.5), xycoords='axes fraction', fontsize=13)
+        fig3.savefig('/Users/yzerlaut/Desktop/temp.svg')
+        
         if args.SAVE:
             put_list_of_figs_to_svg_fig([fig1, fig2, fig3], visualize=False)
             for i in range(1,4):

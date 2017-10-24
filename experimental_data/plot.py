@@ -35,6 +35,7 @@ def plot_response(args):
     f = loadmat(get_dataset()[args.data_index]['filename'])
     data = 1e3*f['matNL'][0]['stim1'][0]
     time = f['matNL'][0]['time'][0].flatten()+args.tshift
+    print(time[-1]-time[0])
     space = f['matNL'][0]['space'][0].flatten()
     if args.Nsmooth>0:
         smoothing = np.ones((args.Nsmooth, args.Nsmooth))/args.Nsmooth**2

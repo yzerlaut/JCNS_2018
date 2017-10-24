@@ -15,9 +15,9 @@
    id="svg2"
    inkscape:version="0.91 r13725"
    sodipodi:docname="mean_field_stat_pred.svg"
-   inkscape:export-filename="/Users/yzerlaut/work/mean_field_for_multi_input_integration/figures/mean_field_stat_pred.png"
-   inkscape:export-xdpi="300"
-   inkscape:export-ydpi="300">
+   inkscape:export-filename="/Users/yzerlaut/work/mean_field_for_multi_input_integration/overleaf/Fig4.png"
+   inkscape:export-xdpi="800"
+   inkscape:export-ydpi="800">
   <metadata
      id="metadata1377">
     <rdf:RDF>
@@ -26,7 +26,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1476,12 +1476,12 @@
      guidetolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1031"
+     inkscape:window-width="1280"
+     inkscape:window-height="751"
      id="namedview1373"
      showgrid="false"
      inkscape:zoom="0.31714783"
-     inkscape:cx="-497.19075"
+     inkscape:cx="-260.70797"
      inkscape:cy="389.99014"
      inkscape:window-x="0"
      inkscape:window-y="1"
@@ -1511,7 +1511,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g993"
-     transform="matrix(1.0851002,0,0,1.0851002,251.30544,450.17626)">
+     transform="matrix(0.64003063,0,0,0.64003063,209.01356,361.58183)">
     <!-- $V_m$ -->
     <defs
        id="defs995">
@@ -1543,30 +1543,30 @@
     </g>
   </g>
   <text
-     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:15.38668823px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1079"
-     y="257.84933"
-     x="147.89018"
+     y="248.14058"
+     x="148.01556"
      font-weight="bold"
      font-size="14">A</text>
   <text
-     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:15.38668823px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1081"
-     y="501.78152"
-     x="158.93845"
+     y="392.02045"
+     x="154.53223"
      font-weight="bold"
      font-size="14">B</text>
   <text
-     style="font-weight:bold;font-size:26.0864048px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
+     style="font-weight:bold;font-size:15.38668823px;font-family:Verdana;stroke-linecap:butt;stroke-linejoin:round"
      id="text1083"
-     y="680.79688"
-     x="159.96384"
+     y="497.61008"
+     x="155.13704"
      font-weight="bold"
      font-size="14">C</text>
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="axes_1"
-     transform="matrix(1.1933207,0,0,1.1933207,150.93123,228.94469)">
+     transform="matrix(0.70386293,0,0,0.70386293,149.80929,231.0916)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="patch_2">
@@ -2355,7 +2355,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="text_15"
-     transform="matrix(0.76965911,0,0,0.76965911,343.20137,227.72653)">
+     transform="matrix(0.45397228,0,0,0.45397228,263.21704,230.37308)">
     <!-- num. sim. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2409,7 +2409,7 @@
     </g>
   </g>
   <g
-     transform="matrix(0.18471818,0,0,-0.18471818,393.13877,296.57398)"
+     transform="matrix(0.10895334,0,0,-0.10895334,292.6719,270.98175)"
      id="g754"
      style="stroke-linecap:butt;stroke-linejoin:round">
     <path
@@ -2469,7 +2469,7 @@
        style="stroke-linecap:butt;stroke-linejoin:round" />
   </g>
   <g
-     transform="matrix(0.18471818,0,0,-0.18471818,407.29592,314.25002)"
+     transform="matrix(0.10895334,0,0,-0.10895334,301.02229,281.40771)"
      id="g778"
      style="stroke-linecap:butt;stroke-linejoin:round">
     <path
@@ -2506,7 +2506,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1137"
-     transform="matrix(0.76965911,0,0,0.76965911,278.09351,231.17621)">
+     transform="matrix(0.45397228,0,0,0.45397228,224.81412,232.40783)">
     <path
        inkscape:connector-curvature="0"
        id="path1139"
@@ -2516,7 +2516,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1158"
-     transform="matrix(0.76965911,0,0,0.76965911,278.09351,231.17621)">
+     transform="matrix(0.45397228,0,0,0.45397228,224.81412,232.40783)">
     <path
        inkscape:connector-curvature="0"
        id="path1160"
@@ -2526,7 +2526,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1162"
-     transform="matrix(0.76965911,0,0,0.76965911,229.44032,180.19544)">
+     transform="matrix(0.45397228,0,0,0.45397228,196.11674,202.33756)">
     <!-- exc. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2557,7 +2557,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1314"
-     transform="matrix(0.76965911,0,0,0.76965911,285.37396,231.1762)">
+     transform="matrix(0.45397228,0,0,0.45397228,229.10838,232.40782)">
     <path
        inkscape:connector-curvature="0"
        id="path1316"
@@ -2567,7 +2567,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1335"
-     transform="matrix(0.76965911,0,0,0.76965911,285.37396,231.1762)">
+     transform="matrix(0.45397228,0,0,0.45397228,229.10838,232.40782)">
     <path
        inkscape:connector-curvature="0"
        id="path1337"
@@ -2577,7 +2577,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1339"
-     transform="matrix(0.76965911,0,0,0.76965911,236.18865,180.61067)">
+     transform="matrix(0.45397228,0,0,0.45397228,200.09714,202.58248)">
     <!-- inh. -->
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
@@ -2620,7 +2620,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g257"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0 0,-115.2 -49.2353,0 0,115.2"
@@ -2630,7 +2630,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g261"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2641,7 +2641,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g265"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2652,7 +2652,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_1"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -2663,7 +2663,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g272"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <defs
        id="defs274">
       <path
@@ -2689,7 +2689,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g281"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pdfeb44492b-7)"
@@ -2707,7 +2707,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g287"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,14.4 49.2353,0"
@@ -2717,7 +2717,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g295"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0"
@@ -2727,7 +2727,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g299"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="M 22,129.6 22,24.8727"
@@ -2737,7 +2737,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g305"
-     transform="matrix(1.1308257,0,0,1.1308257,233.341,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,198.4175,388.85377)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="ytick_1">
@@ -3042,7 +3042,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g429"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0 0,-115.2 -49.2356,0 0,115.2"
@@ -3052,7 +3052,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g433"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3063,7 +3063,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g437"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3074,7 +3074,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_2"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3085,7 +3085,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_6"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <defs
        id="defs445">
       <path
@@ -3111,7 +3111,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_7"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3129,7 +3129,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g457"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,14.4 49.2356,0"
@@ -3139,7 +3139,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g461"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 135.318,129.6 0,-115.2"
@@ -3149,7 +3149,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g465"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0"
@@ -3159,7 +3159,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g622"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0 0,-115.2 -49.235,0 0,115.2"
@@ -3169,7 +3169,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g626"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3180,7 +3180,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_23"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3191,7 +3191,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="LineCollection_3"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -3202,7 +3202,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_10"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <defs
        id="defs637">
       <path
@@ -3228,7 +3228,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="line2d_11"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#p38a591a752-1)"
@@ -3246,7 +3246,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_24"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,14.4 49.235,0"
@@ -3256,7 +3256,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_25"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 194.4,129.6 0,-115.2"
@@ -3266,7 +3266,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_26"
-     transform="matrix(1.1308257,0,0,1.1308257,348.4234,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,266.29718,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0"
@@ -3276,7 +3276,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="patch_27"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <path
        inkscape:connector-curvature="0"
        d="m 140.165,127.711 0,-113.311"
@@ -3286,7 +3286,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="matplotlib.axis_6"
-     transform="matrix(1.1308257,0,0,1.1308257,276.05056,496.41278)">
+     transform="matrix(0.66700116,0,0,0.66700116,223.60911,388.85377)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="ytick_6">
@@ -3490,7 +3490,7 @@
   <g
      id="g813"
      style="stroke-linecap:butt;stroke-linejoin:round"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        id="path815"
        style="fill:none;stroke-linecap:butt;stroke-linejoin:round"
@@ -3500,7 +3500,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g819"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0 0,-115.2 -49.2353,0 0,115.2"
@@ -3510,7 +3510,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g823"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3521,7 +3521,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g827"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3532,7 +3532,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g831"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pdfeb44492b-7)"
@@ -3543,7 +3543,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g835"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <defs
        id="defs837">
       <path
@@ -3569,7 +3569,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g845"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pdfeb44492b-7)"
@@ -3587,7 +3587,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g851"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,14.4 49.2353,0"
@@ -3597,7 +3597,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g855"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 76.2353,129.6 0,-115.2"
@@ -3607,7 +3607,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g859"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 27,129.6 49.2353,0"
@@ -3617,7 +3617,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g863"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="M 22,129.6 22,37.44"
@@ -3627,7 +3627,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g869"
-     transform="matrix(1.1308257,0,0,1.1308257,225.03839,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,193.52032,490.53745)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="g871">
@@ -3913,7 +3913,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1011"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0 0,-115.2 -49.2356,0 0,115.2"
@@ -3923,7 +3923,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1015"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3934,7 +3934,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1019"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3945,7 +3945,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1023"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -3956,7 +3956,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1027"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <defs
        id="defs1029">
       <path
@@ -3982,7 +3982,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1037"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#pe0ff25fcb7-6)"
@@ -4000,7 +4000,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1043"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,14.4 49.2356,0"
@@ -4010,7 +4010,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1047"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 135.318,129.6 0,-115.2"
@@ -4020,7 +4020,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1051"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 86.0824,129.6 49.2356,0"
@@ -4030,7 +4030,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1178"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0 0,-115.2 -49.235,0 0,115.2"
@@ -4040,7 +4040,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1182"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -4051,7 +4051,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1186"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -4062,7 +4062,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1190"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        clip-path="url(#p38a591a752-1)"
@@ -4073,7 +4073,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1194"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <defs
        id="defs1196">
       <path
@@ -4099,7 +4099,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1204"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        clip-path="url(#p38a591a752-1)"
@@ -4117,7 +4117,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1210"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,14.4 49.235,0"
@@ -4127,7 +4127,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1214"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 194.4,129.6 0,-115.2"
@@ -4137,7 +4137,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1218"
-     transform="matrix(1.1308257,0,0,1.1308257,353.69071,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,269.40403,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 145.165,129.6 49.235,0"
@@ -4147,7 +4147,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1222"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <path
        inkscape:connector-curvature="0"
        d="m 140.165,127.786 0,-113.386"
@@ -4157,7 +4157,7 @@
   <g
      style="stroke-linecap:butt;stroke-linejoin:round"
      id="g1228"
-     transform="matrix(1.1308257,0,0,1.1308257,276.79456,668.80606)">
+     transform="matrix(0.66700116,0,0,0.66700116,224.04795,490.53745)">
     <g
        style="stroke-linecap:butt;stroke-linejoin:round"
        id="g1230">
