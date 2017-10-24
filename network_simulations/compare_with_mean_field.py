@@ -28,10 +28,10 @@ def plot_ntwk_sim_output(time_array, rate_array, rate_exc, rate_inh,\
     M = get_connectivity_and_synapses_matrix('CONFIG1', SI_units=True)
     EXC_AFF = M[0,0]['ext_drive']
     
-    print 'starting fixed point'
+    print('starting fixed point')
     fe0, fi0, sfe, sfie, sfi = find_fixed_point('RS-cell', 'FS-cell', 'CONFIG1',\
                                                 exc_aff=EXC_AFF, Ne=8000, Ni=2000, verbose=True)
-    print 'end fixed point'
+    print('end fixed point')
     
     reformat_syn_parameters(params, M) # merging those parameters
     
@@ -59,13 +59,13 @@ def plot_ntwk_sim_output(time_array, rate_array, rate_exc, rate_inh,\
             if len(i0)==0:
                 STD_VM.append(vv.std())
             elif len(i0)==1:
-                STD_VM.append(vv[i0:].std())
+                STD_VM.append(vv[0].std())
             else:
                 for i1, i2 in zip(i0[:-1], i0[1:]):
                     if i2-i1>60:
                         sv.append(vv[i1+30:i2-30].std())
                 STD_VM.append(np.array(sv).mean())
-        # STD_VM.append(Vm_inh[i][(time_array>min_time) & (Vm_inh[i]<-50)].std())
+        STD_VM.append(Vm_inh[i][(time_array>min_time) & (Vm_inh[i]<-50)].std())
 
     fig1, AX1 = plt.subplots(1, 3, figsize=(3,2)) # for means
     fig2, AX2 = plt.subplots(1, 3, figsize=(3,2)) # for std
@@ -279,7 +279,7 @@ def plot_ntwk_sim_output_for_waveform(args,\
 
     print('excitatory rate: ', rate_exc[len(rate_exc)/2:].mean(), 'Hz')
     print('inhibitory rate: ', rate_inh[len(rate_exc)/2:].mean(), 'Hz')
-    print sfe[0], sfe[-1]
+    print(sfe[0], sfe[-1])
     return FIGS
     
 
